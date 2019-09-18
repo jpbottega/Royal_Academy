@@ -1,0 +1,9 @@
+la carpeta "logged-admin" contiene el css de estilos para el programa, podemos ir diviendolo mas de acuerdo a las pantallas. Fijate que se importa en loggedAdmin.jsp (Si se crean mas se tienen que importar ahi tambien)
+
+la carpeta scripts contiene los JS de la aplicacion, hasta ahora yo cree el logged-admin.js que manejaria todo el manejo del menu del admin y demas cosas. En caso de agregar funciones como PERFIL, o USUARIOS
+se debe crear otro SCRIPT con un nombre explicativo en esa misma carpeta. DEBE ser importado en loggedAdmin.jsp DEBAJO de logged-admin.jsp
+
+Pueden fijarse el recorrido que hace PERFILES yendo al logged-admin.js, el cual va al SERVLET ServletLoggedAdmin.java. Si agregan mas funciones especificas de PERFILES, o USUARIOS, ETC, se deben crear SERVLETS
+propios de esas funciones.
+
+INCLUDEPAGE debe devoler un JSP dentro del DIV con id "functions-container". Manejar todo con AJAX, preguntar cualquier cosa! asi queda todo ordenado!

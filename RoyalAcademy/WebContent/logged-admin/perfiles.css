@@ -1,0 +1,20 @@
+.row-perfiles {
+	padding: 10px;
+	height: 100%;
+}
+.column-3-perfiles{
+	
+	    height: 100%;
+    border-right: 1px solid #333;
+	
+}
+.col-funciones-perfil{
+    padding-top: 35px;
+    margin-left: 15px;
+}
+.button-funciones-perfil{
+	
+	margin: 5px;
+	cursor:pointer
+	
+}
