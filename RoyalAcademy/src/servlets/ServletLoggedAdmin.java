@@ -2,13 +2,11 @@ package servlets;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import dao.CarreraDao;
 import dao.FuncionesDao;
 import dao.PaisDao;
@@ -121,8 +119,11 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 	}
 
 	private void administradorAlumnos(HttpServletRequest request, HttpServletResponse response) {
+		RolDao rolDao = new RolDao();
 		try {
-
+			Rol rolAlumno = rolDao.traerRolPorDenominacion("Alumno"); // esto esta bien o se puede hacer menos bruto?
+			request.setAttribute("rol", rolAlumno);;
+			
 			includePage("/administradorAlumnos.jsp", request, response);
 
 		} catch (Exception e) {

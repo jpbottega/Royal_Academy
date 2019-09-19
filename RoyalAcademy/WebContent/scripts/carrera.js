@@ -39,14 +39,7 @@ function nuevaCarrera() {
 				
 				$("#id_carrera").val(0);
 				$("#ds_carrera").val("");
-
-	
 	});
-	
-	
-	
-
-	
 }
 
 

@@ -71,8 +71,8 @@ public class RolDao extends DBManager {
 	public Rol traerRolPorDenominacion(String denominacion) {
 		Rol rol = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
-			NativeQuery query = sesion.createSQLQuery("select * from roles where denominacion = '"+denominacion+"'")
-					.addEntity(Rol.class);
+			NativeQuery query = sesion.createSQLQuery("select * from roles where denominacion = :denominacion").addEntity(Rol.class)
+					.setParameter("denominacion", denominacion);
 			rol = (Rol) query.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();

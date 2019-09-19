@@ -86,6 +86,7 @@
 	<script type='text/javascript' src='scripts/perfiles.js'></script>
 	<script type='text/javascript' src='scripts/sede.js'></script>
 	<script type='text/javascript' src='scripts/carrera.js'></script>
+	<script type='text/javascript' src='scripts/usuarios.js'></script>
 
 </body>
 </html>

@@ -3,11 +3,15 @@ package dao;
 import org.hibernate.Transaction;
 import modelo.Usuario;
 import endec.StringEncrypter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 
-public class UsuarioDao {
+public class UsuarioDao extends DBManager {
 
 	public boolean insertarUsuario(Usuario u) {
 		Transaction t = null;
@@ -93,5 +97,49 @@ public class UsuarioDao {
 			return null;
 		}
 		return user;
+	}
+	
+	public List<Usuario> traerTodos(int id_rol) {
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			SQLQuery query = sesion.createSQLQuery("select * from usuarios where id_rol = :rol")
+					.addEntity(Usuario.class).setParameter("rol", id_rol);
+			usuarios = (List<Usuario>) query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return usuarios;
+		}
+		return usuarios;
+	}
+	
+	public List<Usuario> traerUsuariosPorNomApeMail(String nombre, String apellido, String mail, int id_rol){
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			SQLQuery query = null;
+			if (nombre == "" && apellido == "" && mail == "") {
+				usuarios = this.traerTodos(id_rol); // si no mando nada traigo a todos los usuarios de ese rol
+			}
+			else { // si mando algo preparo el query acorde
+				if (mail != "") {
+					query = sesion.createSQLQuery("select * from usuarios where email = :mail and id_rol = :rol")
+							.addEntity(Usuario.class).setParameter("mail", mail).setParameter("rol", id_rol);
+				}
+				else if (nombre != "" && apellido != "") {
+					query = sesion.createSQLQuery("select * from usuarios where nombre = :nombre and apellido = :apellido and id_rol = :rol")
+							.addEntity(Usuario.class).setParameter("nombre", nombre).setParameter("apellido", apellido).setParameter("rol", id_rol);
+				} else if (nombre != "" && apellido == "") {
+						query = sesion.createSQLQuery("select * from usuarios where nombre = :nombre and id_rol = :rol")
+								.addEntity(Usuario.class).setParameter("nombre", nombre).setParameter("rol", id_rol);
+				} else if (nombre == "" && apellido != "") {
+						query = sesion.createSQLQuery("select * from usuarios where apellido = :apellido and id_rol = :rol")
+							.addEntity(Usuario.class).setParameter("apellido", apellido).setParameter("rol", id_rol);
+				}
+				usuarios = (List<Usuario>) query.list(); // ejecuto el query
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return usuarios;
+		}
+		return usuarios;
 	}
 }
