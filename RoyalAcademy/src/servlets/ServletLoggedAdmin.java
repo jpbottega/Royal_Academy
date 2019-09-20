@@ -121,8 +121,10 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 	private void administradorAlumnos(HttpServletRequest request, HttpServletResponse response) {
 		RolDao rolDao = new RolDao();
 		try {
-			Rol rolAlumno = rolDao.traerRolPorDenominacion("Alumno"); // esto esta bien o se puede hacer menos bruto?
-			request.setAttribute("rol", rolAlumno);;
+			List<Rol> roles = rolDao.traerTodos(); // Traigo todos los roles que esten en la base de datos.
+
+			request.setAttribute("roles", roles);
+			request.setAttribute("id_rol", roles.get(0).getId());
 			
 			includePage("/administradorAlumnos.jsp", request, response);
 

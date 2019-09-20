@@ -58,16 +58,12 @@ public class Usuarios extends HttpServlet {
 			if (request.getParameter("accion") != null) {
 
 				switch (request.getParameter("accion")) {
-				case "agregarAlumno":
-					agregarAlumno(request, response);
+				case "agregarUsuario":
+					agregarUsuario(request, response);
 					break;
 
-				case "eliminarAlumno":
-					// selectPerfil(request, response);
-					break;
-
-				case "buscarAlumno":
-					buscarAlumno(request, response);
+				case "buscarUsuario":
+					buscarUsuario(request, response);
 					break;
 
 				case "modificarAlumno":
@@ -89,7 +85,7 @@ public class Usuarios extends HttpServlet {
 		}
 	}
 
-	private void buscarAlumno(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void buscarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
 		ContenedorResponse.Error error = new ContenedorResponse.Error();
@@ -120,9 +116,14 @@ public class Usuarios extends HttpServlet {
 				error.setTipo("success");
 				String datos = "";
 				for (Usuario u : usuarios) {
-					datos = "<tr><th scope=\"row\">" + u.getId() + "</th><td>" + u.getNombre() + "</td><td>"
-							+ u.getApellido() + "</td><td>" + u.getEmail() + "</td><td>" + u.getTelefono() + "</td><td>"
-							+ fechaSimple(u.getFechaNacimiento()) + "</td></tr>";
+					datos += "<div class=\"card\" style=\"width: 16rem;\" id=\"\">" +  
+								"<div class=\"card-body\">" +
+										"<div class=\"card-title\">" + u.getId() + " - " + u.getNombre() + " " + u.getApellido() + "</div>" + 
+										"<div class=\"card-subtitle mb-2 text-muted\">" + u.getEmail() + "</div>" + 
+										"<div class=\"card-text\">Tel: " + u.getTelefono() + "</div>" + 
+										"<div class=\"card-text\">Nacimiento: " + this.fechaSimple(u.getFechaNacimiento()) + "</div>" +
+								"</div>" +
+							"</div>";
 				}
 				contenedorResponse.setData(datos);
 			}
@@ -145,7 +146,7 @@ public class Usuarios extends HttpServlet {
 		return date.getDate() + "/" + (date.getMonth() + 1) + "/" + (date.getYear() + 1900);
 	}
 	
-	private void agregarAlumno(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void agregarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
 		ContenedorResponse.Error error = new ContenedorResponse.Error();
@@ -155,12 +156,12 @@ public class Usuarios extends HttpServlet {
 		UsuarioDao userDao = new UsuarioDao();
 		Usuario user = new Usuario();
 		try {
-			user.setNombre(request.getParameter("nombreAlumno"));
-			user.setApellido(request.getParameter("apellidoAlumno"));
-			user.setEmail(request.getParameter("mailAlumno"));
-			user.setTelefono(request.getParameter("telefonoAlumno"));
-			user.setPass(request.getParameter("passAlumno"));
-			String f = request.getParameter("nacimientoAlumno");
+			user.setNombre(request.getParameter("nombreUsuario"));
+			user.setApellido(request.getParameter("apellidoUsuario"));
+			user.setEmail(request.getParameter("mailUsuario"));
+			user.setTelefono(request.getParameter("telefonoUsuario"));
+			user.setPass(request.getParameter("passUsuario"));
+			String f = request.getParameter("nacimientoUsuario");
 			// si se les ocurre algo mejor para parsear la fecha diganme porfavor
 			int anio = 0, mes = 0, dia = 0;
 			if (f != null && f != "") {
@@ -177,16 +178,16 @@ public class Usuarios extends HttpServlet {
 					&& user.getPass() != "" && user.getFechaNacimiento() != null) {
 				if (userDao.insertarUsuario(user)) {
 					error.setCd_error(1);
-					error.setDs_error("Se agrego el alumno correctamente.");
+					error.setDs_error("Se agrego el usuario correctamente.");
 					error.setTipo("success");
 				} else {
 					error.setCd_error(1);
-					error.setDs_error("Ya se encuentra registrado un alumno con ese Email.");
+					error.setDs_error("Ya se encuentra registrado un usuario con ese Email.");
 					error.setTipo("error");
 				}
 			} else {
 				error.setCd_error(1);
-				error.setDs_error("Faltan completar datos del alumno, no puede ser creado.");
+				error.setDs_error("Faltan completar datos del usuario, no puede ser creado.");
 				error.setTipo("error");
 			}
 		} catch (Exception e) {

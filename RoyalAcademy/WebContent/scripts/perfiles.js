@@ -12,10 +12,7 @@ function selectPerfiles() {
 				
 				$("#id_perfil").val($("#select_perfiles").val());
 				$("#ds_perfil").val($("#select_perfiles option:selected").text());
-
-	
 	});
-	
 }
 function nuevoPerfil() {
 

@@ -67,15 +67,11 @@ public class Sedes extends ServletIncludeGoto {
 					guardarSede(request, response);
 					break;
 				case "selectSedes":
-
 					selectSedes(request, response);
-
 					break;
-				
+
 				case "eliminarSede":
-
 					eliminarSede(request, response);
-
 					break;
 
 				}
@@ -100,7 +96,7 @@ public class Sedes extends ServletIncludeGoto {
 		try {
 
 			int cantidad_de_carreras = funcionesDao.aux_select_int("select id_sede from sede_carrera where id_sede = "
-					+ Integer.parseInt(request.getParameter("id_sede"))+" limit 1");
+					+ Integer.parseInt(request.getParameter("id_sede")) + " limit 1");
 
 			if (cantidad_de_carreras > 0) {
 				error.setCd_error(1);
@@ -108,8 +104,7 @@ public class Sedes extends ServletIncludeGoto {
 				error.setTipo("error");
 			} else {
 
-				funcionesDao.aux_upd(
-						"delete from sedes where id=" + Integer.parseInt(request.getParameter("id_sede")));
+				funcionesDao.aux_upd("delete from sedes where id=" + Integer.parseInt(request.getParameter("id_sede")));
 				error.setCd_error(1);
 				error.setDs_error("Se eliminó la sede correctamente.");
 				error.setTipo("success");
@@ -118,8 +113,8 @@ public class Sedes extends ServletIncludeGoto {
 			List<Sede> sedes = sedeDao.traerTodos();
 			String options = "";
 			for (Sede auxsedes : sedes) {
-				options = options + "<option " + (auxsedes.getId() == sedes.get(0).getId() ? "selected" : "") + " value=\""
-						+ auxsedes.getId() + "\">" + auxsedes.getSede() + "</option>";
+				options = options + "<option " + (auxsedes.getId() == sedes.get(0).getId() ? "selected" : "")
+						+ " value=\"" + auxsedes.getId() + "\">" + auxsedes.getSede() + "</option>";
 			}
 			contenedorResponse.setData(options);
 
@@ -147,13 +142,11 @@ public class Sedes extends ServletIncludeGoto {
 		String json = "";
 		SedeDao sedeDao = new SedeDao();
 		try {
-			
+
 			Sede sede = sedeDao.traerSedePorId(Integer.parseInt(request.getParameter("id_sede")));
-			
-			
+
 			contenedorResponse.setData(sede);
-			
-			
+
 		} catch (Exception e) {
 			error.setCd_error(1);
 			error.setDs_error("Error interno en el servidor.");
@@ -162,14 +155,12 @@ public class Sedes extends ServletIncludeGoto {
 		}
 
 		contenedorResponse.setError(error);
-		
+
 		json = gson.toJson(contenedorResponse);
 		out.print(json);
 		out.flush();
 
 	}
-
-	
 
 	private void guardarSede(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

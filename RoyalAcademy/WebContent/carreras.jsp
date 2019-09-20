@@ -36,13 +36,13 @@
 		<div class="btn-group width-100" role="group"
 			aria-label="Basic example">
 			<button type="button" class="btn btn-primary width-50"
-				onclick="nuevaCarrera();" id="button_nuevo">Nuevo Perfil</button>
+				onclick="nuevaCarrera();" id="button_nuevo">Nueva Carrera</button>
 			<button type="button" class="btn btn-primary width-100"
 				style="display: none" id="button_cancelar"
 				onclick="cancelarNuevaCarrera();">Cancelar</button>
 			<button type="button" class="btn btn-danger width-50"
 				onclick="eliminarCarrera();" id="button_eliminar">Eliminar
-				Perfil</button>
+				Carrera</button>
 		</div>
 	</div>
 	<div class="col-md-9">
