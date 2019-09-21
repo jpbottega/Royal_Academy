@@ -113,7 +113,7 @@ public class Carreras extends ServletIncludeGoto {
 		CarreraDao CarreraDao = new CarreraDao();
 		try {
 
-			int cantidad_de_cursos = CarreraDao.aux_select_int("select id_curso from cursos where id_carrera = "
+			int cantidad_de_cursos = CarreraDao.aux_select_int("select id from cursos where id_carrera = "
 					+ Integer.parseInt(request.getParameter("id_carrera"))+" limit 1");
 
 			if (cantidad_de_cursos > 0) {
