@@ -1,5 +1,6 @@
 package modelo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 public class Curso {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	 @Column(updatable = false, nullable = false)
 	private int id;
 	private String denominacion;
 	private float criterioAprobacion; // este es el criterio para ver si se aprobo el curso completo

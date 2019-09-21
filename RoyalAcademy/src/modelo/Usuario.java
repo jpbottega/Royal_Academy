@@ -1,6 +1,8 @@
 package modelo;
 
 import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +14,8 @@ import javax.persistence.Table;
 @Table(name = "usuarios")
 public class Usuario {
 	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	 @Column(updatable = false, nullable = false)
 	private int id;
 	private String pass;
 	private String nombre;

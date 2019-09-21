@@ -20,9 +20,23 @@ function selectRolesUsuario(){
 	$("#id_rol").val($("#select_roles").val());
 	$.post("Usuarios?accion=buscarUsuario&id_rol=" + $("#select_roles").val(),
 			function(data) {
-				lanzarMensaje(data.error);
 				if (data.error.tipo = "success") {
 					$("#tarjetasUsuarios").html(data.data);
+				}
+			});
+}
+
+function changeRol(rol,id_usuario){
+	
+	$.post("Usuarios?accion=buscarUsuario&id_rol=" + rol,
+			function(data) {
+				if (data.error.tipo = "success") {
+					$("#select_roles").val(rol);
+					$("#tarjetasUsuarios").html(data.data);
+					
+					$(".card-selected").removeClass("card-selected");
+					if(id_usuario!=0)
+					$("#"+id_usuario).addClass("card-selected");
 				}
 			});
 }
@@ -30,15 +44,28 @@ function selectRolesUsuario(){
 function guardarUsuario() {
 	$.post("Usuarios?accion=guardarUsuario", $("#form-usuario").serialize(), 
 			function(data) {
-				lanzarMensaje(data.error);
+		
+		console.log(data.error);
+		lanzarMensaje(data.error);
+		
+			if(data.error.tipo="success"){
+				changeRol($("#rol_usuario").val(),$("#id_usuario").val());
+			}
+				
 			});
 }
 
 function selectTarjeta(id_usuario){
+	$(".card-selected").removeClass("card-selected");
+	$("#"+id_usuario).addClass("card-selected");
+	
 	$.post("Usuarios?accion=traerUsuario&id_usuario=" + id_usuario, function (data){
 		$("#form-usuario").show();
 		$("#form-usuario").html(data.data);
-		lanzarMensaje(data.error);
+		$('#nacimientoUsuario').datetimepicker({
+			format : "DD/MM/YYYY",
+			pickTime : false
+		});
 	});
 }
 
@@ -54,7 +81,6 @@ function buscarUsuario(){
 							  console.log("coincide");
 						  }	
 					});
-					console.log(encontre);
 					if(encontre){ //Si encontre que coincida con lo que busco, lo muestro
 						$(this).parent().show();
 					}else{ //Si no encontre que coincida con lo que busco, no lo muestro
@@ -72,6 +98,11 @@ function eliminarUsuario() {
 		$("#form-usuario").hide();
 		$("#botonEliminarUsuario").hide();
 		$("#botonGuardarUsuario").hide();
+		
 		lanzarMensaje(data.error);
+		
+		changeRol($("#select_roles").val(),0);
+		
+		
 	});
 }

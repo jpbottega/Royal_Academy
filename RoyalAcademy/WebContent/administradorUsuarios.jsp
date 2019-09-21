@@ -21,7 +21,7 @@
 				%>
 				<option value="<%=rol.getId()%>"><%=rol.getDenominacion()%></option>
 				<%
-						}
+					}
 					}
 				%>
 			</select>
@@ -48,39 +48,66 @@
 	</div>
 	<div class="col-md-7 ml-4 mt-4">
 		<form id="form-usuario">
-			<input id="id_usuario" name="id_usuario" type="hidden">
-			<input id="id_rol" name="id_rol" type="hidden" value="${id_rol}">
-			<input type="hidden" id="verificado" name="verificado">
-				<div class="form-group row">
-					<div class="col"> 
-						<label for="exampleInputEmail1">Nombre</label> 
-							<input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario"	placeholder="Nombre del usuario"> 
-					</div>
-					<div class="col"> 
-						<label for="exampleInputEmail1">Apellido</label> 
-							<input type="text" class="form-control" id="apellidoUsuario" name="apellidoUsuario"	placeholder="Apellido del usuario">
-					</div>	
+			<input id="id_usuario" name="id_usuario" type="hidden"> <input
+				id="id_rol" name="id_rol" type="hidden" value="${id_rol}"> <input
+				type="hidden" id="verificado" name="verificado">
+			<div class="form-group row">
+				<div class="col">
+					<label for="exampleInputEmail1">Nombre</label> <input type="text"
+						class="form-control" id="nombreUsuario" name="nombreUsuario"
+						placeholder="Nombre del usuario">
 				</div>
-				<div class="form-group row">
-					<div class="col"> 
-						<label for="exampleInputEmail1">E-Mail</label> 
-							<input type="email" class="form-control" id="mailUsuario" name="mailUsuario" placeholder="Correo del usuario"> 
-					</div>
-					<div class="col"> 
-						<label for="exampleInputEmail1">Fecha de Nacimiento</label> 
-							<input type="date" class="form-control" id="nacimientoUsuario" name="nacimientoUsuario" placeholder="Fecha de nacimiento">
-					</div>	
+				<div class="col">
+					<label for="exampleInputEmail1">Apellido</label> <input type="text"
+						class="form-control" id="apellidoUsuario" name="apellidoUsuario"
+						placeholder="Apellido del usuario">
 				</div>
-				<div class="form-group row">
-					<div class="col"> 
-						<label for="exampleInputEmail1">Telefono</label> 
-							<input type="text" class="form-control" id="telefonoUsuario" name="telefonoUsuario"	placeholder="Telefono del usuario"> 
-					</div>	
-					<div class="col"> 
-						<label for="exampleInputEmail1">Contraseña</label> 
-							<input type="text" class="form-control" id="passUsuario" name="passUsuario"	placeholder="Contraseña del usuario"> 
-					</div>
+			</div>
+			<div class="form-group row">
+				<div class="col">
+					<label for="exampleInputEmail1">E-Mail</label> <input type="email"
+						class="form-control" id="mailUsuario" name="mailUsuario"
+						placeholder="Correo del usuario">
 				</div>
+				<div class="col">
+					<div class="form-group">
+						<label for="nacimientoUsuario">Fecha de Nacimiento</label> <input
+							type='text' id="nacimientoUsuario" name="nacimientoUsuario"
+							placeholder="Fecha de nacimiento" class="form-control" />
+
+
+					</div>
+
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col">
+					<label for="exampleInputEmail1">Telefono</label> <input type="text"
+						class="form-control" id="telefonoUsuario" name="telefonoUsuario"
+						placeholder="Telefono del usuario">
+				</div>
+				<div class="col">
+					<label for="exampleInputEmail1">Contraseña</label> <input
+						type="password" class="form-control" id="passUsuario"
+						name="passUsuario" placeholder="Contraseña del usuario">
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-md-6">
+					<label for="exampleFormControlSelect1">Roles</label> <select
+						class="form-control" id="rol_usuario" name="rol_usuario">
+						<%
+							if (!roles.isEmpty()) {
+								for (Rol rol : roles) {
+						%>
+						<option value="<%=rol.getId()%>"><%=rol.getDenominacion()%></option>
+						<%
+							}
+							}
+						%>
+					</select>
+				</div>
+			</div>
 			<button type="button" class="btn btn-success pull-right"
 				onclick="guardarUsuario();" id="botonGuardarUsuario">Guardar</button>
 			<button type="button" class="btn btn-danger pull-right"
@@ -89,3 +116,9 @@
 	</div>
 
 </div>
+<script>
+	$('#nacimientoUsuario').datetimepicker({
+		format : "DD/MM/YYYY",
+		pickTime : false
+	});
+</script>

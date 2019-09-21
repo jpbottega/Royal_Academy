@@ -4,8 +4,14 @@
 }
 
 .card-styles:hover {
-	background: #f5f5f5;	
+	background: #f5f5f5;
+	border: 2px solid #51a1e8;	
 }
 .card-title{
 	    font-weight: 500;
+}
+
+.card-selected {
+	background: #f5f5f5;
+	border: 2px solid #51a1e8;	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 
 import modelo.Curso;
 import modelo.Sede;
@@ -56,7 +57,7 @@ public class CursoDao extends DBManager {
 		Curso curso = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
 			if (id != 0) {
-				SQLQuery query = sesion.createSQLQuery("select * from cursos where id = :id").addEntity(Curso.class)
+				NativeQuery query = sesion.createSQLQuery("select * from cursos where id = :id").addEntity(Curso.class)
 						.setParameter("id", id);
 				curso = (Curso) query.getSingleResult();
 			}
@@ -70,7 +71,7 @@ public class CursoDao extends DBManager {
 	public Curso traerCursoPorDenominacion(String denominacion) {
 		Curso curso = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
-			SQLQuery query = sesion.createSQLQuery("select * from cursos where denominacion = :denominacion")
+			NativeQuery query = sesion.createSQLQuery("select * from cursos where denominacion = :denominacion")
 					.addEntity(Sede.class).setParameter("denominacion", denominacion);
 			curso = (Curso) query.getSingleResult();
 		} catch (Exception e) {
@@ -83,7 +84,7 @@ public class CursoDao extends DBManager {
 	public List<Curso> traerTodos(){
 		List<Curso> curso = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
-			SQLQuery query = sesion.createSQLQuery("select * from cursos")
+			NativeQuery query = sesion.createSQLQuery("select * from cursos")
 					.addEntity(Curso.class);
 			curso = (List<Curso>) query.list();
 		} catch (Exception e) {

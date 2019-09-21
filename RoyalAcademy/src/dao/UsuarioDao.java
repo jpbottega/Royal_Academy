@@ -1,6 +1,8 @@
 package dao;
 
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
+
 import modelo.Usuario;
 import endec.StringEncrypter;
 
@@ -89,7 +91,7 @@ public class UsuarioDao extends DBManager {
 	public Usuario traerUsuarioPorMail(String email) {
 		Usuario user = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
-			SQLQuery query = sesion.createSQLQuery("select * from usuarios where email = :email")
+			NativeQuery query = sesion.createSQLQuery("select * from usuarios where email = :email")
 					.addEntity(Usuario.class).setParameter("email", email);
 			user = (Usuario) query.getSingleResult();
 		} catch (Exception e) {
@@ -102,7 +104,7 @@ public class UsuarioDao extends DBManager {
 	public List<Usuario> traerTodos(int id_rol) {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
-			SQLQuery query = sesion.createSQLQuery("select * from usuarios where id_rol = :rol")
+			NativeQuery query = sesion.createSQLQuery("select * from usuarios where id_rol = :rol")
 					.addEntity(Usuario.class).setParameter("rol", id_rol);
 			usuarios = (List<Usuario>) query.list();
 		} catch (Exception e) {
@@ -115,7 +117,7 @@ public class UsuarioDao extends DBManager {
 	public List<Usuario> traerUsuariosPorNomApeMail(String nombre, String apellido, String mail, int id_rol){
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
-			SQLQuery query = null;
+			NativeQuery query = null;
 			if (nombre == "" && apellido == "" && mail == "") {
 				usuarios = this.traerTodos(id_rol); // si no mando nada traigo a todos los usuarios de ese rol
 			}

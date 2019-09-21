@@ -17,6 +17,7 @@ import com.google.gson.GsonBuilder;
 import dao.RolDao;
 import dao.UsuarioDao;
 import modelo.ContenedorResponse;
+import modelo.Rol;
 import modelo.Usuario;
 
 /**
@@ -119,12 +120,9 @@ public class Usuarios extends HttpServlet {
 	}
 	
 	private void guardarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		if (request.getParameter("id_usuario").compareToIgnoreCase("0") == 0) {
+		
 			agregarUsuario(request, response);
-		}
-		else {
-			modificarUsuario(request, response);
-		}
+		
 	}
 	
 	private void buscarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -137,17 +135,8 @@ public class Usuarios extends HttpServlet {
 		UsuarioDao userDao = new UsuarioDao();
 
 		try {
-			String nombre = (request.getParameter("nombreAlumno") == null || request.getParameter("nombreAlumno") == "")
-					? ""
-					: request.getParameter("nombreAlumno");
-			String apellido = (request.getParameter("apellidoAlumno") == null
-					|| request.getParameter("apellidoAlumno") == "") ? "" : request.getParameter("apellidoAlumno");
-			String mail = (request.getParameter("mailAlumno") == null || request.getParameter("mailAlumno") == "") ? ""
-					: request.getParameter("mailAlumno");
-			int id_rol = (request.getParameter("id_rol") == null || request.getParameter("id_rol") == "") ? 0
-					: Integer.valueOf(request.getParameter("id_rol"));
-
-			List<Usuario> usuarios = userDao.traerUsuariosPorNomApeMail(nombre, apellido, mail, id_rol);
+		
+			List<Usuario> usuarios = userDao.traerTodos(Integer.parseInt(request.getParameter("id_rol")));
 			if (usuarios.isEmpty()) {
 				error.setCd_error(1);
 				error.setDs_error("No se han encontrado usuarios con los datos ingresados.");
@@ -164,7 +153,7 @@ public class Usuarios extends HttpServlet {
 										"<div class=\"card-title\">" +usuario.getNombre() + " " + usuario.getApellido() + "</div>" + 
 										"<div class=\"card-subtitle mb-2 text-muted\">" + usuario.getEmail() + "</div>" + 
 										"<div class=\"card-text text-muted\">Tel: " + usuario.getTelefono() + "</div>" + 
-										"<div class=\"card-text text-muted\">Nacimiento: " + usuario.getFechaNacimiento() + "</div>" +
+										"<div class=\"card-text text-muted\">Nacimiento: " + FuncionesVarias.getStringDate(usuario.getFechaNacimiento(), 1) + "</div>" +
 								"</div>" +
 							"</div>";
 				}
@@ -186,10 +175,6 @@ public class Usuarios extends HttpServlet {
 		out.flush();
 	}
 
-	private String fechaSimple(Date date) {
-		return date.getDate() + "/" + (date.getMonth() + 1) + "/" + (date.getYear() + 1900);
-	}
-	
 	private void agregarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -199,85 +184,30 @@ public class Usuarios extends HttpServlet {
 		String json = "";
 		UsuarioDao userDao = new UsuarioDao();
 		Usuario user = new Usuario();
+		FuncionesVarias funciones = new FuncionesVarias();
 		try {
-			user.setNombre(request.getParameter("nombreUsuario"));
-			user.setApellido(request.getParameter("apellidoUsuario"));
-			user.setEmail(request.getParameter("mailUsuario"));
-			user.setTelefono(request.getParameter("telefonoUsuario"));
-			user.setPass(request.getParameter("passUsuario"));
-			String f = request.getParameter("nacimientoUsuario");
-			// si se les ocurre algo mejor para parsear la fecha diganme porfavor
-			int anio = 0, mes = 0, dia = 0;
-			if (f != null && f != "") {
-				anio = Integer.valueOf(f.substring(0, f.indexOf("-")));
-				mes = Integer.valueOf(f.substring(f.indexOf("-") + 1, f.indexOf("-", f.indexOf("-") + 1)));
-				dia = Integer.valueOf(f.substring(f.indexOf("-", f.indexOf("-") + 1) + 1));
-			}
-			user.setFechaNacimiento(new Date(anio - 1900, mes - 1, dia));
-			user.setId_rol(Integer.valueOf(request.getParameter("id_rol"))); // me esta llegando vacio
-
-			user.setVerificado(Boolean.getBoolean(request.getParameter("verificado")));
-
-			if (user.getNombre() != "" && user.getApellido() != "" && user.getTelefono() != "" && user.getEmail() != ""
-					&& user.getPass() != "" && user.getFechaNacimiento() != null) {
-				if (userDao.insertarUsuario(user)) {
-					error.setCd_error(1);
-					error.setDs_error("Se agrego el usuario correctamente.");
-					error.setTipo("success");
-				} else {
-					error.setCd_error(1);
-					error.setDs_error("Ya se encuentra registrado un usuario con ese Email.");
-					error.setTipo("error");
-				}
-			} else {
-				error.setCd_error(1);
-				error.setDs_error("Faltan completar datos del usuario, no puede ser creado.");
-				error.setTipo("error");
-			}
-		} catch (Exception e) {
-			error.setCd_error(1);
-			error.setDs_error("Error interno en el servidor.");
-			error.setTipo("error");
-			e.printStackTrace();
-		}
-
-		contenedorResponse.setError(error);
-		json = gson.toJson(contenedorResponse);
-		out.print(json);
-		out.flush();
-	}
-
-	private void modificarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.setContentType("application/json");
-		ContenedorResponse contenedorResponse = new ContenedorResponse();
-		ContenedorResponse.Error error = new ContenedorResponse.Error();
-		PrintWriter out = response.getWriter();
-		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
-		String json = "";
-		UsuarioDao userDao = new UsuarioDao();
-		Usuario user = new Usuario();
-		try {
+			
+			if (request.getParameter("nombreUsuario") != "" && request.getParameter("nombreUsuario") != "" && request.getParameter("telefonoUsuario") != "" && request.getParameter("mailUsuario") != ""
+					&& request.getParameter("passUsuario") != "" &&  request.getParameter("nacimientoUsuario") != null) {
+				
+			if(Integer.parseInt(request.getParameter("id_usuario"))!=0)
 			user.setId(Integer.valueOf((request.getParameter("id_usuario"))));
+			
+			
 			user.setNombre(request.getParameter("nombreUsuario"));
 			user.setApellido(request.getParameter("apellidoUsuario"));
 			user.setEmail(request.getParameter("mailUsuario"));
 			user.setTelefono(request.getParameter("telefonoUsuario"));
 			user.setPass(request.getParameter("passUsuario"));
-			String f = request.getParameter("nacimientoUsuario");
-			// si se les ocurre algo mejor para parsear la fecha diganme porfavor
-			int anio = 0, mes = 0, dia = 0;
-			if (f != null && f != "") {
-				anio = Integer.valueOf(f.substring(0, f.indexOf("-")));
-				mes = Integer.valueOf(f.substring(f.indexOf("-") + 1, f.indexOf("-", f.indexOf("-") + 1)));
-				dia = Integer.valueOf(f.substring(f.indexOf("-", f.indexOf("-") + 1) + 1));
-			}
-			user.setFechaNacimiento(new Date(anio - 1900, mes - 1, dia));
-			user.setId_rol(Integer.valueOf(request.getParameter("id_rol"))); // me esta llegando vacio
+			
+			
+			user.setFechaNacimiento(funciones.getDateString(request.getParameter("nacimientoUsuario"),1));
+			
+			user.setId_rol(Integer.valueOf(request.getParameter("rol_usuario"))); // me esta llegando vacio
 
 			user.setVerificado(Boolean.getBoolean(request.getParameter("verificado")));
 
-			if (user.getNombre() != "" && user.getApellido() != "" && user.getTelefono() != "" && user.getEmail() != ""
-					&& user.getPass() != "" && user.getFechaNacimiento() != null) {
+			
 				if (userDao.save_tabla(user)) {
 					error.setCd_error(1);
 					error.setDs_error("Se agrego el usuario correctamente.");
@@ -313,8 +243,10 @@ public class Usuarios extends HttpServlet {
 		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
 		String json = "";
 		UsuarioDao userDao = new UsuarioDao();
+		RolDao rolDao = new RolDao();
 		try {
 			Usuario u = userDao.traerUsuarioPorId(Integer.valueOf(request.getParameter("id_usuario")));
+			List<Rol> roles = rolDao.traerTodos();
 			if (u != null) {
 				String datos = "";
 				datos = "<input id=\"id_usuario\" name=\"id_usuario\" type=\"hidden\" value=\"" + u.getId() + "\">"+
@@ -339,9 +271,13 @@ public class Usuarios extends HttpServlet {
 										"placeholder=\"Correo del usuario\" value=\"" + u.getEmail() + "\">" +
 								"</div>"+
 								"<div class=\"col\">" +
-									"<label for=\"exampleInputEmail1\">Fecha de Nacimiento</label>" +
-										"<input type=\"date\" class=\"form-control\" id=\"nacimientoUsuario\" name=\"nacimientoUsuario\" " +
-										"placeholder=\"Fecha de nacimiento\" value=\"" + FuncionesVarias.getStringDate(u.getFechaNacimiento(), 1) + "\"> "+
+								"<div class=\"form-group\"> "+
+								"<label for=\"nacimientoUsuario\">Fecha de Nacimiento</label> <input "+
+									"type='text'  id=\"nacimientoUsuario\" "+
+								"name=\"nacimientoUsuario\" placeholder=\"Fecha de nacimiento\" class=\"form-control\" value=\"" + FuncionesVarias.getStringDate(u.getFechaNacimiento(), 1) + "\"/> "+
+
+
+							"</div>"+
 								"</div>"	+
 							"</div>"+
 							"<div class=\"form-group row\">"+
@@ -352,10 +288,26 @@ public class Usuarios extends HttpServlet {
 								"</div>"	+
 								"<div class=\"col\">" +
 									"<label for=\"exampleInputEmail1\">Contraseña</label>" +
-										"<input type=\"text\" class=\"form-control\" id=\"passUsuario\" name=\"passUsuario\" " +
+										"<input type=\"password\" class=\"form-control\" id=\"passUsuario\" name=\"passUsuario\" " +
 										"placeholder=\"Contraseña del usuario\" value=\"" + u.getPass() + "\">" +
 								"</div>" +
 							"</div>" +
+							"<div class=\"form-group row\">"+
+								"<div class=\"col-md-6\">"+
+									"<label for=\"exampleFormControlSelect1\">Roles</label> <select "+
+										"class=\"form-control\" id=\"rol_usuario\" name=\"rol_usuario\"> ";
+										
+											if (!roles.isEmpty()) {
+												for (Rol rol : roles) {
+									
+										datos +="<option value=\""+rol.getId()+"\""+(rol.getId()==u.getId_rol()?"selected":"")+">"+rol.getDenominacion()+"</option> ";
+										
+											}
+											}
+										
+										datos +="</select>"+
+								"</div>"+
+							"</div>"+
 						"<button type=\"button\" class=\"btn btn-success pull-right\"" +
 							"onclick=\"guardarUsuario();\" id=\"botonGuardarUsuario\">Guardar</button>" +
 						"<button type=\"button\" class=\"btn btn-danger pull-right\"" +

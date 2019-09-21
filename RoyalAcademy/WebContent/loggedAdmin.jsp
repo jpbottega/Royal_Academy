@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="logged-admin/perfiles.css">
 <link rel="stylesheet" href="logged-admin/toastr.min.css">
 <link rel="stylesheet" href="logged-admin/usuarios.css">
+<link rel="stylesheet" href="logged-admin/bootstrap-datetimepicker.min.css">
 
 
 </head>
@@ -83,12 +84,15 @@
 		src='logged-files/js/jquery.collapsible.min.js'></script>
 	<script type='text/javascript' src='logged-files/js/custom.js'></script>
 	<script type='text/javascript' src='scripts/toastr.js'></script>
+		<script type='text/javascript' src='scripts/moment.js'></script>
+	<script type='text/javascript' src='scripts/bootstrap-datetimepicker.min.js'></script>
 	<script type='text/javascript' src='scripts/logged-admin.js'></script>
 	<script type='text/javascript' src='scripts/perfiles.js'></script>
 	<script type='text/javascript' src='scripts/sede.js'></script>
 	<script type='text/javascript' src='scripts/carrera.js'></script>
 	<script type='text/javascript' src='scripts/usuarios.js'></script>
 	<script type='text/javascript' src='scripts/cursos.js'></script>
+	
 
 </body>
 </html>
