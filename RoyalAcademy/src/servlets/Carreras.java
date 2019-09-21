@@ -113,12 +113,12 @@ public class Carreras extends ServletIncludeGoto {
 		CarreraDao CarreraDao = new CarreraDao();
 		try {
 
-			int cantidad_de_cursos = CarreraDao.aux_select_int("select id_curso from carrera_curso where id_carrera = "
+			int cantidad_de_cursos = CarreraDao.aux_select_int("select id_curso from cursos where id_carrera = "
 					+ Integer.parseInt(request.getParameter("id_carrera"))+" limit 1");
 
 			if (cantidad_de_cursos > 0) {
 				error.setCd_error(1);
-				error.setDs_error("La carrera contiene cursos asignados, no puede ser eliminada.");
+				error.setDs_error("Hay cursos asignados a está carrera, no puede ser eliminada.");
 				error.setTipo("error");
 			} else {
 

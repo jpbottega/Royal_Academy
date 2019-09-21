@@ -24,7 +24,7 @@ System.out.println(permisoFunciones.size());
 		<%}if(permisoFunciones.get(5).getHabilitada()==1){ %>
 			<div class="option" onclick="gotoCarreras();">Carreras</div>
 		<%}if(permisoFunciones.get(6).getHabilitada()==1){ %>
-			<div class="option">Cursos</div>
+			<div class="option" onclick="gotoCursos();">Cursos</div>
 		<%} %>	
 		</div>
 	</div>

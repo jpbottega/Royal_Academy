@@ -88,6 +88,7 @@
 	<script type='text/javascript' src='scripts/sede.js'></script>
 	<script type='text/javascript' src='scripts/carrera.js'></script>
 	<script type='text/javascript' src='scripts/usuarios.js'></script>
+	<script type='text/javascript' src='scripts/cursos.js'></script>
 
 </body>
 </html>

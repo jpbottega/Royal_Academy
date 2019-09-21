@@ -9,7 +9,7 @@ import org.hibernate.Transaction;
 import modelo.Curso;
 import modelo.Sede;
 
-public class CursoDao {
+public class CursoDao extends DBManager {
 	public boolean insertarCurso(Curso curso) {
 		Transaction t = null;
 		//StringEncrypter crypto = new StringEncrypter("nosequevaaca");

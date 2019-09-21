@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.CarreraDao;
+import dao.CursoDao;
 import dao.FuncionesDao;
 import dao.PaisDao;
 import dao.RolDao;
 import dao.SedeDao;
 import modelo.Carrera;
+import modelo.Curso;
 import modelo.Funciones;
 import modelo.Pais;
 import modelo.Rol;
@@ -72,8 +74,11 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 					administradorAlumnos(request, response);
 					break;
 				case "carreras":
-
 					carreras(request,response);
+					break;
+				case "cursos":
+					
+					cursos(request,response);
 					
 					break;
 				}
@@ -132,7 +137,33 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 			e.printStackTrace();
 		}
 	}
+	private void cursos(HttpServletRequest request, HttpServletResponse response) {
+		CursoDao cursoDao = new CursoDao();
+		CarreraDao carreraDao = new CarreraDao();
+		try {
 
+			List<Curso> cursos = cursoDao.traerTodos(); // Traigo todos los roles que esten en la base de datos.
+			List<Carrera> carreras = carreraDao.traerTodos();
+
+			request.setAttribute("cursos", cursos);
+			request.setAttribute("carreras", carreras);
+			
+			if (cursos.isEmpty()) {
+				request.setAttribute("id_curso", 0);
+				request.setAttribute("ds_curso", "");
+				request.setAttribute("carrera", 0);
+			} else {
+				request.setAttribute("id_curso", cursos.get(0).getId());
+				request.setAttribute("ds_curso", cursos.get(0).getDenominacion());
+				request.setAttribute("carrera", cursos.get(0).getId_carrera());
+			}
+
+			includePage("/cursos.jsp", request, response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	private void sedes(HttpServletRequest request, HttpServletResponse response) {
 		SedeDao sedeDao = new SedeDao();
 		PaisDao paisDao = new PaisDao();
