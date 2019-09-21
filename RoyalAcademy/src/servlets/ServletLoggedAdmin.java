@@ -70,8 +70,8 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 				case "sedes":
 					sedes(request, response);
 					break;
-				case "adminAlumnos":
-					administradorAlumnos(request, response);
+				case "adminUsuarios":
+					administradorUsuarios(request, response);
 					break;
 				case "carreras":
 					carreras(request,response);
@@ -123,7 +123,7 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 		}
 	}
 
-	private void administradorAlumnos(HttpServletRequest request, HttpServletResponse response) {
+	private void administradorUsuarios(HttpServletRequest request, HttpServletResponse response) {
 		RolDao rolDao = new RolDao();
 		try {
 			List<Rol> roles = rolDao.traerTodos(); // Traigo todos los roles que esten en la base de datos.
@@ -131,7 +131,7 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 			request.setAttribute("roles", roles);
 			request.setAttribute("id_rol", roles.get(0).getId());
 			
-			includePage("/administradorAlumnos.jsp", request, response);
+			includePage("/administradorUsuarios.jsp", request, response);
 
 		} catch (Exception e) {
 			e.printStackTrace();

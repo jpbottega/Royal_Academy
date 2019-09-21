@@ -29,6 +29,7 @@ System.out.println(permisoFunciones.size());
 		</div>
 	</div>
 	<%} %>	
+
 <div class="dropdown menu-option">
 	<span><a href="index.jsp">Salir</a></span>
 </div>
