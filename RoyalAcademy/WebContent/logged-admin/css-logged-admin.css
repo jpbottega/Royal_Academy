@@ -65,3 +65,7 @@
 .btn{
 	cursor:pointer
 }
+.scrollable {
+	height: 16rem;
+	overflow: scroll;
+}
