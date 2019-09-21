@@ -44,6 +44,7 @@ public class HibernateUtil {
                 configuration.addAnnotatedClass(CursoExamen.class);
                 configuration.addAnnotatedClass(Funciones_Perfil.class);
                 configuration.addAnnotatedClass(Sede_Carrera.class);
+                configuration.addAnnotatedClass(PermisoFunciones.class);
                 //configuration.addAnnotatedClass(AlumnoNotas.class);
                 
                 // GUARDO CONFIGURACION

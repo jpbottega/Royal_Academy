@@ -13,6 +13,7 @@ import dao.FuncionesDao;
 import dao.RolDao;
 import dao.UsuarioDao;
 import modelo.Funciones;
+import modelo.PermisoFunciones;
 //import endec.StringEncrypter;
 import modelo.Usuario;
 
@@ -81,20 +82,22 @@ public class Login extends ServletIncludeGoto {
 
 				if (usuario != null && request.getParameter("pass").equals(usuario.getPass())) {
 
-					List<Funciones> funciones_habilitadas = funcionesDao.traerFuncionesHabilitadas(usuario.getId_rol());
+					List<PermisoFunciones> permiso_funciones = funcionesDao.traerPermisoFunciones(usuario.getId_rol());
+					
+					request.getSession().setAttribute("permisoFunciones", permiso_funciones);
+					request.getSession().setAttribute("usuario", usuario);
+					
 
-					for (Funciones funciones : funciones_habilitadas) {
-
-						if (funciones.getId_funcion() == 1) {
+						if (permiso_funciones.get(0).getHabilitada() == 1) {
 							gotoPage("/loggedAdmin.jsp", request, response); // voy a panel inicio de administrativo
-							break;
 						}
-						if (funciones.getId_funcion() == 2) {
+						else if (permiso_funciones.get(1).getHabilitada() == 1) {
 							gotoPage("/loggedAlumno.jsp", request, response); // voy a panel inicio de alumno*/
-							break;
+							
+						}else {
+							gotoPage("/index.jsp", request, response); // vuelvo al login por que no encontre ninguna funcion
 						}
-						gotoPage("/index.jsp", request, response); // vuelvo al login por que no encontre ninguna funcion
-					}
+					
 
 				} else {
 					gotoPage("/index.jsp", request, response); // vuelvo al login

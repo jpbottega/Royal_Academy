@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 
 import modelo.Funciones;
+import modelo.PermisoFunciones;
 
 
 public class FuncionesDao extends DBManager {
@@ -39,7 +40,18 @@ public class FuncionesDao extends DBManager {
 		return Funciones;
 	}
 
-	
+	public List<PermisoFunciones> traerPermisoFunciones(int id_rol){
+		List<PermisoFunciones> funciones = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			NativeQuery query = sesion.createSQLQuery("call getPermisoFunciones("+id_rol+")")
+					.addEntity(PermisoFunciones.class);
+			funciones = (List<PermisoFunciones>) query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return funciones;
+	}
 	
 	public List<Funciones> traerTodos(){
 		List<Funciones> funciones = null;
