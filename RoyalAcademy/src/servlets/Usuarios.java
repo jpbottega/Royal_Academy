@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
-
+import funciones.FuncionesVarias;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -313,7 +313,6 @@ public class Usuarios extends HttpServlet {
 		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
 		String json = "";
 		UsuarioDao userDao = new UsuarioDao();
-
 		try {
 			Usuario u = userDao.traerUsuarioPorId(Integer.valueOf(request.getParameter("id_usuario")));
 			if (u != null) {
@@ -342,8 +341,7 @@ public class Usuarios extends HttpServlet {
 								"<div class=\"col\">" +
 									"<label for=\"exampleInputEmail1\">Fecha de Nacimiento</label>" +
 										"<input type=\"date\" class=\"form-control\" id=\"nacimientoUsuario\" name=\"nacimientoUsuario\" " +
-										"placeholder=\"Fecha de nacimiento\" value=\"" + u.getFechaNacimiento().getDate() +"/" + 
-										(u.getFechaNacimiento().getMonth()+1) + "/" + (u.getFechaNacimiento().getYear()-1900) + "\"> "+
+										"placeholder=\"Fecha de nacimiento\" value=\"" + FuncionesVarias.getStringDate(u.getFechaNacimiento(), 1) + "\"> "+
 								"</div>"	+
 							"</div>"+
 							"<div class=\"form-group row\">"+
