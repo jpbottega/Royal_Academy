@@ -67,8 +67,8 @@ function gotoSedes(){
 		$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
 	});
 }
-function gotoAdministradorAlumnos(){
-	$.post("ServletLoggedAdmin?accion=adminAlumnos", function( data ) {
+function gotoAdministradorUsuarios(){
+	$.post("ServletLoggedAdmin?accion=adminUsuarios", function( data ) {
 		$("#functions-container").html(data); //seteo el data, que es el jsp administradorAlumnos, en el div con ID functions-container
 		$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
 	});
