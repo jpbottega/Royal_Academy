@@ -10,10 +10,11 @@
 </script>
 
 <div class="row row-perfiles">
-	<div class="col-md-3 column-3-perfiles">
+	<div class="col-md-4 column-3-perfiles">
 		<div class="form-group">
-		<label for="exampleFormControlSelect1">Roles</label> <select
-				class="form-control" id="select_roles" onchange="selectRolesUsuario();">
+			<label for="exampleFormControlSelect1">Roles</label> <select
+				class="form-control" id="select_roles"
+				onchange="selectRolesUsuario();">
 				<%
 					if (!roles.isEmpty()) {
 						for (Rol rol : roles) {
@@ -24,26 +25,27 @@
 					}
 				%>
 			</select>
-			</div>
-			<form id="form-alumno-buscar">
-				<div class="form-group">
-					<label for="exampleInputEmail1">Filtrar</label> <input type="text"
-						class="form-control" id="nombreAlumno" name="nombreAlumno"
-						placeholder="Filtro">
-				</div>
-			</form>
-			<div class="btn-group width-100" role="group"
-				aria-label="Basic example">
-				<button type="button" class="btn btn-primary width-50"
-					onclick="botonNuevoUsuario();" id="button_nuevo">Nuevo</button>
-				<button type="button" class="btn btn-success width-50"
-					onclick="filtrarAlumnos();">Filtrar</button>
-			</div>
-			
-			<div class="col-md-3" style="width: 16rem; height: 16rem;" id="tarjetasUsuarios"></div>
+		</div>
+
+		<div class="btn-group width-100" role="group"
+			aria-label="Basic example">
+			<button type="button" class="btn btn-primary width-100"
+				onclick="botonNuevoUsuario();" id="button_nuevo">Nuevo
+				Usuario</button>
+
+		</div>
+
+		<div class="form-group">
+			<label for="exampleInputEmail1">Buscar</label> <input type="text"
+				class="form-control" id="buscarUsuario" onkeyup="buscarUsuario();"
+				placeholder="Buscar...">
+		</div>
+
+
+		<div class="col-md-12" style="height: 16rem;" id="tarjetasUsuarios"></div>
 
 	</div>
-	<div class="col-md-9">
+	<div class="col-md-8">
 		<form id="form-alumno-registrar">
 			<input id="id_rol" name="id_rol" type="hidden" value="${id_rol}">
 			<input type="hidden" id="verificado" name="verificado" value="false">

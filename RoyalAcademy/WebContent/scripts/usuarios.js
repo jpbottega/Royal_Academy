@@ -25,3 +25,36 @@ function guardarAlumno() {
 			});
 }
 
+function selectTarjeta(id_usuario){
+	console.log("ACAAAA"+id_usuario)
+}
+function buscarUsuario(){
+	
+	if($("#buscarUsuario").val()!=""){
+		setTimeout(() => {
+			
+				$("#tarjetasUsuarios .card-body").each(function( index ) { //recorro todas las tarjetas
+					var encontre = false;
+					$(this).find("div").each(function( index ) { //de cada tarjeta recorro los divs que la componen
+						
+						  if($(this).text().toLowerCase().indexOf($("#buscarUsuario").val().toLowerCase())  > -1 && !encontre){
+							  encontre = true;
+							  console.log("coincide");
+						  }
+						
+					});
+					console.log(encontre);
+					if(encontre){ //Si encontre que coincida con lo que busco, lo muestro
+						$(this).parent().show();
+					}else{ //Si no encontre que coincida con lo que busco, no lo muestro
+						$(this).parent().hide();
+					}
+				});
+			
+			
+			
+		}, 300);
+	}else{
+		$(".card-body").parent().show();
+	}
+}

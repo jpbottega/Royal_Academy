@@ -1,0 +1,11 @@
+.card-styles {
+	margin-top: 10px;
+	cursor: pointer;
+}
+
+.card-styles:hover {
+	background: #f5f5f5;	
+}
+.card-title{
+	    font-weight: 500;
+}

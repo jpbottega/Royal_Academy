@@ -31,11 +31,11 @@ function nuevaCarrera() {
 	$("#button_cancelar").show();
 	$("#button_eliminar").hide();
 			
-	$.post("Carreras?accion=selectSede","id_carrera=0",
+	$.post("Carreras?accion=selectCarrera","id_carrera=0",
 			function(data) {
 				
 				$("#sedes_disponibles").html(data.data.sedes_disponibles);
-				$("#sedes_habilitadas").html(data.data.sedes_habilitadas);
+				$("#sedes_habilitadas").html("");
 				
 				$("#id_carrera").val(0);
 				$("#ds_carrera").val("");

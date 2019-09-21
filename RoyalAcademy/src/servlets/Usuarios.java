@@ -115,16 +115,18 @@ public class Usuarios extends HttpServlet {
 				error.setDs_error("Se han encontrado " + usuarios.size() + " resultados.");
 				error.setTipo("success");
 				String datos = "";
-				for (Usuario u : usuarios) {
-					datos += "<div class=\"card\" style=\"width: 16rem;\" id=\"\">" +  
+				datos="<div class=\"row\">";
+				for (Usuario usuario : usuarios) {
+					datos += "<div class=\"col-12 card card-styles\" onclick=\"selectTarjeta("+usuario.getId()+")\" id=\""+usuario.getId()+"\">" +  
 								"<div class=\"card-body\">" +
-										"<div class=\"card-title\">" + u.getId() + " - " + u.getNombre() + " " + u.getApellido() + "</div>" + 
-										"<div class=\"card-subtitle mb-2 text-muted\">" + u.getEmail() + "</div>" + 
-										"<div class=\"card-text\">Tel: " + u.getTelefono() + "</div>" + 
-										"<div class=\"card-text\">Nacimiento: " + this.fechaSimple(u.getFechaNacimiento()) + "</div>" +
+										"<div class=\"card-title\">" +usuario.getNombre() + " " + usuario.getApellido() + "</div>" + 
+										"<div class=\"card-subtitle mb-2 text-muted\">" + usuario.getEmail() + "</div>" + 
+										"<div class=\"card-text text-muted\">Tel: " + usuario.getTelefono() + "</div>" + 
+										"<div class=\"card-text text-muted\">Nacimiento: " + this.fechaSimple(usuario.getFechaNacimiento()) + "</div>" +
 								"</div>" +
 							"</div>";
 				}
+				datos+="</div>";
 				contenedorResponse.setData(datos);
 			}
 

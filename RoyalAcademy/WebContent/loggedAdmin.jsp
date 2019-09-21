@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="logged-admin/css-logged-admin.css">
 <link rel="stylesheet" href="logged-admin/perfiles.css">
 <link rel="stylesheet" href="logged-admin/toastr.min.css">
+<link rel="stylesheet" href="logged-admin/usuarios.css">
 
 
 </head>
