@@ -81,24 +81,26 @@ public class Login extends ServletIncludeGoto {
 				Usuario usuario = userDao.traerUsuarioPorMail(request.getParameter("email"));
 
 				if (usuario != null && request.getParameter("pass").equals(usuario.getPass())) {
-
+					if (!usuario.isVerificado()) { // si es usuario no esta verificado lo marco como verificado
+						usuario.setVerificado(true);
+						userDao.save_tabla(usuario);
+					}
 					List<PermisoFunciones> permiso_funciones = funcionesDao.traerPermisoFunciones(usuario.getId_rol());
 					
 					request.getSession().setAttribute("permisoFunciones", permiso_funciones);
 					request.getSession().setAttribute("usuario", usuario);
 					
+					if (permiso_funciones.get(0).getHabilitada() == 1) {
+						gotoPage("/loggedAdmin.jsp", request, response); // voy a panel inicio de administrativo
+					}
+					else if (permiso_funciones.get(1).getHabilitada() == 1) {
+						gotoPage("/loggedAlumno.jsp", request, response); // voy a panel inicio de alumno*/
+						
+					}else {
+						gotoPage("/index.jsp", request, response); // vuelvo al login por que no encontre ninguna funcion
+					}				
 
-						if (permiso_funciones.get(0).getHabilitada() == 1) {
-							gotoPage("/loggedAdmin.jsp", request, response); // voy a panel inicio de administrativo
-						}
-						else if (permiso_funciones.get(1).getHabilitada() == 1) {
-							gotoPage("/loggedAlumno.jsp", request, response); // voy a panel inicio de alumno*/
-							
-						}else {
-							gotoPage("/index.jsp", request, response); // vuelvo al login por que no encontre ninguna funcion
-						}
 					
-
 				} else {
 					gotoPage("/index.jsp", request, response); // vuelvo al login
 				}

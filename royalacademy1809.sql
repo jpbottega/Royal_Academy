@@ -466,6 +466,7 @@ CREATE TABLE `usuarios` (
   `apellido` varchar(40) DEFAULT NULL,
   `telefono` varchar(40) DEFAULT NULL,
   `email` varchar(40) DEFAULT NULL,
+  `dni` varchar(40) DEFAULT NULL,
   `verificado` tinyint(1) DEFAULT NULL,
   `id_rol` int(11) DEFAULT NULL,
   `fechaNacimiento` date DEFAULT NULL,
@@ -479,7 +480,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'admin','Gonzalo','Berro','1535949261','berro.gonza2195@gmail.com',1,1,'1995-12-21');
+INSERT INTO `usuarios` VALUES (1,'admin','Gonzalo','Berro','1535949261','berro.gonza2195@gmail.com','12345678',1,1,'1995-12-21');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 

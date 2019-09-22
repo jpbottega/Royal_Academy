@@ -19,7 +19,10 @@ import dao.UsuarioDao;
 import modelo.ContenedorResponse;
 import modelo.Rol;
 import modelo.Usuario;
-
+import java.util.*;  
+import javax.mail.*;  
+import javax.mail.internet.*;  
+import javax.activation.*;  
 /**
  * Servlet implementation class Usuarios
  */
@@ -60,7 +63,7 @@ public class Usuarios extends HttpServlet {
 
 				switch (request.getParameter("accion")) {
 				case "guardarUsuario":
-					guardarUsuario(request, response);
+					agregarUsuario(request, response);
 					break;
 
 				case "buscarUsuario":
@@ -118,13 +121,7 @@ public class Usuarios extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-	
-	private void guardarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
-			agregarUsuario(request, response);
-		
-	}
-	
+
 	private void buscarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -187,39 +184,64 @@ public class Usuarios extends HttpServlet {
 		FuncionesVarias funciones = new FuncionesVarias();
 		try {
 			
-			if (request.getParameter("nombreUsuario") != "" && request.getParameter("nombreUsuario") != "" && request.getParameter("telefonoUsuario") != "" && request.getParameter("mailUsuario") != ""
-					&& request.getParameter("passUsuario") != "" &&  request.getParameter("nacimientoUsuario") != null) {
+			if (request.getParameter("nombreUsuario") != "" && request.getParameter("nombreUsuario") != "" 
+					&& request.getParameter("telefonoUsuario") != "" && request.getParameter("mailUsuario") != ""
+					&& request.getParameter("dniUsuario") != "" &&  request.getParameter("nacimientoUsuario") != null) {
 				
-			if(Integer.parseInt(request.getParameter("id_usuario"))!=0)
-			user.setId(Integer.valueOf((request.getParameter("id_usuario"))));
-			
-			
-			user.setNombre(request.getParameter("nombreUsuario"));
-			user.setApellido(request.getParameter("apellidoUsuario"));
-			user.setEmail(request.getParameter("mailUsuario"));
-			user.setTelefono(request.getParameter("telefonoUsuario"));
-			user.setPass(request.getParameter("passUsuario"));
-			
-			
-			user.setFechaNacimiento(funciones.getDateString(request.getParameter("nacimientoUsuario"),1));
-			
-			user.setId_rol(Integer.valueOf(request.getParameter("rol_usuario"))); // me esta llegando vacio
-
-			user.setVerificado(Boolean.getBoolean(request.getParameter("verificado")));
-
-			
-				if (userDao.save_tabla(user)) {
-					error.setCd_error(1);
-					error.setDs_error("Se agrego el usuario correctamente.");
-					error.setTipo("success");
+				if(Integer.parseInt(request.getParameter("id_usuario")) != 0) { // si es un usuario a modificar
+					user.setId(Integer.valueOf((request.getParameter("id_usuario"))));
+					user.setNombre(request.getParameter("nombreUsuario"));
+					user.setApellido(request.getParameter("apellidoUsuario"));
+					user.setEmail(request.getParameter("mailUsuario"));
+					user.setTelefono(request.getParameter("telefonoUsuario"));
+					user.setPass(request.getParameter("passUsuario"));
+					user.setFechaNacimiento(funciones.getDateString(request.getParameter("nacimientoUsuario"),1));
+					user.setId_rol(Integer.valueOf(request.getParameter("rol_usuario"))); // me esta llegando vacio
+					user.setVerificado(Boolean.valueOf(request.getParameter("verificado")));
+					user.setDni(request.getParameter("dniUsuario"));
+					
+				} else { // si es un usuario nuevo
+					user.setNombre(request.getParameter("nombreUsuario"));
+					user.setApellido(request.getParameter("apellidoUsuario"));
+					user.setEmail(request.getParameter("mailUsuario"));
+					user.setTelefono(request.getParameter("telefonoUsuario"));
+					user.setPass(request.getParameter("dniUsuario"));					
+					user.setFechaNacimiento(funciones.getDateString(request.getParameter("nacimientoUsuario"),1));
+					user.setId_rol(Integer.valueOf(request.getParameter("rol_usuario"))); // me esta llegando vacio	
+					user.setDni(request.getParameter("dniUsuario"));
+					user.setVerificado(false);
+				}
+				
+				if (user.getId() == 0 && userDao.traerUsuarioPorMail(user.getEmail()) == null) { // si es un nuevo usuario y existe no lo deberia insertar
+					if (userDao.save_tabla(user)) {
+						error.setCd_error(1);
+						error.setDs_error("Se guardo el usuario correctamente.");
+						error.setTipo("success");
+						enviarVerficacionUsuario(user); // si es un usuario nuevo le envio un mail con la pass
+					} else { 
+						error.setCd_error(1);
+						error.setDs_error("No se ha podido guardar el usuario.");
+						error.setTipo("error");
+					} 
+				} else if (user.getId() != 0) { // si es un usuario existente
+					if (userDao.save_tabla(user)) {
+						error.setCd_error(1);
+						error.setDs_error("Se guardo el usuario correctamente.");
+						error.setTipo("success");
+						//if (user.getId() == 0) enviarVerficacionUsuario(user); // si es un usuario nuevo le envio un mail
+					} else { // si es un usuario existente
+						error.setCd_error(1);
+						error.setDs_error("No se ha podido guardar el usuario.");
+						error.setTipo("error");
+					} 
 				} else {
 					error.setCd_error(1);
-					error.setDs_error("No se ha podido modificar el usuario.");
+					error.setDs_error("Ya existe un usuario con ese correo.");
 					error.setTipo("error");
 				}
 			} else {
 				error.setCd_error(1);
-				error.setDs_error("Faltan completar datos del usuario, no puede ser creado.");
+				error.setDs_error("Faltan completar datos del usuario, no puede ser guardado.");
 				error.setTipo("error");
 			}
 		} catch (Exception e) {
@@ -252,6 +274,7 @@ public class Usuarios extends HttpServlet {
 				datos = "<input id=\"id_usuario\" name=\"id_usuario\" type=\"hidden\" value=\"" + u.getId() + "\">"+
 						"<input id=\"id_rol\" name=\"id_rol\" type=\"hidden\" value=\"" + u.getId_rol() + "\">"+
 						"<input type=\"hidden\" id=\"verificado\" name=\"verificado\" value=\"" + u.isVerificado() + "\">"+
+						"<input type=\"hidden\" id=\"passUsuario\" name=\"passUsuario\" value=\"" + u.getPass() + "\">"+
 							"<div class=\"form-group row\">"+
 								"<div class=\"col\">" +
 									"<label for=\"exampleInputEmail1\">Nombre</label>" +
@@ -276,7 +299,6 @@ public class Usuarios extends HttpServlet {
 									"type='text'  id=\"nacimientoUsuario\" "+
 								"name=\"nacimientoUsuario\" placeholder=\"Fecha de nacimiento\" class=\"form-control\" value=\"" + FuncionesVarias.getStringDate(u.getFechaNacimiento(), 1) + "\"/> "+
 
-
 							"</div>"+
 								"</div>"	+
 							"</div>"+
@@ -287,9 +309,9 @@ public class Usuarios extends HttpServlet {
 										"placeholder=\"Telefono del usuario\" value=\"" + u.getTelefono() + "\">" +
 								"</div>"	+
 								"<div class=\"col\">" +
-									"<label for=\"exampleInputEmail1\">Contraseña</label>" +
-										"<input type=\"password\" class=\"form-control\" id=\"passUsuario\" name=\"passUsuario\" " +
-										"placeholder=\"Contraseña del usuario\" value=\"" + u.getPass() + "\">" +
+									"<label for=\"exampleInputEmail1\">DNI</label>" +
+										"<input type=\"text\" class=\"form-control\" id=\"dniUsuario\" name=\"dniUsuario\" " +
+										"placeholder=\"Dni del usuario\" value=\"" + u.getDni() + "\">" +
 								"</div>" +
 							"</div>" +
 							"<div class=\"form-group row\">"+
@@ -333,4 +355,49 @@ public class Usuarios extends HttpServlet {
 		out.flush();
 	}
 
+	private void enviarVerficacionUsuario(Usuario u) throws MessagingException {
+		String  d_email = "royalacademyunla@gmail.com",
+		        d_uname = "royalacademyunla",
+		        d_password = "proyecto2019",
+		        d_host = "smtp.gmail.com",
+		        d_port  = "465", //465,587
+		        m_to = u.getEmail(),
+		        m_subject = "Bienvenido a Royal Academy",
+		        m_text = "Bienvenido " + u.getNombre() + ".\nSu usuario es: " + u.getEmail() + "\nContraseña: " + u.getPass();
+
+		Properties props = new Properties();
+		props.put("mail.smtp.user", d_email);
+		props.put("mail.smtp.host", d_host);
+		props.put("mail.smtp.port", d_port);
+		props.put("mail.smtp.starttls.enable","true");
+		props.put("mail.smtp.debug", "true");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.socketFactory.port", d_port);
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.socketFactory.fallback", "false");
+
+		SMTPAuthenticator auth = new SMTPAuthenticator();
+		Session session = Session.getInstance(props, auth);
+		session.setDebug(true);
+
+		MimeMessage msg = new MimeMessage(session);
+		msg.setText(m_text);
+		msg.setSubject(m_subject);
+		msg.setFrom(new InternetAddress(d_email));
+		msg.addRecipient(Message.RecipientType.TO, new InternetAddress(m_to));
+
+		Transport transport = session.getTransport("smtps");
+		transport.connect(d_host, 465, d_uname, d_password);
+		transport.sendMessage(msg, msg.getAllRecipients());
+		transport.close();
+    }
+	private class SMTPAuthenticator extends Authenticator
+	{
+	    public PasswordAuthentication getPasswordAuthentication()
+	    {
+	        return new PasswordAuthentication("royalacademyuna@gmail.com", "proyecto2019");
+	    }
+	}
 }
+
+
