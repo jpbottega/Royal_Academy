@@ -11,6 +11,7 @@ function botonNuevoUsuario() {
 	$("#passUsuario").val("");
 	$("#nacimientoUsuario").val("");
 	$("#telefonoUsuario").val("");
+	$("#dniUsuario").val("");
 	$("#verificadoUsuario").val("false")
 	$("#id_rol").val($("#select_roles").val());
 }
