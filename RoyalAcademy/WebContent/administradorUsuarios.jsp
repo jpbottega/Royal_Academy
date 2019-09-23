@@ -3,7 +3,6 @@
 
 <%
 	List<Rol> roles = (List<Rol>) request.getAttribute("roles");
-	//ME PARECE Q LO DE ABAJO ES MEDIO BRUTO, PREGUNTAR A GONZA COMO HACERLO BIEN
 %>
 <script>
 	selectRolesUsuario();
@@ -21,7 +20,7 @@
 				%>
 				<option value="<%=rol.getId()%>"><%=rol.getDenominacion()%></option>
 				<%
-					}
+						}
 					}
 				%>
 			</select>
@@ -100,12 +99,13 @@
 						%>
 						<option value="<%=rol.getId()%>"><%=rol.getDenominacion()%></option>
 						<%
-							}
+								}
 							}
 						%>
 					</select>
 				</div>
 			</div>
+			
 			<button type="button" class="btn btn-success pull-right"
 				onclick="guardarUsuario();" id="botonGuardarUsuario">Guardar</button>
 			<button type="button" class="btn btn-danger pull-right"

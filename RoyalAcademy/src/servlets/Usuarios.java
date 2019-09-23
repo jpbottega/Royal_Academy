@@ -14,10 +14,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import dao.CarreraDao;
+import dao.CursoDao;
 import dao.RolDao;
 import dao.UsuarioDao;
+import modelo.Carrera;
 import modelo.ContenedorResponse;
+import modelo.Curso;
+import modelo.Curso_Usuario;
 import modelo.Rol;
+import modelo.Sede;
+import modelo.Sede_Carrera;
+import modelo.Sede_Usuario;
+import modelo.Select_Sedes_Carrera;
 import modelo.Usuario;
 import java.util.*;  
 import javax.mail.*;  
@@ -73,8 +82,29 @@ public class Usuarios extends HttpServlet {
 				case "eliminarUsuario":
 					eliminarUsuario(request, response);
 					break;
+					
 				case "traerUsuario":
 					selectUsuario(request, response);
+					break;
+					
+				case "agregarSede":
+					agregarSede(request, response);
+					break;
+					
+				case "eliminarSede":
+					eliminarSede(request, response);
+					break;
+				
+				case "agregarCurso":
+					agregarCurso(request, response);
+					break;
+					
+				case "eliminarCurso":
+					eliminarCurso(request, response);
+					break;
+					
+				case "actualizarCursos":
+					actualizarCursos(request, response);
 					break;
 				}
 			}
@@ -83,6 +113,358 @@ public class Usuarios extends HttpServlet {
 		}
 	}
 
+	private void actualizarCursos(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setContentType("application/json");
+		ContenedorResponse contenedorResponse = new ContenedorResponse();
+		ContenedorResponse.Error error = new ContenedorResponse.Error();
+		PrintWriter out = response.getWriter();
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
+		String json = "";
+		UsuarioDao userDao = new UsuarioDao();
+		Select_Sedes_Carrera select_sedes_perfil = new Select_Sedes_Carrera();
+		try {
+				List<Curso> curso_disponible = userDao
+						.traerCursosDisponibles(Integer.parseInt(request.getParameter("id_usuario")), Integer.parseInt(request.getParameter("id_carrera")));
+				List<Curso> curso_habilitado = userDao
+						.traerCursosHabilitadas(Integer.parseInt(request.getParameter("id_usuario")));
+
+				String options_habilitadas = "";
+				String options_disponibles = "";
+
+				for (Curso curso : curso_habilitado) {
+					options_habilitadas = options_habilitadas + "<option value=\"" + curso.getId() + "\">"
+							+ curso.getDenominacion() + "</option>";
+				}
+				for (Curso curso : curso_disponible) {
+					options_disponibles = options_disponibles + "<option value=\"" + curso.getId() + "\">"
+							+ curso.getDenominacion() + "</option>";
+				}
+
+				select_sedes_perfil.setSedes_disponibles(options_disponibles);
+				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
+
+				error.setCd_error(1);
+				error.setDs_error("Actualizados los cursos mostrados.");
+				error.setTipo("success");		
+
+		} catch (Exception e) {
+			error.setCd_error(1);
+			error.setDs_error("Error interno en el servidor.");
+			error.setTipo("error");
+			e.printStackTrace();
+		}
+
+		contenedorResponse.setError(error);
+		contenedorResponse.setData(select_sedes_perfil);
+		json = gson.toJson(contenedorResponse);
+		out.print(json);
+		out.flush();
+	}
+	
+	private void eliminarCurso(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		response.setContentType("application/json");
+		ContenedorResponse contenedorResponse = new ContenedorResponse();
+		ContenedorResponse.Error error = new ContenedorResponse.Error();
+		PrintWriter out = response.getWriter();
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
+		String json = "";
+		UsuarioDao userDao = new UsuarioDao();
+		Select_Sedes_Carrera select_sede_carrera = new Select_Sedes_Carrera();
+		try {
+
+			if (Integer.parseInt(request.getParameter("id_usuario")) == 0) {
+
+				error.setCd_error(1);
+				error.setDs_error("Debe primero guardar el usuario.");
+				error.setTipo("error");
+
+			} else {
+
+				String[] cursos_seleccionados = request.getParameter("string_sedes_seleccionadas").split(";");
+
+				for (String curso : cursos_seleccionados) {
+
+					if (!curso.isEmpty()) {
+						Curso_Usuario sede_carrera = new Curso_Usuario(Integer.parseInt(curso),
+								Integer.parseInt(request.getParameter("id_usuario")));
+
+						userDao.delete_tabla(sede_carrera);
+					}
+
+				}
+
+				List<Curso> sede_disponibles = userDao
+						.traerCursosDisponibles(Integer.parseInt(request.getParameter("id_usuario")), Integer.parseInt(request.getParameter("id_carrera")));
+				List<Curso> sede_habilitadas = userDao
+						.traerCursosHabilitadas(Integer.parseInt(request.getParameter("id_usuario")));
+
+				String options_habilitadas = "";
+				String options_disponibles = "";
+
+				for (Curso curso : sede_habilitadas) {
+
+					options_habilitadas = options_habilitadas + "<option value=\"" + curso.getId() + "\">"
+							+ curso.getDenominacion() + "</option>";
+
+				}
+				for (Curso curso : sede_disponibles) {
+
+					options_disponibles = options_disponibles + "<option value=\"" + curso.getId() + "\">"
+							+ curso.getDenominacion() + "</option>";
+				}
+
+				select_sede_carrera.setSedes_disponibles(options_disponibles);
+				select_sede_carrera.setSedes_habilitadas(options_habilitadas);
+
+				error.setCd_error(1);
+				error.setDs_error("Se eliminaron los cursos del usuario.");
+				error.setTipo("success");
+
+			}
+
+		} catch (Exception e) {
+			error.setCd_error(1);
+			error.setDs_error("Error interno en el servidor.");
+			error.setTipo("error");
+			e.printStackTrace();
+		}
+
+		contenedorResponse.setError(error);
+		contenedorResponse.setData(select_sede_carrera);
+		json = gson.toJson(contenedorResponse);
+		out.print(json);
+		out.flush();
+	}
+
+	private void agregarCurso(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		response.setContentType("application/json");
+		ContenedorResponse contenedorResponse = new ContenedorResponse();
+		ContenedorResponse.Error error = new ContenedorResponse.Error();
+		PrintWriter out = response.getWriter();
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
+		String json = "";
+		UsuarioDao userDao = new UsuarioDao();
+		Select_Sedes_Carrera select_sedes_perfil = new Select_Sedes_Carrera();
+		try {
+
+			if (Integer.parseInt(request.getParameter("id_usuario")) == 0) {
+
+				error.setCd_error(1);
+				error.setDs_error("Debe primero guardar el usuario.");
+				error.setTipo("error");
+
+			} else {
+
+				String[] cursos_seleccionados = request.getParameter("string_sedes_seleccionadas").split(";");
+
+				for (String curso : cursos_seleccionados) {
+
+					if (!curso.isEmpty()) {
+						Curso_Usuario sede_carrera = new Curso_Usuario(Integer.parseInt(curso),
+								Integer.parseInt(request.getParameter("id_usuario")));
+
+						userDao.save_tabla(sede_carrera);
+					}
+
+				}
+
+				List<Curso> curso_disponible = userDao
+						.traerCursosDisponibles(Integer.parseInt(request.getParameter("id_usuario")), Integer.parseInt(request.getParameter("id_carrera")));
+				List<Curso> curso_habilitado = userDao
+						.traerCursosHabilitadas(Integer.parseInt(request.getParameter("id_usuario")));
+
+				String options_habilitadas = "";
+				String options_disponibles = "";
+
+				for (Curso curso : curso_habilitado) {
+
+					options_habilitadas = options_habilitadas + "<option value=\"" + curso.getId() + "\">"
+							+ curso.getDenominacion() + "</option>";
+
+				}
+				for (Curso curso : curso_disponible) {
+
+					options_disponibles = options_disponibles + "<option value=\"" + curso.getId() + "\">"
+							+ curso.getDenominacion() + "</option>";
+				}
+
+				select_sedes_perfil.setSedes_disponibles(options_disponibles);
+				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
+
+				error.setCd_error(1);
+				error.setDs_error("Se agregaron los cursos al usuario.");
+				error.setTipo("success");
+
+			}
+
+		} catch (Exception e) {
+			error.setCd_error(1);
+			error.setDs_error("Error interno en el servidor.");
+			error.setTipo("error");
+			e.printStackTrace();
+		}
+
+		contenedorResponse.setError(error);
+		contenedorResponse.setData(select_sedes_perfil);
+		json = gson.toJson(contenedorResponse);
+		out.print(json);
+		out.flush();
+	}
+	
+	private void eliminarSede(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		response.setContentType("application/json");
+		ContenedorResponse contenedorResponse = new ContenedorResponse();
+		ContenedorResponse.Error error = new ContenedorResponse.Error();
+		PrintWriter out = response.getWriter();
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
+		String json = "";
+		UsuarioDao userDao = new UsuarioDao();
+		Select_Sedes_Carrera select_sede_carrera = new Select_Sedes_Carrera();
+		try {
+
+			if (Integer.parseInt(request.getParameter("id_usuario")) == 0) {
+
+				error.setCd_error(1);
+				error.setDs_error("Debe primero guardar el usuario.");
+				error.setTipo("error");
+
+			} else {
+
+				String[] sedes_seleccionadas = request.getParameter("string_sedes_seleccionadas").split(";");
+
+				for (String sede : sedes_seleccionadas) {
+
+					if (!sede.isEmpty()) {
+						Sede_Usuario sede_carrera = new Sede_Usuario(Integer.parseInt(sede),
+								Integer.parseInt(request.getParameter("id_usuario")));
+
+						userDao.delete_tabla(sede_carrera);
+					}
+
+				}
+
+				List<Sede> sede_disponibles = userDao
+						.traerSedesDisponibles(Integer.parseInt(request.getParameter("id_usuario")));
+				List<Sede> sede_habilitadas = userDao
+						.traerSedesHabilitadas(Integer.parseInt(request.getParameter("id_usuario")));
+
+				String options_habilitadas = "";
+				String options_disponibles = "";
+
+				for (Sede sede : sede_habilitadas) {
+
+					options_habilitadas = options_habilitadas + "<option value=\"" + sede.getId() + "\">"
+							+ sede.getSede() + "</option>";
+
+				}
+				for (Sede sede : sede_disponibles) {
+
+					options_disponibles = options_disponibles + "<option value=\"" + sede.getId() + "\">"
+							+ sede.getSede() + "</option>";
+				}
+
+				select_sede_carrera.setSedes_disponibles(options_disponibles);
+				select_sede_carrera.setSedes_habilitadas(options_habilitadas);
+
+				error.setCd_error(1);
+				error.setDs_error("Se agregaron las sedes al usuario.");
+				error.setTipo("success");
+
+			}
+
+		} catch (Exception e) {
+			error.setCd_error(1);
+			error.setDs_error("Error interno en el servidor.");
+			error.setTipo("error");
+			e.printStackTrace();
+		}
+
+		contenedorResponse.setError(error);
+		contenedorResponse.setData(select_sede_carrera);
+		json = gson.toJson(contenedorResponse);
+		out.print(json);
+		out.flush();
+	}
+
+	private void agregarSede(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		response.setContentType("application/json");
+		ContenedorResponse contenedorResponse = new ContenedorResponse();
+		ContenedorResponse.Error error = new ContenedorResponse.Error();
+		PrintWriter out = response.getWriter();
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
+		String json = "";
+		UsuarioDao userDao = new UsuarioDao();
+		Select_Sedes_Carrera select_sedes_perfil = new Select_Sedes_Carrera();
+		try {
+
+			if (Integer.parseInt(request.getParameter("id_usuario")) == 0) {
+
+				error.setCd_error(1);
+				error.setDs_error("Debe primero guardar el usuario.");
+				error.setTipo("error");
+
+			} else {
+
+				String[] sedes_seleccionadas = request.getParameter("string_sedes_seleccionadas").split(";");
+
+				for (String sede : sedes_seleccionadas) {
+
+					if (!sede.isEmpty()) {
+						Sede_Usuario sede_carrera = new Sede_Usuario(Integer.parseInt(sede),
+								Integer.parseInt(request.getParameter("id_usuario")));
+
+						userDao.save_tabla(sede_carrera);
+					}
+
+				}
+
+				List<Sede> sede_disponibles = userDao
+						.traerSedesDisponibles(Integer.parseInt(request.getParameter("id_usuario")));
+				List<Sede> sede_habilitadas = userDao
+						.traerSedesHabilitadas(Integer.parseInt(request.getParameter("id_usuario")));
+
+				String options_habilitadas = "";
+				String options_disponibles = "";
+
+				for (Sede sede : sede_habilitadas) {
+
+					options_habilitadas = options_habilitadas + "<option value=\"" + sede.getId() + "\">"
+							+ sede.getSede() + "</option>";
+
+				}
+				for (Sede sede : sede_disponibles) {
+
+					options_disponibles = options_disponibles + "<option value=\"" + sede.getId() + "\">"
+							+ sede.getSede() + "</option>";
+				}
+
+				select_sedes_perfil.setSedes_disponibles(options_disponibles);
+				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
+
+				error.setCd_error(1);
+				error.setDs_error("Se agregaron las sedes al usuario.");
+				error.setTipo("success");
+
+			}
+
+		} catch (Exception e) {
+			error.setCd_error(1);
+			error.setDs_error("Error interno en el servidor.");
+			error.setTipo("error");
+			e.printStackTrace();
+		}
+
+		contenedorResponse.setError(error);
+		contenedorResponse.setData(select_sedes_perfil);
+		json = gson.toJson(contenedorResponse);
+		out.print(json);
+		out.flush();
+	}
+	
 	private void eliminarUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -214,6 +596,7 @@ public class Usuarios extends HttpServlet {
 				}
 				
 				if (user.getId() == 0 && userDao.traerUsuarioPorMail(user.getEmail()) == null) { // si es un nuevo usuario y existe no lo deberia insertar
+					// mover el enviarVerificacion aca si no se quiere agregar si el correo no es valido
 					if (userDao.save_tabla(user)) {
 						error.setCd_error(1);
 						error.setDs_error("Se guardo el usuario correctamente.");
@@ -267,9 +650,16 @@ public class Usuarios extends HttpServlet {
 		String json = "";
 		UsuarioDao userDao = new UsuarioDao();
 		RolDao rolDao = new RolDao();
+		CursoDao cursoDao = new CursoDao();
+		CarreraDao carreraDao = new CarreraDao();
 		try {
 			Usuario u = userDao.traerUsuarioPorId(Integer.valueOf(request.getParameter("id_usuario")));
 			List<Rol> roles = rolDao.traerTodos();
+			List<Sede> sedesHabilitadas = userDao.traerSedesHabilitadas(u.getId());
+			List<Sede> sedesDisponibles = userDao.traerSedesDisponibles(u.getId());
+			List<Carrera> listaCarreras = carreraDao.traerTodos();
+			List<Curso> cursosDisponibles = userDao.traerCursosDisponibles(u.getId(), 0);
+			List<Curso> cursosHabilitados = userDao.traerCursosHabilitadas(u.getId());
 			if (u != null) {
 				String datos = "";
 				datos = "<input id=\"id_usuario\" name=\"id_usuario\" type=\"hidden\" value=\"" + u.getId() + "\">"+
@@ -318,7 +708,7 @@ public class Usuarios extends HttpServlet {
 							"<div class=\"form-group row\">"+
 								"<div class=\"col-md-6\">"+
 									"<label for=\"exampleFormControlSelect1\">Roles</label> <select "+
-										"class=\"form-control\" id=\"rol_usuario\" name=\"rol_usuario\"> ";
+										"class=\"form-control\" id=\"rol_usuario\" name=\"rol_usuario\" onchange=\"cambioRolAdminOrganizacion();\"> ";
 										
 											if (!roles.isEmpty()) {
 												for (Rol rol : roles) {
@@ -330,8 +720,94 @@ public class Usuarios extends HttpServlet {
 										
 										datos +="</select>"+
 								"</div>"+
+								"<div class=\"col-md-6\" id=\"seleccion_carreras\">"+
+								"<label for=\"exampleFormControlSelect1\">Carreras</label> <select "+
+									"class=\"form-control\" id=\"id_carrera\" name=\"id_carrera\" onchange=\"actualizarCursos();\"> ";
+										datos +="<option value=\"0\" selected>"+ "Todas" +"</option> ";
+										if (!listaCarreras.isEmpty()) {
+											for (Carrera carrera : listaCarreras) {
+								
+									datos +="<option value=\""+carrera.getId()+"\">"+carrera.getDenominacion()+"</option> ";
+									
+										}
+										}
+									
+									datos +="</select>"+
 							"</div>"+
-						"<button type=\"button\" class=\"btn btn-success pull-right\"" +
+							"</div>"+
+								// para administrar sedes en q se inscribe al alumno:
+								"<div class=\"row\" id=\"adminSedesUsuario\">" +
+									"<div class=\"col-md-5\">" +
+										"<div class=\"form-group\">" +
+											"<label for=\"exampleFormControlSelect1\">Sedes Disponibles</label> <select " +
+												"class=\"form-control\" id=\"sedes_disponibles_usuario\" multiple>";
+													if (!sedesDisponibles.isEmpty()) {
+														for (Sede sede : sedesDisponibles) {
+															datos += "<option value=\"" + sede.getId() + "\">" + sede.getSede() + "</option>";
+														}
+													}
+											datos += "</select>" + 
+										"</div>" +
+									"</div>" +
+									"<div class=\"col-md-1 col-funciones-perfil\">" +
+										"<button type=\"button\"" +
+											"class=\"btn btn-default button-funciones-perfil\"" +
+											"title=\"Agregar Sede\" onclick=\"agregarSedeUsuario();\">>></button>" +
+										"<button type=\"button\"" +
+											"class=\"btn btn-default button-funciones-perfil\"" +
+											"title=\"Eliminar Sede\" onclick=\"eliminarSedeUsuario();\"><<</button>" +
+									"</div>" +
+									"<div class=\"col-md-5\">" +
+										"<div class=\"form-group\">" +
+											"<label for=\"exampleFormControlSelect1\">Sedes Habilitadas</label> <select " +
+												"class=\"form-control\" id=\"sedes_habilitadas_usuario\" multiple>";
+													if (!sedesHabilitadas.isEmpty()) {
+														for (Sede sede : sedesHabilitadas) {
+															datos += "<option value=\"" + sede.getId() + "\">"+ sede.getSede() + "</option>";
+														}
+													}
+											datos += "</select>" +
+												"</div>" +
+									"</div>" +
+								"</div>";
+											
+						
+						// para administrar cursos de los docentes:
+								datos += "<div class=\"row\" id=\"adminCursosUsuario\">" +
+								"<div class=\"col-md-5\">" +
+									"<div class=\"form-group\">" +
+										"<label for=\"exampleFormControlSelect1\">Cursos Disponibles</label> <select " +
+											"class=\"form-control\" id=\"cursos_disponibles_usuario\" multiple>";
+												if (!cursosDisponibles.isEmpty()) {
+													for (Curso curso : cursosDisponibles) {
+														datos += "<option value=\"" + curso.getId() + "\">" + curso.getDenominacion() + "</option>";
+													}
+												}
+										datos += "</select>" + 
+									"</div>" +
+								"</div>" +
+								"<div class=\"col-md-1 col-funciones-perfil\">" +
+									"<button type=\"button\"" +
+										"class=\"btn btn-default button-funciones-perfil\"" +
+										"title=\"Agregar Curso\" onclick=\"agregarCursoUsuario();\">>></button>" +
+									"<button type=\"button\"" +
+										"class=\"btn btn-default button-funciones-perfil\"" +
+										"title=\"Eliminar Curso\" onclick=\"eliminarCursoUsuario();\"><<</button>" +
+								"</div>" +
+								"<div class=\"col-md-5\">" +
+									"<div class=\"form-group\">" +
+										"<label for=\"exampleFormControlSelect1\">Cursos Habilitados</label> <select " +
+											"class=\"form-control\" id=\"cursos_habilitadas_usuario\" multiple>";
+												if (!cursosHabilitados.isEmpty()) {
+													for (Curso curso : cursosHabilitados) {
+														datos += "<option value=\"" + curso.getId() + "\">"+ curso.getDenominacion()+ "</option>";
+													}
+												}
+										datos += "</select>" +
+											"</div>" +
+								"</div>" +
+							"</div>";
+						datos += "<button type=\"button\" class=\"btn btn-success pull-right\"" +
 							"onclick=\"guardarUsuario();\" id=\"botonGuardarUsuario\">Guardar</button>" +
 						"<button type=\"button\" class=\"btn btn-danger pull-right\"" +
 							"onclick=\"eliminarUsuario();\" id=\"botonEliminarUsuario\">Eliminar</button>";

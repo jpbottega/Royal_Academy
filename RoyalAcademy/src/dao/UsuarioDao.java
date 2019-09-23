@@ -3,6 +3,8 @@ package dao;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 
+import modelo.Curso;
+import modelo.Sede;
 import modelo.Usuario;
 import endec.StringEncrypter;
 
@@ -143,5 +145,60 @@ public class UsuarioDao extends DBManager {
 			return usuarios;
 		}
 		return usuarios;
+	}
+	
+	public List<Sede> traerSedesHabilitadas(int id_carrera) {
+		List<Sede> Funciones = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			
+				NativeQuery query = sesion.createSQLQuery("call sedesHabilitadasUsuario("+id_carrera+")").addEntity(Sede.class);
+				Funciones = (List<Sede>) query.list();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Funciones;
+		}
+		return Funciones;
+	}
+	public List<Sede> traerSedesDisponibles(int id_carrera) {
+		List<Sede> Funciones = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			
+				NativeQuery query = sesion.createSQLQuery("call sedesDisponiblesUsuario("+id_carrera+")").addEntity(Sede.class);
+				Funciones = (List<Sede>) query.list();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Funciones;
+		}
+		return Funciones;
+	}
+	
+	public List<Curso> traerCursosHabilitadas(int id_usuario) {
+		List<Curso> Funciones = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			
+				NativeQuery query = sesion.createSQLQuery("call cursosHabilitadasUsuario("+id_usuario+")").addEntity(Curso.class);
+				Funciones = (List<Curso>) query.list();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Funciones;
+		}
+		return Funciones;
+	}
+	
+	public List<Curso> traerCursosDisponibles(int id_usuario, int id_carrera) {
+		List<Curso> Funciones = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			
+				NativeQuery query = sesion.createSQLQuery("call cursosDisponiblesUsuario("+id_usuario+", " + id_carrera + ")").addEntity(Curso.class);
+				Funciones = (List<Curso>) query.list();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Funciones;
+		}
+		return Funciones;
 	}
 }
