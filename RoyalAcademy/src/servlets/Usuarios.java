@@ -150,6 +150,7 @@ public class Usuarios extends HttpServlet {
 										"<div class=\"card-title\">" +usuario.getNombre() + " " + usuario.getApellido() + "</div>" + 
 										"<div class=\"card-subtitle mb-2 text-muted\">" + usuario.getEmail() + "</div>" + 
 										"<div class=\"card-text text-muted\">Tel: " + usuario.getTelefono() + "</div>" + 
+										"<div class=\"card-text text-muted\">DNI: " + usuario.getDni() + "</div>" + 
 										"<div class=\"card-text text-muted\">Nacimiento: " + FuncionesVarias.getStringDate(usuario.getFechaNacimiento(), 1) + "</div>" +
 								"</div>" +
 							"</div>";
