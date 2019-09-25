@@ -26,7 +26,8 @@ public class Usuario {
 	private String email;
 	private int id_rol;
 	private Date fechaNacimiento;
-
+	private String dni;
+	
 	public Usuario() {}
 	
 	public Usuario(String email, String password, String nombre, String apellido, String telefono,
@@ -114,6 +115,16 @@ public class Usuario {
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+	
+	
 	/*
 	public List<Curso> getCursosInscripto() {
 		return cursosInscripto;

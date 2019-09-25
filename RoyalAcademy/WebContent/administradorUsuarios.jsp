@@ -3,7 +3,6 @@
 
 <%
 	List<Rol> roles = (List<Rol>) request.getAttribute("roles");
-	//ME PARECE Q LO DE ABAJO ES MEDIO BRUTO, PREGUNTAR A GONZA COMO HACERLO BIEN
 %>
 <script>
 	selectRolesUsuario();
@@ -21,7 +20,7 @@
 				%>
 				<option value="<%=rol.getId()%>"><%=rol.getDenominacion()%></option>
 				<%
-					}
+						}
 					}
 				%>
 			</select>
@@ -48,9 +47,10 @@
 	</div>
 	<div class="col-md-7 ml-4 mt-4">
 		<form id="form-usuario">
-			<input id="id_usuario" name="id_usuario" type="hidden"> <input
-				id="id_rol" name="id_rol" type="hidden" value="${id_rol}"> <input
-				type="hidden" id="verificado" name="verificado">
+			<input id="id_usuario" name="id_usuario" type="hidden"> 
+			<input id="id_rol" name="id_rol" type="hidden" value="${id_rol}"> 
+			<input type="hidden" id="verificado" name="verificado"> 
+			<input type="hidden" id="passUsuario" name="passUsuario" value="">
 			<div class="form-group row">
 				<div class="col">
 					<label for="exampleInputEmail1">Nombre</label> <input type="text"
@@ -74,10 +74,7 @@
 						<label for="nacimientoUsuario">Fecha de Nacimiento</label> <input
 							type='text' id="nacimientoUsuario" name="nacimientoUsuario"
 							placeholder="Fecha de nacimiento" class="form-control" />
-
-
 					</div>
-
 				</div>
 			</div>
 			<div class="form-group row">
@@ -87,9 +84,9 @@
 						placeholder="Telefono del usuario">
 				</div>
 				<div class="col">
-					<label for="exampleInputEmail1">Contraseña</label> <input
-						type="password" class="form-control" id="passUsuario"
-						name="passUsuario" placeholder="Contraseña del usuario">
+					<label for="exampleInputEmail1">DNI</label> <input
+						type="text" class="form-control" id="dniUsuario"
+						name="dniUsuario" placeholder="Dni del usuario">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -102,12 +99,13 @@
 						%>
 						<option value="<%=rol.getId()%>"><%=rol.getDenominacion()%></option>
 						<%
-							}
+								}
 							}
 						%>
 					</select>
 				</div>
 			</div>
+			
 			<button type="button" class="btn btn-success pull-right"
 				onclick="guardarUsuario();" id="botonGuardarUsuario">Guardar</button>
 			<button type="button" class="btn btn-danger pull-right"

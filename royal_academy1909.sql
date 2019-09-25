@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `royal_academy` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `royal_academy`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: royal_academy
+-- Host: localhost    Database: royal_academy
 -- ------------------------------------------------------
--- Server version	5.7.26
+-- Server version	8.0.17
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -65,6 +63,30 @@ INSERT INTO `carreras` VALUES (1,'Sistemas'),(2,'Administración'),(3,'Nutrició
 UNLOCK TABLES;
 
 --
+-- Table structure for table `curso_usuario`
+--
+
+DROP TABLE IF EXISTS `curso_usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `curso_usuario` (
+  `id_usuario` int(11) NOT NULL,
+  `id_curso` int(11) NOT NULL,
+  PRIMARY KEY (`id_usuario`,`id_curso`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `curso_usuario`
+--
+
+LOCK TABLES `curso_usuario` WRITE;
+/*!40000 ALTER TABLE `curso_usuario` DISABLE KEYS */;
+INSERT INTO `curso_usuario` VALUES (4,1),(4,2);
+/*!40000 ALTER TABLE `curso_usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cursoexamen`
 --
 
@@ -103,7 +125,7 @@ CREATE TABLE `cursos` (
   `criterioAprobacion` decimal(10,0) DEFAULT NULL,
   `id_carrera` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,6 +134,7 @@ CREATE TABLE `cursos` (
 
 LOCK TABLES `cursos` WRITE;
 /*!40000 ALTER TABLE `cursos` DISABLE KEYS */;
+INSERT INTO `cursos` VALUES (1,'Seguridad Informatica',0,1),(2,'Administracion de Empresas',0,2),(3,'Microeconomia',0,2),(4,'Bases de Datos',0,1);
 /*!40000 ALTER TABLE `cursos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,7 +211,7 @@ CREATE TABLE `funciones` (
 
 LOCK TABLES `funciones` WRITE;
 /*!40000 ALTER TABLE `funciones` DISABLE KEYS */;
-INSERT INTO `funciones` VALUES (1,'Logged Admin'),(2,'Logged Alumno');
+INSERT INTO `funciones` VALUES (1,'Logged Admin'),(2,'Logged Alumno'),(3,'Perfiles'),(4,'Usuarios'),(5,'Sedes'),(6,'Carrera'),(7,'Cursos');
 /*!40000 ALTER TABLE `funciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +235,7 @@ CREATE TABLE `funciones_perfil` (
 
 LOCK TABLES `funciones_perfil` WRITE;
 /*!40000 ALTER TABLE `funciones_perfil` DISABLE KEYS */;
-INSERT INTO `funciones_perfil` VALUES (1,'1'),(1,'13'),(1,'15'),(1,'3'),(2,'2');
+INSERT INTO `funciones_perfil` VALUES (1,'1'),(1,'13'),(1,'15'),(1,'3'),(2,'2'),(3,'1'),(4,'1'),(5,'1'),(6,'1'),(7,'1');
 /*!40000 ALTER TABLE `funciones_perfil` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,6 +306,30 @@ LOCK TABLES `pais` WRITE;
 /*!40000 ALTER TABLE `pais` DISABLE KEYS */;
 INSERT INTO `pais` VALUES (54,'Argentina'),(58,'Colombia'),(598,'Uruguay'),(56,'Chile');
 /*!40000 ALTER TABLE `pais` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permisofunciones`
+--
+
+DROP TABLE IF EXISTS `permisofunciones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `permisofunciones` (
+  `id_funcion` int(11) NOT NULL,
+  `ds_funcion` varchar(255) DEFAULT NULL,
+  `habilitada` int(11) NOT NULL,
+  PRIMARY KEY (`id_funcion`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permisofunciones`
+--
+
+LOCK TABLES `permisofunciones` WRITE;
+/*!40000 ALTER TABLE `permisofunciones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permisofunciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -428,6 +475,29 @@ INSERT INTO `sede_carrera` VALUES (1,2),(1,3),(1,4),(2,3),(3,2);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sede_usuario`
+--
+
+DROP TABLE IF EXISTS `sede_usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sede_usuario` (
+  `id_usuario` int(11) NOT NULL,
+  `id_sede` int(11) NOT NULL,
+  PRIMARY KEY (`id_usuario`,`id_sede`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sede_usuario`
+--
+
+LOCK TABLES `sede_usuario` WRITE;
+/*!40000 ALTER TABLE `sede_usuario` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sede_usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sedes`
 --
 
@@ -471,7 +541,7 @@ CREATE TABLE `usuarios` (
   `id_rol` int(11) DEFAULT NULL,
   `fechaNacimiento` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,13 +550,55 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'admin','Gonzalo','Berro','1535949261','berro.gonza2195@gmail.com','12345678',1,1,'1995-12-21');
+INSERT INTO `usuarios` VALUES (1,'admin','Gonzalo','Berro','1535949261','berro.gonza2195@gmail.com','12345678',1,1,'1995-12-21'),(2,'admin','admin','admin','admin','admin','admin',1,1,'2019-09-23'),(3,'39594954','JUAN','BOTTEGA','1536880928','juanpbottega@gmail.com','39594954',0,2,'2019-09-16'),(4,'vrwavr','bawrvaw','vrawvrw','vawrva','rwavr','vrwavr',0,15,'2019-09-03');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'royal_academy'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `cursosDisponiblesUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cursosDisponiblesUsuario`(IN id_usuario INT, IN id_carrera INT)
+BEGIN
+SELECT * from cursos s
+ where (0=id_usuario or NOT EXISTS (select * from curso_usuario sc where sc.id_curso = s.id and sc.id_usuario = id_usuario) and (id_carrera=s.id_carrera or id_carrera = 0));
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `cursosHabilitadasUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cursosHabilitadasUsuario`(IN id_usuario int)
+BEGIN
+ SELECT * from cursos s where 
+ EXISTS (select * from curso_usuario sc where sc.id_curso = s.id and sc.id_usuario = id_usuario);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `funcionesDisponibles` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -525,6 +637,30 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getPermisoFunciones` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getPermisoFunciones`(IN id_rol int)
+BEGIN
+select id_funcion,
+ds_funcion
+,CASE
+    WHEN (select id_funcion from funciones_perfil fp where fp.id_rol=id_rol and fp.id_funcion = f.id_funcion) then 1 else 0 end habilitada
+
+ from funciones f;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sedesDisponibles` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -539,6 +675,27 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sedesDisponibles`(IN id_carrera INT
 BEGIN
 SELECT * from sedes s
  where (0=id_carrera or NOT EXISTS (select * from sede_carrera sc where sc.id_sede = s.id and sc.id_carrera = id_carrera));
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sedesDisponiblesUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sedesDisponiblesUsuario`(IN id_usuario INT)
+BEGIN
+SELECT * from sedes s
+ where (0=id_usuario or NOT EXISTS (select * from sede_usuario sc where sc.id_sede = s.id and sc.id_usuario = id_usuario));
 
 END ;;
 DELIMITER ;
@@ -567,6 +724,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sedesHabilitadasUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sedesHabilitadasUsuario`(IN id_usuario int)
+BEGIN
+ SELECT * from sedes s where 
+ EXISTS (select * from sede_usuario sc where sc.id_sede = s.id and sc.id_usuario = id_usuario);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -577,4 +755,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-18 20:32:56
+-- Dump completed on 2019-09-23 20:35:05

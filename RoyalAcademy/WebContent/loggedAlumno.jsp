@@ -49,10 +49,10 @@
 								class="site-navigation flex justify-content-end align-items-center" style="width: 100%">
 								<ul
 									class="flex flex-column flex-lg-row justify-content-lg-end align-content-center">
-									<li><a href="#">Cursos</a></li>
+									<li><a onclick="#">Cursos</a></li>
 									<li><a href="#">Sedes</a></li>
 									<li><a href="#">Evaluaciones</a></li>
-									<li><a href="#">Perfil</a></li>
+									<li><a onclick="editarMiPerfil();">Perfil</a></li>
 									<li><a href="index.jsp">Salir</a></li>
 								</ul>
 

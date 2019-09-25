@@ -11,8 +11,12 @@ function botonNuevoUsuario() {
 	$("#passUsuario").val("");
 	$("#nacimientoUsuario").val("");
 	$("#telefonoUsuario").val("");
+	$("#dniUsuario").val("");
 	$("#verificadoUsuario").val("false")
 	$("#id_rol").val($("#select_roles").val());
+	$("#adminSedesUsuario").hide();
+	$("#adminCursosUsuario").hide();
+	$("#seleccion_carreras").hide();
 }
 
 function selectRolesUsuario(){
@@ -24,6 +28,25 @@ function selectRolesUsuario(){
 					$("#tarjetasUsuarios").html(data.data);
 				}
 			});
+}
+
+function cambioRolAdminOrganizacion(){
+	// como puedo hacer para q esto no quede tan hardcodeado? = probar poniendo el if 
+	if ($("#rol_usuario").val() == "2" && $("#id_usuario").val() != "0"){ // alumno
+		$("#adminSedesUsuario").show();
+		$("#adminCursosUsuario").hide();
+		$("#seleccion_carreras").hide();
+	}
+	else if ($("#rol_usuario").val() == "15" && $("#id_usuario").val() != "0"){ // docente
+		$("#adminSedesUsuario").hide();
+		$("#adminCursosUsuario").show();
+		$("#seleccion_carreras").show();
+	}
+	else if ($("#rol_usuario").val() == "1" && $("#id_usuario").val() != "0"){ // admin
+		$("#adminSedesUsuario").hide();
+		$("#adminCursosUsuario").hide();
+		$("#seleccion_carreras").hide();
+	}
 }
 
 function changeRol(rol,id_usuario){
@@ -66,6 +89,7 @@ function selectTarjeta(id_usuario){
 			format : "DD/MM/YYYY",
 			pickTime : false
 		});
+		cambioRolAdminOrganizacion(); // si corrijo lo q se muestra inicialmente en el servlet esto no deberia ir
 	});
 }
 
@@ -104,5 +128,111 @@ function eliminarUsuario() {
 		changeRol($("#select_roles").val(),0);
 		
 		
+	});
+}
+
+function agregarSedeUsuario() {
+
+	var sedes_seleccionadas = $("#sedes_disponibles_usuario").val();
+	var string_sedes_seleccionadas = "";
+	for (var i = 0; i < sedes_seleccionadas.length; i++) {
+
+		string_sedes_seleccionadas = string_sedes_seleccionadas + ";"
+				+ sedes_seleccionadas[i];
+
+	}
+	$.post("Usuarios?accion=agregarSede", 
+			"string_sedes_seleccionadas="+string_sedes_seleccionadas+"&"+
+			$("#form-usuario").serialize(),
+			function(data) {
+				
+		if(data.error.tipo=="success"){
+				$("#sedes_disponibles_usuario").html(data.data.sedes_disponibles);
+				$("#sedes_habilitadas_usuario").html(data.data.sedes_habilitadas);
+		}
+				lanzarMensaje(data.error);
+
+	
+	});
+}
+function eliminarSedeUsuario() {
+	var sedes_seleccionadas = $("#sedes_habilitadas_usuario").val();
+	var string_sedes_seleccionadas = "";
+	for (var i = 0; i < sedes_seleccionadas.length; i++) {
+
+		string_sedes_seleccionadas = string_sedes_seleccionadas + ";"
+				+ sedes_seleccionadas[i];
+
+	}
+	$.post("Usuarios?accion=eliminarSede", 
+			"string_sedes_seleccionadas="+string_sedes_seleccionadas+"&"+
+			$("#form-usuario").serialize(),
+			function(data) {
+				
+		if(data.error.tipo=="success"){
+			$("#sedes_disponibles_usuario").html(data.data.sedes_disponibles);
+			$("#sedes_habilitadas_usuario").html(data.data.sedes_habilitadas);
+	}				lanzarMensaje(data.error);
+
+	
+	});
+}
+
+function agregarCursoUsuario() {
+
+	var sedes_seleccionadas = $("#cursos_disponibles_usuario").val();
+	var string_sedes_seleccionadas = "";
+	for (var i = 0; i < sedes_seleccionadas.length; i++) {
+
+		string_sedes_seleccionadas = string_sedes_seleccionadas + ";"
+				+ sedes_seleccionadas[i];
+
+	}
+	$.post("Usuarios?accion=agregarCurso", 
+			"string_sedes_seleccionadas="+string_sedes_seleccionadas+"&"+
+			$("#form-usuario").serialize(),
+			function(data) {
+				
+		if(data.error.tipo=="success"){
+				$("#cursos_disponibles_usuario").html(data.data.sedes_disponibles);
+				$("#cursos_habilitadas_usuario").html(data.data.sedes_habilitadas);
+		}
+				lanzarMensaje(data.error);
+
+	
+	});
+}
+function eliminarCursoUsuario() {
+	var sedes_seleccionadas = $("#cursos_habilitadas_usuario").val();
+	var string_sedes_seleccionadas = "";
+	for (var i = 0; i < sedes_seleccionadas.length; i++) {
+
+		string_sedes_seleccionadas = string_sedes_seleccionadas + ";"
+				+ sedes_seleccionadas[i];
+
+	}
+	$.post("Usuarios?accion=eliminarCurso", 
+			"string_sedes_seleccionadas="+string_sedes_seleccionadas+"&"+
+			$("#form-usuario").serialize(),
+			function(data) {
+				
+		if(data.error.tipo=="success"){
+			$("#cursos_disponibles_usuario").html(data.data.sedes_disponibles);
+			$("#cursos_habilitadas_usuario").html(data.data.sedes_habilitadas);
+	}				lanzarMensaje(data.error);
+
+	
+	});
+}
+
+function actualizarCursos(){
+	$.post("Usuarios?accion=actualizarCursos", $("#form-usuario").serialize(),
+			function(data) {
+		if(data.error.tipo=="success"){
+			$("#cursos_disponibles_usuario").html(data.data.sedes_disponibles);
+			$("#cursos_habilitadas_usuario").html(data.data.sedes_habilitadas);
+	}				lanzarMensaje(data.error);
+
+	
 	});
 }
