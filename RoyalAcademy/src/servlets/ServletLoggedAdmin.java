@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,12 +12,14 @@ import dao.CarreraDao;
 import dao.CursoDao;
 import dao.FuncionesDao;
 import dao.PaisDao;
+import dao.PreguntaDao;
 import dao.RolDao;
 import dao.SedeDao;
 import modelo.Carrera;
 import modelo.Curso;
 import modelo.Funciones;
 import modelo.Pais;
+import modelo.Pregunta;
 import modelo.Rol;
 import modelo.Sede;
 import modelo.Sede_Carrera;
@@ -81,6 +84,11 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 					cursos(request,response);
 					
 					break;
+				case "preguntas":
+					
+					preguntas(request,response);
+					
+					break;
 				}
 
 			}
@@ -88,6 +96,39 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void preguntas(HttpServletRequest request, HttpServletResponse response) {
+		CarreraDao carreraDao = new CarreraDao();
+		CursoDao cursoDao = new CursoDao();
+		PreguntaDao preguntaDao = new PreguntaDao();
+		try {
+
+			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de datos.
+			
+			if(!carreras.isEmpty()) {
+				List<Curso> cursos = cursoDao.traerCursoCarrera(carreras.get(0).getId()); //Traigo todos los cursos
+				request.setAttribute("cursos", cursos);
+				request.setAttribute("carreras", carreras);
+				List<Pregunta> preguntas = preguntaDao.traerPreguntaPorCarreraCurso(carreras.get(0).getId(),cursos.get(0).getId());
+				
+				request.setAttribute("preguntas", preguntas);
+			}else {
+				request.setAttribute("cursos", new ArrayList<Curso>());
+				request.setAttribute("carreras", new ArrayList<Carrera>());
+				request.setAttribute("preguntas", new ArrayList<Pregunta>());
+				
+				
+			}
+			request.setAttribute("id_pregunta", "0");
+			request.setAttribute("pregunta", "");
+			request.setAttribute("cantidad_opciones", 1);
+			
+			includePage("/preguntas.jsp", request, response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void carreras(HttpServletRequest request, HttpServletResponse response) {

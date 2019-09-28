@@ -13,8 +13,8 @@ import modelo.Sede;
 public class CursoDao extends DBManager {
 	public boolean insertarCurso(Curso curso) {
 		Transaction t = null;
-		//StringEncrypter crypto = new StringEncrypter("nosequevaaca");
-		//u.setPass(crypto.encrypt(u.getPass()));
+		// StringEncrypter crypto = new StringEncrypter("nosequevaaca");
+		// u.setPass(crypto.encrypt(u.getPass()));
 		boolean insertado = false;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
 			if (this.traerCursoPorDenominacion(curso.getDenominacion()) == null) {
@@ -80,12 +80,23 @@ public class CursoDao extends DBManager {
 		}
 		return curso;
 	}
-	
-	public List<Curso> traerTodos(){
+
+	public List<Curso> traerCursoCarrera(int id_carrera) {
 		List<Curso> curso = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
-			NativeQuery query = sesion.createSQLQuery("select * from cursos")
-					.addEntity(Curso.class);
+			curso = (List<Curso>) sesion.createSQLQuery("select * from cursos where id_carrera =" + id_carrera)
+					.addEntity(Curso.class).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return curso;
+		}
+		return curso;
+	}
+
+	public List<Curso> traerTodos() {
+		List<Curso> curso = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			NativeQuery query = sesion.createSQLQuery("select * from cursos").addEntity(Curso.class);
 			curso = (List<Curso>) query.list();
 		} catch (Exception e) {
 			e.printStackTrace();

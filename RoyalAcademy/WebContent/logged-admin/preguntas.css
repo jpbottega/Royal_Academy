@@ -1,0 +1,35 @@
+.opcion-correcta{
+	padding-top: 25%;
+}
+.checkbox-opcion{
+	height: 20px;
+    width: 20px;
+}
+.style-preguntas{
+	padding: 10px;
+    border: 1px solid  rgba(0,0,0,.125);
+    border-radius: 5px;
+    margin: 5px;
+    cursor:pointer
+}
+.style-preguntas:hover{
+	
+    cursor:pointer;
+        background: #f5f5f5;
+    border: 2px solid #51a1e8;
+}
+
+.style-preguntas-seleccionada{
+	
+    cursor:pointer;
+        background: #f5f5f5;
+    border: 2px solid #51a1e8;
+}
+.contenedor-preguntas{
+	
+	margin-top: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 60%;
+	
+}

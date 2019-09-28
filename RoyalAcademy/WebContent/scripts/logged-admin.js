@@ -87,6 +87,12 @@ function gotoCursos(){
 		$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
 	});
 }
+function gotoPreguntas(){
+	$.post( "ServletLoggedAdmin?accion=preguntas", function( data ) {
+		$("#functions-container").html(data); //seteo el data, que es el jsp administradorAlumnos, en el div con ID functions-container
+		$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
+	});
+}
 function gotoHome(){
 	$("#functions-container").html("");
 	$("#functions-container").hide();
