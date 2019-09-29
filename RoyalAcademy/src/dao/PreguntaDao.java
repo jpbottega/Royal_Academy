@@ -4,10 +4,12 @@ import java.util.List;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import modelo.Opciones_Pregunta;
 import modelo.Pregunta;
 
 
-public class PreguntaDao {
+public class PreguntaDao extends DBManager{
 	
 	public boolean insertarPregunta(Pregunta pregunta) {
 		Transaction t = null;
@@ -77,6 +79,27 @@ public class PreguntaDao {
 			return pregunta;
 		}
 		return pregunta;
+	}
+	public List<Pregunta> traerPreguntaPorCarreraCurso(int carrera,int curso) {
+		List<Pregunta> pregunta = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			pregunta = (List<Pregunta>) sesion.createSQLQuery("select * from preguntas where id_carrera ="+carrera+" and id_curso="+curso)
+					.addEntity(Pregunta.class).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return pregunta;
+		}
+		return pregunta;
+	}
+	public List<Opciones_Pregunta> traerOpciones(int id_pregunta) {
+		List<Opciones_Pregunta> opciones = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			opciones = (List<Opciones_Pregunta>) sesion.createSQLQuery("select * from opciones_pregunta where id_pregunta ="+id_pregunta)
+					.addEntity(Opciones_Pregunta.class).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return opciones;
 	}
 	
 	public List<Pregunta> traerTodos(){

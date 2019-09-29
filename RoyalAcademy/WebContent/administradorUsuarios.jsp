@@ -8,7 +8,7 @@
 	selectRolesUsuario();
 </script>
 
-<div class="row row-perfiles">
+<div class="row row-perfiles" style="overflow-y: auto;">
 	<div class="col-md-4 column-3-perfiles">
 		<div class="form-group">
 			<label for="exampleFormControlSelect1">Roles</label> <select
@@ -40,7 +40,7 @@
 		</div>
 
 
-		<div class="col-md-12 scrollable" style="height: 400px;">
+		<div class="col-md-12 scrollable" style="height: 60%;">
 			<table class="table" id="tarjetasUsuarios"></table>
 		</div>
 

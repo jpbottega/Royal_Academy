@@ -29,6 +29,18 @@ System.out.println(permisoFunciones.size());
 		</div>
 	</div>
 	<%} %>	
+	<%if(permisoFunciones.get(7).getHabilitada()==1 || permisoFunciones.get(8).getHabilitada()==1){ %>
+	<div class="dropdown menu-option">
+		<span>Examenes</span>
+		<div class="dropdown-content">
+		<%if(permisoFunciones.get(7).getHabilitada()==1){ %>
+			<div class="option" onclick="gotoPreguntas();">Preguntas</div>
+		<%}if(permisoFunciones.get(8).getHabilitada()==1){ %>
+			<div class="option" onclick="gotoExamenes();">Examenes</div>
+		<%} %>	
+		</div>
+	</div>
+	<%} %>	
 
 <div class="dropdown menu-option">
 	<span><a href="index.jsp">Salir</a></span>
