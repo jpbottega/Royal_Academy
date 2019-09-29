@@ -46,7 +46,7 @@ function htmlOpcion(numero_opcion){
 							"class=\"form-check-label\" for=\"exampleCheck1\">Correcta</label> "+
 					"</div>"+
 				"</div>"+
-				//"<div class=\"col-md-1\"><img src=\"./images/trash-2-24.png\"  style=\"margin-top: 40px;cursor:pointer\" onclick=\"eliminarRow("+numero_opcion+");\"></div>";
+				"<div class=\"col-md-1\"><img src=\"./images/trash-2-24.png\"  style=\"margin-top: 40px;cursor:pointer\" onclick=\"eliminarRow("+numero_opcion+");\"></div>";
 			"</div>";
 	
 	return opcion;
@@ -98,13 +98,27 @@ function validarGuardarPregunta(){
 			lanzarMensaje(error);
 		}
 	}
+	if(validado){
+		
+		
+		if(!$('input[name=opcion_correcta]').is(":checked")){
+			validado = false;
+			var error = {
+					cd_error : 1,
+					ds_error : "Debe estar marcada la opción correcta.",
+					tipo:"error"
+			}
+			lanzarMensaje(error);
+		}
+		
+	}
 	
 	return validado;
 	
 }
 
 function guardarPregunta(){
-	console.log("pepe");
+	
 	if(validarGuardarPregunta()){
 		
 		$.post("Preguntas?accion=guardarPregunta","id_carrera="+$("#select_carreras").val()+"&id_curso="+$("#select_cursos").val()+"&"+$("#form-preguntas").serialize(),
@@ -141,7 +155,7 @@ function eliminarPregunta(){
 	
 }
 function eliminarRow(row){
-	console.log($("#row_"+row+" .checkbox-opcion").is(":checked"));
+	
 	if($("#row_"+row+" .checkbox-opcion").is(":checked")){
 		var error = {
 				cd_error : 1,

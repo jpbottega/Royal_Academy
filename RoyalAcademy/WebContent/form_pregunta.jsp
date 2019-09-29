@@ -48,7 +48,7 @@
 			</div>
 		</div>
 		<%if(loop>1){ %>
-		<!-- <div class="col-md-1"><img src="./images/trash-2-24.png" style="margin-top: 40px;;cursor:pointer" onclick="eliminarRow(<%=loop%>);"></div> -->
+		 <div class="col-md-1"><img src="./images/trash-2-24.png" style="margin-top: 40px;;cursor:pointer" onclick="eliminarRow(<%=loop%>);"></div> 
 		<%} %>
 	</div>
 	<%
