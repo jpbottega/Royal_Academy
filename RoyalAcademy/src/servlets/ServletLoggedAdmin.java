@@ -166,12 +166,19 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 
 	private void administradorUsuarios(HttpServletRequest request, HttpServletResponse response) {
 		RolDao rolDao = new RolDao();
+		SedeDao sedeDao = new SedeDao();
+		CarreraDao carreraDao = new CarreraDao();
+		CursoDao cursoDao = new CursoDao();
 		try {
 			List<Rol> roles = rolDao.traerTodos(); // Traigo todos los roles que esten en la base de datos.
-
+			List<Sede> sedes = sedeDao.traerTodos();
+			List<Carrera> carreras = carreraDao.traerTodos();
+			List<Curso> cursos = cursoDao.traerTodos();
 			request.setAttribute("roles", roles);
 			request.setAttribute("id_rol", roles.get(0).getId());
-			
+			request.setAttribute("sedesDisponibles", sedes);
+			request.setAttribute("carreras", carreras);
+			request.setAttribute("cursos", cursos);
 			includePage("/administradorUsuarios.jsp", request, response);
 
 		} catch (Exception e) {

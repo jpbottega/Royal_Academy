@@ -16,12 +16,14 @@ import com.google.gson.GsonBuilder;
 
 import dao.CarreraDao;
 import dao.CursoDao;
+import dao.FuncionesDao;
 import dao.RolDao;
 import dao.UsuarioDao;
 import modelo.Carrera;
 import modelo.ContenedorResponse;
 import modelo.Curso;
 import modelo.Curso_Usuario;
+import modelo.Funciones;
 import modelo.Rol;
 import modelo.Sede;
 import modelo.Sede_Carrera;
@@ -106,11 +108,105 @@ public class Usuarios extends HttpServlet {
 				case "actualizarCursos":
 					actualizarCursos(request, response);
 					break;
+					
+				case "actualizarSedes":
+					actualizarSedes(request, response);
+					break;
+					
+				case "esRolDocAlumAdmin":
+					esRolDocAlumAdmin(request, response);
+					break;
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void esRolDocAlumAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setContentType("application/json");
+		ContenedorResponse contenedorResponse = new ContenedorResponse();
+		ContenedorResponse.Error error = new ContenedorResponse.Error();
+		PrintWriter out = response.getWriter();
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
+		String json = "";
+		UsuarioDao userDao = new UsuarioDao();
+		FuncionesDao funcDao = new FuncionesDao();
+		Select_Sedes_Carrera select_sedes_perfil = new Select_Sedes_Carrera();
+		int funcionHabilitada = 0;
+		try {
+			if (request.getParameter("rol_usuario") != null) {
+				// traigo las funciones que tiene asignado el usuario
+				List<Funciones> funciones = funcDao.traerFuncionesHabilitadas(Integer.parseInt(request.getParameter("rol_usuario")));
+				for (Funciones f : funciones) {
+					if (f.getId_funcion() == 8 && funcionHabilitada == 0) { // la funcion admin en la bd
+						funcionHabilitada = 3;
+					} else if (f.getId_funcion() == 9 && funcionHabilitada == 0) { // la funcion docente en la bd
+						funcionHabilitada = 2;
+					} else if (f.getId_funcion() == 10 && funcionHabilitada == 0) { // la funcion alumno en la bd
+						funcionHabilitada = 1;
+					}
+				}
+			}
+		} catch (Exception e) {
+			error.setCd_error(1);
+			error.setDs_error("Error interno en el servidor.");
+			error.setTipo("error");
+			e.printStackTrace();
+		}
+		contenedorResponse.setData(funcionHabilitada);
+		contenedorResponse.setError(error);
+		json = gson.toJson(contenedorResponse);
+		out.print(json);
+		out.flush();
+	}
+	
+	private void actualizarSedes(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setContentType("application/json");
+		ContenedorResponse contenedorResponse = new ContenedorResponse();
+		ContenedorResponse.Error error = new ContenedorResponse.Error();
+		PrintWriter out = response.getWriter();
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
+		String json = "";
+		UsuarioDao userDao = new UsuarioDao();
+		Select_Sedes_Carrera select_sedes_perfil = new Select_Sedes_Carrera();
+		try {
+				List<Sede> curso_disponible = userDao
+						.traerSedesDisponibles(Integer.parseInt(request.getParameter("id_usuario")));
+				List<Sede> curso_habilitado = userDao
+						.traerSedesHabilitadas(Integer.parseInt(request.getParameter("id_usuario")));
+
+				String options_habilitadas = "";
+				String options_disponibles = "";
+
+				for (Sede curso : curso_habilitado) {
+					options_habilitadas = options_habilitadas + "<option value=\"" + curso.getId() + "\">"
+							+ curso.getSede() + "</option>";
+				}
+				for (Sede curso : curso_disponible) {
+					options_disponibles = options_disponibles + "<option value=\"" + curso.getId() + "\">"
+							+ curso.getSede() + "</option>";
+				}
+
+				select_sedes_perfil.setSedes_disponibles(options_disponibles);
+				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
+
+				error.setCd_error(1);
+				error.setDs_error("Actualizados los cursos mostrados.");
+				error.setTipo("success");		
+
+		} catch (Exception e) {
+			error.setCd_error(1);
+			error.setDs_error("Error interno en el servidor.");
+			error.setTipo("error");
+			e.printStackTrace();
+		}
+
+		contenedorResponse.setError(error);
+		contenedorResponse.setData(select_sedes_perfil);
+		json = gson.toJson(contenedorResponse);
+		out.print(json);
+		out.flush();
 	}
 
 	private void actualizarCursos(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -256,7 +352,8 @@ public class Usuarios extends HttpServlet {
 				error.setTipo("error");
 
 			} else {
-
+				Usuario u = userDao.traerUsuarioPorId(Integer.parseInt(request.getParameter("id_usuario")));
+				if (u.getId_rol() == Integer.parseInt(request.getParameter("rol_usuario"))) {
 				String[] cursos_seleccionados = request.getParameter("string_sedes_seleccionadas").split(";");
 
 				for (String curso : cursos_seleccionados) {
@@ -296,7 +393,12 @@ public class Usuarios extends HttpServlet {
 				error.setCd_error(1);
 				error.setDs_error("Se agregaron los cursos al usuario.");
 				error.setTipo("success");
-
+				}
+				else {
+					error.setCd_error(1);
+					error.setDs_error("Debe primero guardar el usuario.");
+					error.setTipo("error");
+				}
 			}
 
 		} catch (Exception e) {
@@ -324,7 +426,6 @@ public class Usuarios extends HttpServlet {
 		UsuarioDao userDao = new UsuarioDao();
 		Select_Sedes_Carrera select_sede_carrera = new Select_Sedes_Carrera();
 		try {
-
 			if (Integer.parseInt(request.getParameter("id_usuario")) == 0) {
 
 				error.setCd_error(1);
@@ -410,45 +511,51 @@ public class Usuarios extends HttpServlet {
 			} else {
 
 				String[] sedes_seleccionadas = request.getParameter("string_sedes_seleccionadas").split(";");
-
-				for (String sede : sedes_seleccionadas) {
-
-					if (!sede.isEmpty()) {
-						Sede_Usuario sede_carrera = new Sede_Usuario(Integer.parseInt(sede),
-								Integer.parseInt(request.getParameter("id_usuario")));
-
-						userDao.save_tabla(sede_carrera);
+				Usuario u = userDao.traerUsuarioPorId(Integer.parseInt(request.getParameter("id_usuario")));
+				if (u.getId_rol() == Integer.parseInt(request.getParameter("rol_usuario"))) {
+					for (String sede : sedes_seleccionadas) {
+	
+						if (!sede.isEmpty()) {
+							Sede_Usuario sede_carrera = new Sede_Usuario(Integer.parseInt(sede),
+									Integer.parseInt(request.getParameter("id_usuario")));
+	
+							userDao.save_tabla(sede_carrera);
+						}
+	
 					}
-
+	
+					List<Sede> sede_disponibles = userDao
+							.traerSedesDisponibles(Integer.parseInt(request.getParameter("id_usuario")));
+					List<Sede> sede_habilitadas = userDao
+							.traerSedesHabilitadas(Integer.parseInt(request.getParameter("id_usuario")));
+	
+					String options_habilitadas = "";
+					String options_disponibles = "";
+	
+					for (Sede sede : sede_habilitadas) {
+	
+						options_habilitadas = options_habilitadas + "<option value=\"" + sede.getId() + "\">"
+								+ sede.getSede() + "</option>";
+	
+					}
+					for (Sede sede : sede_disponibles) {
+	
+						options_disponibles = options_disponibles + "<option value=\"" + sede.getId() + "\">"
+								+ sede.getSede() + "</option>";
+					}
+	
+					select_sedes_perfil.setSedes_disponibles(options_disponibles);
+					select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
+	
+					error.setCd_error(1);
+					error.setDs_error("Se agregaron las sedes al usuario.");
+					error.setTipo("success");
 				}
-
-				List<Sede> sede_disponibles = userDao
-						.traerSedesDisponibles(Integer.parseInt(request.getParameter("id_usuario")));
-				List<Sede> sede_habilitadas = userDao
-						.traerSedesHabilitadas(Integer.parseInt(request.getParameter("id_usuario")));
-
-				String options_habilitadas = "";
-				String options_disponibles = "";
-
-				for (Sede sede : sede_habilitadas) {
-
-					options_habilitadas = options_habilitadas + "<option value=\"" + sede.getId() + "\">"
-							+ sede.getSede() + "</option>";
-
+				else {
+					error.setCd_error(1);
+					error.setDs_error("Debe primero guardar el usuario.");
+					error.setTipo("error");
 				}
-				for (Sede sede : sede_disponibles) {
-
-					options_disponibles = options_disponibles + "<option value=\"" + sede.getId() + "\">"
-							+ sede.getSede() + "</option>";
-				}
-
-				select_sedes_perfil.setSedes_disponibles(options_disponibles);
-				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
-
-				error.setCd_error(1);
-				error.setDs_error("Se agregaron las sedes al usuario.");
-				error.setTipo("success");
-
 			}
 
 		} catch (Exception e) {
@@ -598,10 +705,12 @@ public class Usuarios extends HttpServlet {
 				if (user.getId() == 0 && userDao.traerUsuarioPorMail(user.getEmail()) == null) { // si es un nuevo usuario y existe no lo deberia insertar
 					// mover el enviarVerificacion aca si no se quiere agregar si el correo no es valido
 					if (userDao.save_tabla(user)) {
+						user.setId(userDao.aux_select_int("select id from usuarios where email = '" + user.getEmail() + "';"));
+						contenedorResponse.setData(user);
 						error.setCd_error(1);
 						error.setDs_error("Se guardo el usuario correctamente.");
 						error.setTipo("success");
-						enviarVerficacionUsuario(user); // si es un usuario nuevo le envio un mail con la pass
+						//enviarVerficacionUsuario(user); // si es un usuario nuevo le envio un mail con la pass
 					} else { 
 						error.setCd_error(1);
 						error.setDs_error("No se ha podido guardar el usuario.");
@@ -609,6 +718,7 @@ public class Usuarios extends HttpServlet {
 					} 
 				} else if (user.getId() != 0) { // si es un usuario existente
 					if (userDao.save_tabla(user)) {
+						contenedorResponse.setData(user);
 						error.setCd_error(1);
 						error.setDs_error("Se guardo el usuario correctamente.");
 						error.setTipo("success");
@@ -634,7 +744,7 @@ public class Usuarios extends HttpServlet {
 			error.setTipo("error");
 			e.printStackTrace();
 		}
-
+		
 		contenedorResponse.setError(error);
 		json = gson.toJson(contenedorResponse);
 		out.print(json);
@@ -688,7 +798,7 @@ public class Usuarios extends HttpServlet {
 								"<div class=\"form-group\"> "+
 								"<label for=\"nacimientoUsuario\">Fecha de Nacimiento</label> <input "+
 									"type='text'  id=\"nacimientoUsuario\" "+
-								"name=\"nacimientoUsuario\" placeholder=\"Fecha de nacimiento\" class=\"form-control\" value=\"" + FuncionesVarias.getStringDate(u.getFechaNacimiento(), 1) + "\"/> "+
+								"name=\"nacimientoUsuario\" placeholder=\"dd/mm/aaaa\" class=\"form-control\" value=\"" + FuncionesVarias.getStringDate(u.getFechaNacimiento(), 1) + "\"/> "+
 
 							"</div>"+
 								"</div>"	+
