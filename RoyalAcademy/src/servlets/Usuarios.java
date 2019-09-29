@@ -139,11 +139,11 @@ public class Usuarios extends HttpServlet {
 				// traigo las funciones que tiene asignado el usuario
 				List<Funciones> funciones = funcDao.traerFuncionesHabilitadas(Integer.parseInt(request.getParameter("rol_usuario")));
 				for (Funciones f : funciones) {
-					if (f.getId_funcion() == 8 && funcionHabilitada == 0) { // la funcion admin en la bd
+					if (f.getId_funcion() == 10 && funcionHabilitada == 0) { // la funcion admin en la bd
 						funcionHabilitada = 3;
-					} else if (f.getId_funcion() == 9 && funcionHabilitada == 0) { // la funcion docente en la bd
+					} else if (f.getId_funcion() == 11 && funcionHabilitada == 0) { // la funcion docente en la bd
 						funcionHabilitada = 2;
-					} else if (f.getId_funcion() == 10 && funcionHabilitada == 0) { // la funcion alumno en la bd
+					} else if (f.getId_funcion() == 12 && funcionHabilitada == 0) { // la funcion alumno en la bd
 						funcionHabilitada = 1;
 					}
 				}
