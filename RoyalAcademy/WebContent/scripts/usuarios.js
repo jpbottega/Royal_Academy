@@ -1,5 +1,4 @@
 function botonNuevoUsuario() {
-	// aca esta hecho bien a lo bestia jajajaja
 	$("#form-usuario").show();
 	$("#botonGuardarUsuario").show();
 	$("#botonEliminarUsuario").hide();
@@ -12,11 +11,13 @@ function botonNuevoUsuario() {
 	$("#nacimientoUsuario").val("");
 	$("#telefonoUsuario").val("");
 	$("#dniUsuario").val("");
-	$("#verificadoUsuario").val("false")
+	$("#verificadoUsuario").val("false");
 	$("#id_rol").val($("#select_roles").val());
-	$("#adminSedesUsuario").hide();
-	$("#adminCursosUsuario").hide();
-	$("#seleccion_carreras").hide();
+	$("#id_carrera").val("0");
+	$("#rol_usuario").val($("#select_roles").val());
+	actualizarCursos();
+	actualizarSedes();
+	cambioRolAdminOrganizacion();
 }
 
 function selectRolesUsuario(){
@@ -32,21 +33,33 @@ function selectRolesUsuario(){
 
 function cambioRolAdminOrganizacion(){
 	// como puedo hacer para q esto no quede tan hardcodeado? = probar poniendo el if 
-	if ($("#rol_usuario").val() == "2" && $("#id_usuario").val() != "0"){ // alumno
-		$("#adminSedesUsuario").show();
-		$("#adminCursosUsuario").hide();
-		$("#seleccion_carreras").hide();
-	}
-	else if ($("#rol_usuario").val() == "15" && $("#id_usuario").val() != "0"){ // docente
-		$("#adminSedesUsuario").hide();
-		$("#adminCursosUsuario").show();
-		$("#seleccion_carreras").show();
-	}
-	else if ($("#rol_usuario").val() == "1" && $("#id_usuario").val() != "0"){ // admin
-		$("#adminSedesUsuario").hide();
-		$("#adminCursosUsuario").hide();
-		$("#seleccion_carreras").hide();
-	}
+	// usar los permisos funciones asociados a los roles. 
+	// deberiamos evitar q se agregue a un rol la funcion docente y logged-alumno y logged-admin
+	$.post("Usuarios?accion=esRolDocAlumAdmin&rol_usuario=" + $("#rol_usuario").val(),
+			function(data){
+		if (data.data == 1){ // si devuelve 1 el rol seleccionado tiene permiso de alumno
+			$("#adminSedesUsuario").show();
+			$("#adminCursosUsuario").hide();
+			$("#seleccion_carreras").hide();
+		}
+		else if (data.data == 2){ // si devuelve 2 el rol seleccionado tiene permiso de docente
+			$("#adminSedesUsuario").hide();
+			$("#adminCursosUsuario").show();
+			$("#seleccion_carreras").show();
+		}
+		else if (data.data == 3){ // si devuelve 3 el rol seleccionado tiene permiso de admin
+			$("#adminSedesUsuario").hide();
+			$("#adminCursosUsuario").hide();
+			$("#seleccion_carreras").hide();
+		} else {
+			var error = {
+					cd_error : 1,
+					ds_error : "El rol seleccionado no tiene permiso de alumno, docente ni administrador.",
+					tipo:"error"
+			}
+			lanzarMensaje(error)
+		}
+	});
 }
 
 function changeRol(rol,id_usuario){
@@ -67,14 +80,20 @@ function changeRol(rol,id_usuario){
 function guardarUsuario() {
 	$.post("Usuarios?accion=guardarUsuario", $("#form-usuario").serialize(), 
 			function(data) {
-		
-		console.log(data.error);
-		lanzarMensaje(data.error);
-		
-			if(data.error.tipo="success"){
-				changeRol($("#rol_usuario").val(),$("#id_usuario").val());
-			}
-				
+				console.log(data.error);
+				lanzarMensaje(data.error);
+				if(data.error.tipo=="success"){
+					changeRol($("#rol_usuario").val(),$("#id_usuario").val());	
+					$("#id_usuario").val(data.data.id);
+					$("#nombreUsuario").val(data.data.nombre);
+					$("#apellidoUsuario").val(data.data.apellido);
+					$("#nacimientoUsuario").val(data.data.fechaNacimiento);
+					$("#telefonoUsuario").val(data.data.telefono);
+					$("#dniUsuario").val(data.data.dni);
+					$("#mailUsuario").val(data.data.email);
+					$("#id_rol").val(data.data.id_rol);
+					$("#passUsuario").val(data.data.pass);
+				}
 			});
 }
 
@@ -226,13 +245,23 @@ function eliminarCursoUsuario() {
 }
 
 function actualizarCursos(){
-	$.post("Usuarios?accion=actualizarCursos", $("#form-usuario").serialize(),
+	$.post("Usuarios?accion=actualizarCursos&id_usuario=" + $("#id_usuario").val() + "&id_carrera=" + $("#id_carrera").val(),
 			function(data) {
 		if(data.error.tipo=="success"){
 			$("#cursos_disponibles_usuario").html(data.data.sedes_disponibles);
 			$("#cursos_habilitadas_usuario").html(data.data.sedes_habilitadas);
-	}				lanzarMensaje(data.error);
+		}				
+		//lanzarMensaje(data.error);
+	});
+}
 
-	
+function actualizarSedes(){
+	$.post("Usuarios?accion=actualizarSedes&id_usuario=" + $("#id_usuario").val(),
+			function(data) {
+		if(data.error.tipo=="success"){
+			$("#sedes_disponibles_usuario").html(data.data.sedes_disponibles);
+			$("#sedes_habilitadas_usuario").html(data.data.sedes_habilitadas);
+		}				
+		//lanzarMensaje(data.error);
 	});
 }
