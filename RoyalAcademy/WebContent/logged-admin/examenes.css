@@ -1,0 +1,27 @@
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+
+ol.example li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+
+ol.example li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/
+}
+ol.nested_with_switch li, ol.simple_with_animation li, ol.serialization li, ol.default li {
+  cursor: pointer; }
+
+/* line 51, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
+ol.simple_with_animation {
+  border: 1px solid #999999; 
+  height: 100%;
+  }

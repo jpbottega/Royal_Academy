@@ -43,12 +43,12 @@
 		</div>
 
 
-		<div class="col-md-12 scrollable" style="height: 60%;">
+		<div class="col-md-12" style="height: 60%; overflow-y: auto">
 			<table class="table" id="tarjetasUsuarios"></table>
 		</div>
 
 	</div>
-	<div class="col-md-7 ml-4 mt-4" style="height: 96%; overflow-x: hidden; overflow-y: scroll">
+	<div class="col-md-7 ml-4 mt-4" style="height: 96%; overflow-x: hidden; overflow-y: auto">
 			<form id="form-usuario">
 				<input id="id_usuario" name="id_usuario" type="hidden" value="0"> 
 				<input id="id_rol" name="id_rol" type="hidden" value="${id_rol}"> 

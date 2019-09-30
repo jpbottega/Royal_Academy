@@ -79,7 +79,7 @@ public class Login extends ServletIncludeGoto {
 			FuncionesDao funcionesDao = new FuncionesDao();
 			if (request.getParameter("email") != null && request.getParameter("pass") != null) {
 				Usuario usuario = userDao.traerUsuarioPorMail(request.getParameter("email"));
-
+				
 				if (usuario != null && request.getParameter("pass").equals(usuario.getPass())) {
 					if (!usuario.isVerificado()) { // si es usuario no esta verificado lo marco como verificado
 						usuario.setVerificado(true);

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.CarreraDao;
 import dao.CursoDao;
+import dao.ExamenDao;
 import dao.FuncionesDao;
 import dao.PaisDao;
 import dao.PreguntaDao;
@@ -17,6 +18,7 @@ import dao.RolDao;
 import dao.SedeDao;
 import modelo.Carrera;
 import modelo.Curso;
+import modelo.Examen;
 import modelo.Funciones;
 import modelo.Pais;
 import modelo.Pregunta;
@@ -89,6 +91,10 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 					preguntas(request,response);
 					
 					break;
+					
+				case "examenes":
+					examenes(request, response);
+					break;
 				}
 
 			}
@@ -96,6 +102,34 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void examenes(HttpServletRequest request, HttpServletResponse response) {
+		CarreraDao carreraDao = new CarreraDao();
+		CursoDao cursoDao = new CursoDao();
+		ExamenDao examenDao = new ExamenDao();
+		try {
+
+			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de datos.
+			
+			if(!carreras.isEmpty()) {
+				List<Curso> cursos = cursoDao.traerCursoCarrera(carreras.get(0).getId()); //Traigo todos los cursos de la primer carrera
+				request.setAttribute("cursos", cursos);
+				request.setAttribute("carreras", carreras);
+				List<Examen> examenes = examenDao.traerTodos(); // cambiar esto por traer los de la carrera
+				request.setAttribute("examenes", examenes);
+	
+			}else {
+				request.setAttribute("cursos", new ArrayList<Curso>());
+				request.setAttribute("carreras", new ArrayList<Carrera>());	
+				request.setAttribute("examenes", new ArrayList<Examen>());
+			}
+			
+			includePage("/examenesABM.jsp", request, response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void preguntas(HttpServletRequest request, HttpServletResponse response) {

@@ -35,6 +35,9 @@ function cambioRolAdminOrganizacion(){
 	// como puedo hacer para q esto no quede tan hardcodeado? = probar poniendo el if 
 	// usar los permisos funciones asociados a los roles. 
 	// deberiamos evitar q se agregue a un rol la funcion docente y logged-alumno y logged-admin
+	$("#adminCursosUsuario").hide();
+	$("#adminSedesUsuario").hide();
+	$("#seleccion_carreras").hide();
 	$.post("Usuarios?accion=esRolDocAlumAdmin&rol_usuario=" + $("#rol_usuario").val(),
 			function(data){
 		if (data.data == 1){ // si devuelve 1 el rol seleccionado tiene permiso de alumno

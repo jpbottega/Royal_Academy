@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="logged-admin/usuarios.css">
 <link rel="stylesheet" href="logged-admin/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="logged-admin/preguntas.css">
-
+<link rel="stylesheet" href="logged-admin/examenes.css">
 
 </head>
 <body>
@@ -79,13 +79,11 @@
 
 	<script type='text/javascript' charset="UTF-8" src='logged-files/js/jquery.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='logged-files/js/swiper.min.js'></script>
-	<script type='text/javascript' charset="UTF-8"
-		src='logged-files/js/masonry.pkgd.min.js'></script>
-	<script type='text/javascript' charset="UTF-8"
-		src='logged-files/js/jquery.collapsible.min.js'></script>
+	<script type='text/javascript' charset="UTF-8" src='logged-files/js/masonry.pkgd.min.js'></script>
+	<script type='text/javascript' charset="UTF-8" src='logged-files/js/jquery.collapsible.min.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='logged-files/js/custom.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/toastr.js'></script>
-		<script type='text/javascript' charset="UTF-8" src='scripts/moment.js'></script>
+	<script type='text/javascript' charset="UTF-8" src='scripts/moment.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/bootstrap-datetimepicker.min.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/logged-admin.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/perfiles.js'></script>
@@ -93,8 +91,10 @@
 	<script type='text/javascript' charset="UTF-8" src='scripts/carrera.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/usuarios.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/cursos.js'></script>
-		<script type='text/javascript' charset="UTF-8" src='scripts/preguntas.js'></script>
+	<script type='text/javascript' charset="UTF-8" src='scripts/preguntas.js'></script>
+	<script type="text/javascript" charset="UTF-8" src='scripts/bootstrap.min.js'></script>
+	<script type="text/javascript" charset="UTF-8" src='scripts/bootstrap.min.js'></script>
+	<script type="text/javascript" charset="UTF-8" src='scripts/examenesABM.js'></script>
 	
-
 </body>
 </html>

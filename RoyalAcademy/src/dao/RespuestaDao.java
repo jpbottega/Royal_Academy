@@ -91,4 +91,19 @@ public class RespuestaDao {
 		}
 		return respuesta;
 	}
+	
+	public Respuesta traerRespuestaPorIdPregunta(int id) {
+		Respuesta respuesta = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			if (id != 0) {
+				SQLQuery query = sesion.createSQLQuery("select * from respuestas where id = :id").addEntity(Respuesta.class)
+						.setParameter("id", id);
+				respuesta = (Respuesta) query.getSingleResult();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return respuesta;
+		}
+		return respuesta;
+	}
 }

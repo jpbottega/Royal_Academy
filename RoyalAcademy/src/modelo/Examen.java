@@ -19,6 +19,7 @@ public class Examen {
 	private int id_usuario_creador;
 	private float criterioAprobacion;
 	private Date fechaCreacion; // este no se si ponerlo o no
+	private int id_curso;
 	
 	public Examen() {}
 
@@ -70,6 +71,16 @@ public class Examen {
 	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
+
+	public int getId_curso() {
+		return id_curso;
+	}
+
+	public void setId_curso(int id_curso) {
+		this.id_curso = id_curso;
+	}
+	
+	
 	/*
 	public List<Pregunta> getLstPreguntas() {
 		return lstPreguntas;
