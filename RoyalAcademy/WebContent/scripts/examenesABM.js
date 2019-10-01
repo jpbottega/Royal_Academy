@@ -137,6 +137,14 @@ function creacionExamenAutomatica(){
 					$("#preguntas_disponibles").html(data.data.preguntas_disponibles);
 					$("#preguntas_agregadas").html(data.data.preguntas_habilitadas);
 					lanzarMensaje(data.error);
+					$.post("ExamenesABM?accion=selectCursoExamen","id_carrera="+$("#select_carreras").val()+"&id_curso="+$("#select_cursos").val(),
+							function(data) {
+								if (data.data == ""){
+									$("#container_examenes").html("<div class=\"alert alert-danger\" role=\"alert\">Asegúrese de que existan carreras y cursos</div>");
+								}else {
+									$("#container_examenes").html(data.data);
+								}
+							});
 		});
 	}
 	else {
