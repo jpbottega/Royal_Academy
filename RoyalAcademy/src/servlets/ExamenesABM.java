@@ -112,6 +112,8 @@ public class ExamenesABM extends HttpServlet {
 		PreguntaDao pregDao = new PreguntaDao();
 		ExamenDao examenDao = new ExamenDao();
 		Select_Examen select_examen = new Select_Examen();
+		int cant_preguntas = Integer.parseInt(request.getParameter("cant_preguntas"));
+		Random random = new Random();
 		try {
 			int id_curso = Integer.parseInt(request.getParameter("id_curso")), id_creador = Integer.parseInt(request.getParameter("id_creador"));
 			// agrego la pregunta al examen
@@ -119,24 +121,22 @@ public class ExamenesABM extends HttpServlet {
 			e.setId_curso(id_curso);
 			e.setFechaCreacion(new Date());
 			e.setId_usuario_creador(id_creador);
-			e.setDescripcion("Examen Autogenerado el: " + e.getFechaCreacion()); // tengo q hacer esto unico
-			int cant_preguntas = Integer.parseInt(request.getParameter("cant_preguntas"));
-			Random random = new Random();
-			select_examen.setDescripcion(e.getDescripcion()); 
+			e.setDescripcion("Examen Autogenerado: " + e.getFechaCreacion().getTime()); // tengo q hacer esto unico
+			
 			examenDao.save_tabla(e); // guardo el examen en la bd
 			e.setId(examenDao.aux_select_int("select id from examenes where descripcion = '" + e.getDescripcion() + "';"));// uso la descripcion para traerlo, seria mejor usar un stored procedure
 			select_examen.setId_examen(e.getId());
+			select_examen.setDescripcion(e.getDescripcion()); 
 			
 			List<Pregunta> curso_disponible = examenDao.traerPreguntasDisponibles(e.getId());
 			List<Pregunta> curso_habilitado = new ArrayList<Pregunta>();
 			
 			for (int i = 0; i < cant_preguntas; i++) {
 				if (!curso_disponible.isEmpty()) {
-					Pregunta p = curso_disponible.remove(random.nextInt(curso_disponible.size() - 1));
+					Pregunta p = curso_disponible.remove((curso_disponible.size() > 1) ? random.nextInt(curso_disponible.size() - 1) : 0);
 					curso_habilitado.add(p); // saco una pregunta al azar de las disponibles
 					// y la pongo en el habilitado
 					examenDao.save_tabla(new PreguntaxExamen(p.getId(), e.getId()));
-					
 				}
 			}
 			
