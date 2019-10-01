@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -67,6 +68,10 @@ public class ExamenesABM extends HttpServlet {
 					crearExamenManual(request, response);
 					break;
 					
+				case "crearExamenAutomatico":
+					crearExamenAutomatico(request, response);
+					break;
+					
 				case "guardarExamen":
 					guardarExamen(request, response);
 					break;
@@ -95,6 +100,119 @@ public class ExamenesABM extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void crearExamenAutomatico(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setContentType("application/json");
+		ContenedorResponse contenedorResponse = new ContenedorResponse();
+		ContenedorResponse.Error error = new ContenedorResponse.Error();
+		PrintWriter out = response.getWriter();
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
+		String json = "";
+		PreguntaDao pregDao = new PreguntaDao();
+		ExamenDao examenDao = new ExamenDao();
+		Select_Examen select_examen = new Select_Examen();
+		try {
+			int id_curso = Integer.parseInt(request.getParameter("id_curso")), id_creador = Integer.parseInt(request.getParameter("id_creador"));
+			// agrego la pregunta al examen
+			Examen e = new Examen();
+			e.setId_curso(id_curso);
+			e.setFechaCreacion(new Date());
+			e.setId_usuario_creador(id_creador);
+			e.setDescripcion("Examen Autogenerado el: " + e.getFechaCreacion()); // tengo q hacer esto unico
+			int cant_preguntas = Integer.parseInt(request.getParameter("cant_preguntas"));
+			Random random = new Random();
+			select_examen.setDescripcion(e.getDescripcion()); 
+			examenDao.save_tabla(e); // guardo el examen en la bd
+			e.setId(examenDao.aux_select_int("select id from examenes where descripcion = '" + e.getDescripcion() + "';"));// uso la descripcion para traerlo, seria mejor usar un stored procedure
+			select_examen.setId_examen(e.getId());
+			
+			List<Pregunta> curso_disponible = examenDao.traerPreguntasDisponibles(e.getId());
+			List<Pregunta> curso_habilitado = new ArrayList<Pregunta>();
+			
+			for (int i = 0; i < cant_preguntas; i++) {
+				if (!curso_disponible.isEmpty()) {
+					Pregunta p = curso_disponible.remove(random.nextInt(curso_disponible.size() - 1));
+					curso_habilitado.add(p); // saco una pregunta al azar de las disponibles
+					// y la pongo en el habilitado
+					examenDao.save_tabla(new PreguntaxExamen(p.getId(), e.getId()));
+					
+				}
+			}
+			
+			curso_disponible = examenDao.traerPreguntasDisponibles(e.getId());
+			
+			String options_habilitadas = "";
+			String options_disponibles = "";
+			int contador = 1;
+			List<Opciones_Pregunta> respuestas = null;
+			// preguntas disponibles
+			for (Pregunta curso : curso_disponible) {
+				respuestas = pregDao.traerOpciones(curso.getId());
+				options_disponibles += // a cada boton le pongo el id de la pregunta
+						"<div class=\"row\">" +
+						"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#pd" + contador + "\">" + curso.getPregunta() +
+								
+								"<div class=\"row\">" +
+								"<div id=\"pd" + contador + "\" class=\"collapse\">";
+								for (Opciones_Pregunta op : respuestas) {
+									options_disponibles += 
+											(op.getRespuesta_correcta()) 
+											? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
+											: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
+								}
+									
+								options_disponibles += "</div></div>" +
+						"</li>"
+						+ "<div class=\"col-sm-2\">" +
+								"<button class=\"pull-right btn-xs btn-success\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"agregarPreguntaExamen(" +
+								curso.getId() +");\">+</button>" + 
+						"</div></div>";
+				contador++;
+			}
+			// preguntas habilitadas
+			contador = 1;
+			for (Pregunta curso : curso_habilitado) {
+				respuestas = pregDao.traerOpciones(curso.getId());
+				options_habilitadas += // a cada boton le pongo el id de la pregunta
+						"<div class=\"row\">" +
+						"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#ph" + contador + "\">" + curso.getPregunta() +
+								
+								"<div class=\"row\">" +
+								"<div id=\"ph" + contador + "\" class=\"collapse\">";
+								for (Opciones_Pregunta op : respuestas) {
+									options_habilitadas += 
+											(op.getRespuesta_correcta()) 
+											? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
+											: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
+								}
+									
+								options_habilitadas += "</div></div>" +
+						"</li>"
+						+ "<div class=\"col-sm-2\">" +
+						"<button class=\"pull-right btn-xs btn-danger\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"eliminarPreguntaExamen(" +
+						curso.getId() +");\">-</button>" + 
+						"</div></div>";
+				contador++;
+			}
+			select_examen.setPreguntas_disponibles(options_disponibles);
+			select_examen.setPreguntas_habilitadas(options_habilitadas);
+			
+			error.setCd_error(1);
+			error.setDs_error("Autogenerado nuevo examen.");
+			error.setTipo("success");
+		} catch (Exception e) {
+			error.setCd_error(1);
+			error.setDs_error("Error interno en el servidor.");
+			error.setTipo("error");
+			e.printStackTrace();
+		}
+
+		contenedorResponse.setError(error);
+		contenedorResponse.setData(select_examen);
+		json = gson.toJson(contenedorResponse);
+		out.print(json);
+		out.flush();
 	}
 	
 	private void eliminarExamen(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -232,8 +350,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-	
-	
+
 	private void selectCursoExamen(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -273,8 +390,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-	
-	
+		
 	private void eliminarPregunta(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -364,8 +480,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-	
-	
+		
 	private void agregarPregunta(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -456,7 +571,6 @@ public class ExamenesABM extends HttpServlet {
 		out.flush();
 	}
 	
-	
 	private void guardarExamen(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -504,8 +618,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-	
-	
+		
 	private void crearExamenManual(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();

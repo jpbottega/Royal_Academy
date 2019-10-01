@@ -41,26 +41,26 @@
 			</select>
 		</div>
 		
-		<!-- 
+
 		<div class="form-group">
 			<label for="exampleFormControlSelect1">Cantidad Preguntas</label>
 			<input type="text" class="form-control" id="cantidad_preguntas" name="cantidad_preguntas"
 				placeholder="Max. 50">
 		</div> 
-		-->
+
 
 		<div class="btn-group width-100" role="group"
 			aria-label="Basic example">
 			<button type="button" class="btn btn-primary width-100"
 				onclick="creacionExamenManual();" id="button_nuevo">Creacion Manual</button>
 		</div>
-		<!-- 
+
 		<div class="btn-group width-100" role="group"
 			aria-label="Basic example">
 				<button type="button" class="btn btn-primary width-100"
 				onclick="creacionExamenAutomatica();" id="button_nuevo">Creacion Automatica</button>
 		</div> 
-		-->
+
 
 		<div id="container_examenes" class="contenedor-preguntas">
 			
@@ -68,7 +68,7 @@
 		
 		
 	</div>
-	<div class="col-md-9" id="container-info-examen">
+	<div class="col-md-9" id="container-info-examen" style="max-height:90%">
 		<form id="form-examen">
 			<input id="id_examen" name="id_examen" type="hidden" value="0"> 
 			<input id="id_usuario_creador" name="id_usuario_creador" type="hidden" value=<%=((Usuario)request.getSession().getAttribute("usuario")).getId()%>> 
@@ -80,26 +80,23 @@
 				</div>
 			</div>
 		</form>
-		<div class="row" id="preguntas_examen">
-				<div class="span4 col">
+		<!-- <div class="container">  -->
+			<div class="form-group row" id="preguntas_examen" style="height:80%">
+				<div class="col">
 				<label for="exampleInputEmail1">Preguntas Disponibles</label> 
-		        	<ol class="simple_with_animation vertical" id="preguntas_disponibles">
-			            	        
-		        	</ol>
+		        	<div class="border rounded" id="preguntas_disponibles" style="max-height:80%;overflow-y: scroll;overflow-x:hidden"></div>
 		        </div>
-				<div class="span4 col ml-4">
+				<div class="col margin-left-4">
 				<label for="exampleInputEmail1">Preguntas Agregadas</label> 
-		            <ol class="simple_with_animation vertical" id="preguntas_agregadas">
-		              
-		            </ol>
+		            <div class="border rounded" id="preguntas_agregadas" style="max-height:80%;overflow-y: scroll;overflow-x:hidden"></div>
 		         </div>
 			</div>
-			<br><br>
-			<div class="row">
-				<div class="ml-auto">
+			<div class="form-group row">
+				<div class="col">
 					<button type="button" class="btn btn-success pull-right" onclick="guardarExamen();" id="botonGuardarExamen">Guardar</button>
 					<button type="button" class="btn btn-danger pull-right" onclick="eliminarExamen();" id="botonEliminarExamen">Eliminar</button>
 				</div>
 			</div>
-		</div>
+		<!-- </div> -->
+	</div>
 </div>

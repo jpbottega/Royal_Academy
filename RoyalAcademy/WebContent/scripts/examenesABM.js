@@ -1,8 +1,4 @@
 function selectExamen(id_examen){
-	
-	$(".style-preguntas-seleccionada").removeClass("style-preguntas-seleccionada");
-	$("#card_"+id_examen+" .style-preguntas").addClass("style-preguntas-seleccionada");
-	
 	$.post("ExamenesABM?accion=selectExamen","id_examen="+id_examen,
 			function(data) {
 				$("#container-info-examen").show();
@@ -129,4 +125,26 @@ function eliminarExamen(){
 		lanzarMensaje(error);
 	}
 	$("#container-info-examen").hide();
+}
+function creacionExamenAutomatica(){
+	if ($("#cantidad_preguntas").val() != 0){
+		$.post("ExamenesABM?accion=crearExamenAutomatico","id_curso="+$("#select_cursos").val()+"&id_creador="+$("#id_usuario_creador").val()+
+				"&cant_preguntas="+$("#cantidad_preguntas").val(),
+				function(data) {
+					$("#container-info-examen").show();
+					$("#id_examen").val(data.data.id_examen);
+					$("#descripcion_examen").val(data.data.descripcion);
+					$("#preguntas_disponibles").html(data.data.preguntas_disponibles);
+					$("#preguntas_agregadas").html(data.data.preguntas_habilitadas);
+					lanzarMensaje(data.error);
+		});
+	}
+	else {
+		var error = {
+				cd_error : 1,
+				ds_error : "Debe seleccionar la cantidad de preguntas.",
+				tipo:"error"
+		}
+		lanzarMensaje(error);
+	}
 }
