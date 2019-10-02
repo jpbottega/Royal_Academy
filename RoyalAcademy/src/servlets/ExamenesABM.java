@@ -142,59 +142,8 @@ public class ExamenesABM extends HttpServlet {
 			
 			curso_disponible = examenDao.traerPreguntasDisponibles(e.getId());
 			
-			String options_habilitadas = "";
-			String options_disponibles = "";
-			int contador = 1;
-			List<Opciones_Pregunta> respuestas = null;
-			// preguntas disponibles
-			for (Pregunta curso : curso_disponible) {
-				respuestas = pregDao.traerOpciones(curso.getId());
-				options_disponibles += // a cada boton le pongo el id de la pregunta
-						"<div class=\"row\">" +
-						"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#pd" + contador + "\">" + curso.getPregunta() +
-								
-								"<div class=\"row\">" +
-								"<div id=\"pd" + contador + "\" class=\"collapse\">";
-								for (Opciones_Pregunta op : respuestas) {
-									options_disponibles += 
-											(op.getRespuesta_correcta()) 
-											? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-											: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-								}
-									
-								options_disponibles += "</div></div>" +
-						"</li>"
-						+ "<div class=\"col-sm-2\">" +
-								"<button class=\"pull-right btn-xs btn-success\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"agregarPreguntaExamen(" +
-								curso.getId() +");\">+</button>" + 
-						"</div></div>";
-				contador++;
-			}
-			// preguntas habilitadas
-			contador = 1;
-			for (Pregunta curso : curso_habilitado) {
-				respuestas = pregDao.traerOpciones(curso.getId());
-				options_habilitadas += // a cada boton le pongo el id de la pregunta
-						"<div class=\"row\">" +
-						"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#ph" + contador + "\">" + curso.getPregunta() +
-								
-								"<div class=\"row\">" +
-								"<div id=\"ph" + contador + "\" class=\"collapse\">";
-								for (Opciones_Pregunta op : respuestas) {
-									options_habilitadas += 
-											(op.getRespuesta_correcta()) 
-											? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-											: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-								}
-									
-								options_habilitadas += "</div></div>" +
-						"</li>"
-						+ "<div class=\"col-sm-2\">" +
-						"<button class=\"pull-right btn-xs btn-danger\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"eliminarPreguntaExamen(" +
-						curso.getId() +");\">-</button>" + 
-						"</div></div>";
-				contador++;
-			}
+			String options_habilitadas = this.traerHtmlPreguntasHabilitadas(curso_habilitado, pregDao);
+			String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 			select_examen.setPreguntas_disponibles(options_disponibles);
 			select_examen.setPreguntas_habilitadas(options_habilitadas);
 			
@@ -272,59 +221,8 @@ public class ExamenesABM extends HttpServlet {
 				select_examen.setDescripcion(e.getDescripcion());
 				List<Pregunta> curso_disponible = examenDao.traerPreguntasDisponibles(id_examen);
 				List<Pregunta> curso_habilitado = examenDao.traerPreguntasHabilidatas(id_examen);
-				String options_habilitadas = "";
-				String options_disponibles = "";
-				int contador = 1;
-				List<Opciones_Pregunta> respuestas = null;
-				// preguntas disponibles
-				for (Pregunta curso : curso_disponible) {
-					respuestas = pregDao.traerOpciones(curso.getId());
-					options_disponibles += // a cada boton le pongo el id de la pregunta
-							"<div class=\"row\">" +
-							"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#pd" + contador + "\">" + curso.getPregunta() +
-									
-									"<div class=\"row\">" +
-									"<div id=\"pd" + contador + "\" class=\"collapse\">";
-									for (Opciones_Pregunta op : respuestas) {
-										options_disponibles += 
-												(op.getRespuesta_correcta()) 
-												? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-												: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-									}
-										
-									options_disponibles += "</div></div>" +
-							"</li>"
-							+ "<div class=\"col-sm-2\">" +
-									"<button class=\"pull-right btn-xs btn-success\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"agregarPreguntaExamen(" +
-									curso.getId() +");\">+</button>" + 
-							"</div></div>";
-					contador++;
-				}
-				// preguntas habilitadas
-				contador = 1;
-				for (Pregunta curso : curso_habilitado) {
-					respuestas = pregDao.traerOpciones(curso.getId());
-					options_habilitadas += // a cada boton le pongo el id de la pregunta
-							"<div class=\"row\">" +
-							"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#ph" + contador + "\">" + curso.getPregunta() +
-									
-									"<div class=\"row\">" +
-									"<div id=\"ph" + contador + "\" class=\"collapse\">";
-									for (Opciones_Pregunta op : respuestas) {
-										options_habilitadas += 
-												(op.getRespuesta_correcta()) 
-												? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-												: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-									}
-										
-									options_habilitadas += "</div></div>" +
-							"</li>"
-							+ "<div class=\"col-sm-2\">" +
-							"<button class=\"pull-right btn-xs btn-danger\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"eliminarPreguntaExamen(" +
-							curso.getId() +");\">-</button>" + 
-							"</div></div>";
-					contador++;
-				}
+				String options_habilitadas = this.traerHtmlPreguntasHabilitadas(curso_habilitado, pregDao);
+				String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 				select_examen.setPreguntas_disponibles(options_disponibles);
 				select_examen.setPreguntas_habilitadas(options_habilitadas);
 				
@@ -410,59 +308,8 @@ public class ExamenesABM extends HttpServlet {
 				error.setTipo("success");
 				List<Pregunta> curso_disponible = examenDao.traerPreguntasDisponibles(id_examen);
 				List<Pregunta> curso_habilitado = examenDao.traerPreguntasHabilidatas(id_examen);
-				String options_habilitadas = "";
-				String options_disponibles = "";
-				int contador = 1;
-				List<Opciones_Pregunta> respuestas = null;
-				// preguntas disponibles
-				for (Pregunta curso : curso_disponible) {
-					respuestas = pregDao.traerOpciones(curso.getId());
-					options_disponibles += // a cada boton le pongo el id de la pregunta
-							"<div class=\"row\">" +
-							"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#pd" + contador + "\">" + curso.getPregunta() +
-									
-									"<div class=\"row\">" +
-									"<div id=\"pd" + contador + "\" class=\"collapse\">";
-									for (Opciones_Pregunta op : respuestas) {
-										options_disponibles += 
-												(op.getRespuesta_correcta()) 
-												? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-												: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-									}
-										
-									options_disponibles += "</div></div>" +
-							"</li>"
-							+ "<div class=\"col-sm-2\">" +
-									"<button class=\"pull-right btn-xs btn-success\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"agregarPreguntaExamen(" +
-									curso.getId() +");\">+</button>" + 
-							"</div></div>";
-					contador++;
-				}
-				// preguntas habilitadas
-				contador = 1;
-				for (Pregunta curso : curso_habilitado) {
-					respuestas = pregDao.traerOpciones(curso.getId());
-					options_habilitadas += // a cada boton le pongo el id de la pregunta
-							"<div class=\"row\">" +
-							"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#ph" + contador + "\">" + curso.getPregunta() +
-									
-									"<div class=\"row\">" +
-									"<div id=\"ph" + contador + "\" class=\"collapse\">";
-									for (Opciones_Pregunta op : respuestas) {
-										options_habilitadas += 
-												(op.getRespuesta_correcta()) 
-												? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-												: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-									}
-										
-									options_habilitadas += "</div></div>" +
-							"</li>"
-							+ "<div class=\"col-sm-2\">" +
-							"<button class=\"pull-right btn-xs btn-danger\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"eliminarPreguntaExamen(" +
-							curso.getId() +");\">-</button>" + 
-							"</div></div>";
-					contador++;
-				}
+				String options_habilitadas = this.traerHtmlPreguntasHabilitadas(curso_habilitado, pregDao);
+				String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 				select_sedes_perfil.setSedes_disponibles(options_disponibles);
 				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
 			}
@@ -500,59 +347,8 @@ public class ExamenesABM extends HttpServlet {
 				error.setTipo("success");
 				List<Pregunta> curso_disponible = examenDao.traerPreguntasDisponibles(id_examen);
 				List<Pregunta> curso_habilitado = examenDao.traerPreguntasHabilidatas(id_examen);
-				String options_habilitadas = "";
-				String options_disponibles = "";
-				int contador = 1;
-				List<Opciones_Pregunta> respuestas = null;
-				// preguntas disponibles
-				for (Pregunta curso : curso_disponible) {
-					respuestas = pregDao.traerOpciones(curso.getId());
-					options_disponibles += // a cada boton le pongo el id de la pregunta
-							"<div class=\"row\">" +
-							"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#pd" + contador + "\">" + curso.getPregunta() +
-									
-									"<div class=\"row\">" +
-									"<div id=\"pd" + contador + "\" class=\"collapse\">";
-									for (Opciones_Pregunta op : respuestas) {
-										options_disponibles += 
-												(op.getRespuesta_correcta()) 
-												? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-												: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-									}
-										
-									options_disponibles += "</div></div>" +
-							"</li>"
-							+ "<div class=\"col-sm-2\">" +
-									"<button class=\"pull-right btn-xs btn-success\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"agregarPreguntaExamen(" +
-									curso.getId() +");\">+</button>" + 
-							"</div></div>";
-					contador++;
-				}
-				// preguntas habilitadas
-				contador = 1;
-				for (Pregunta curso : curso_habilitado) {
-					respuestas = pregDao.traerOpciones(curso.getId());
-					options_habilitadas += // a cada boton le pongo el id de la pregunta
-							"<div class=\"row\">" +
-							"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#ph" + contador + "\">" + curso.getPregunta() +
-									
-									"<div class=\"row\">" +
-									"<div id=\"ph" + contador + "\" class=\"collapse\">";
-									for (Opciones_Pregunta op : respuestas) {
-										options_habilitadas += 
-												(op.getRespuesta_correcta()) 
-												? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-												: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-									}
-										
-									options_habilitadas += "</div></div>" +
-							"</li>"
-							+ "<div class=\"col-sm-2\">" +
-							"<button class=\"pull-right btn-xs btn-danger\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"eliminarPreguntaExamen(" +
-							curso.getId() +");\">-</button>" + 
-							"</div></div>";
-					contador++;
-				}
+				String options_habilitadas = this.traerHtmlPreguntasHabilitadas(curso_habilitado, pregDao);
+				String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 				select_sedes_perfil.setSedes_disponibles(options_disponibles);
 				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
 			}
@@ -633,32 +429,7 @@ public class ExamenesABM extends HttpServlet {
 				List<Pregunta> curso_disponible = pregDao.traerPreguntaPorCarreraCurso(Integer.parseInt(request.getParameter("id_carrera")), 
 						Integer.parseInt(request.getParameter("id_curso")));
 				String options_habilitadas = "";
-				String options_disponibles = "";
-				int contador = 1;
-				List<Opciones_Pregunta> respuestas = null;
-				for (Pregunta curso : curso_disponible) {
-					respuestas = pregDao.traerOpciones(curso.getId());
-					options_disponibles += // a cada boton le pongo el id de la pregunta
-							"<div class=\"row\">" +
-							"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#pd" + contador + "\">" + curso.getPregunta() +
-									
-									"<div class=\"row\">" +
-									"<div id=\"pd" + contador + "\" class=\"collapse\">";
-									for (Opciones_Pregunta op : respuestas) {
-										options_disponibles += 
-												(op.getRespuesta_correcta()) 
-												? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-												: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-									}
-										
-									options_disponibles += "</div></div>" +
-							"</li>"
-							+ "<div class=\"col-sm-2\">" +
-								"<button class=\"pull-right btn-xs btn-success\" id=\"botoncito\" onclick=\"agregarPreguntaExamen(" +
-								curso.getId() +");\" style=\"border-radius:50%;font-size: 0.7em;\" >+</button>" + 
-							"</div></div>";
-					contador++;
-				}
+				String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 
 				select_sedes_perfil.setSedes_disponibles(options_disponibles);
 				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
@@ -679,5 +450,65 @@ public class ExamenesABM extends HttpServlet {
 		json = gson.toJson(contenedorResponse);
 		out.print(json);
 		out.flush();
+	}
+	
+	private String traerHtmlPreguntasDisponibles(List<Pregunta> curso_disponible, PreguntaDao pregDao) {
+		String options_disponibles = "";
+		int contador = 1;
+		List<Opciones_Pregunta> respuestas = null;
+		for (Pregunta curso : curso_disponible) {
+			respuestas = pregDao.traerOpciones(curso.getId());
+			options_disponibles += // a cada boton le pongo el id de la pregunta
+					"<div class=\"row\">" +
+					"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#pd" + contador + "\">" + curso.getPregunta() +
+							
+							"<div class=\"row\">" +
+							"<div id=\"pd" + contador + "\" class=\"collapse\">";
+							for (Opciones_Pregunta op : respuestas) {
+								options_disponibles += 
+										(op.getRespuesta_correcta()) 
+										? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
+										: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
+							}
+								
+							options_disponibles += "</div></div>" +
+					"</li>"
+					+ "<div class=\"col-sm-2\">" +
+						"<button class=\"pull-right btn-xs btn-success\" id=\"botoncito\" onclick=\"agregarPreguntaExamen(" +
+						curso.getId() +");\" style=\"border-radius:50%;font-size: 0.7em;\" >+</button>" + 
+					"</div></div>";
+			contador++;
+		}
+		return options_disponibles;
+	}
+	
+	private String traerHtmlPreguntasHabilitadas(List<Pregunta> curso_habilitado, PreguntaDao pregDao) {
+		int contador = 1;
+		String options_habilitadas ="";
+		List<Opciones_Pregunta> respuestas = null;
+		for (Pregunta curso : curso_habilitado) {
+			respuestas = pregDao.traerOpciones(curso.getId());
+			options_habilitadas += // a cada boton le pongo el id de la pregunta
+					"<div class=\"row\">" +
+					"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#ph" + contador + "\">" + curso.getPregunta() +
+							
+							"<div class=\"row\">" +
+							"<div id=\"ph" + contador + "\" class=\"collapse\">";
+							for (Opciones_Pregunta op : respuestas) {
+								options_habilitadas += 
+										(op.getRespuesta_correcta()) 
+										? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
+										: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
+							}
+								
+							options_habilitadas += "</div></div>" +
+					"</li>"
+					+ "<div class=\"col-sm-2\">" +
+					"<button class=\"pull-right btn-xs btn-danger\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"eliminarPreguntaExamen(" +
+					curso.getId() +");\">-</button>" + 
+					"</div></div>";
+			contador++;
+		}
+		return options_habilitadas;
 	}
 }
