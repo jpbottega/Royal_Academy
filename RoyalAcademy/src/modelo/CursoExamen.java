@@ -19,8 +19,8 @@ public class CursoExamen {
 	private int id;
 	private int id_examen;
 	private int id_curso;
-	//private List<ExamenResolucion> lstExamenesResueltos;
 	private Date fecha;
+	private String descripcion;
 
 	public CursoExamen() {}
 
@@ -62,6 +62,14 @@ public class CursoExamen {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	/*
