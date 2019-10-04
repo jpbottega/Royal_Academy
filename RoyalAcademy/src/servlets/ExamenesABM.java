@@ -112,9 +112,10 @@ public class ExamenesABM extends HttpServlet {
 		PreguntaDao pregDao = new PreguntaDao();
 		ExamenDao examenDao = new ExamenDao();
 		Select_Examen select_examen = new Select_Examen();
-		int cant_preguntas = Integer.parseInt(request.getParameter("cant_preguntas"));
+		//int cant_preguntas = Integer.parseInt(request.getParameter("cant_preguntas"));
 		Random random = new Random();
 		try {
+			int cant_preguntas = Integer.parseInt(request.getParameter("cant_preguntas"));
 			int id_curso = Integer.parseInt(request.getParameter("id_curso")), id_creador = Integer.parseInt(request.getParameter("id_creador"));
 			// agrego la pregunta al examen
 			Examen e = new Examen();
