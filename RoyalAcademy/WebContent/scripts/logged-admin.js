@@ -103,3 +103,9 @@ function gotoExamenes(){
 		$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
 	});
 }
+function gotoCalendario(){
+	$.post( "ServletLoggedAdmin?accion=calendario", function( data ) {
+		$("#functions-container").html(data); //seteo el data, que es el jsp administradorAlumnos, en el div con ID functions-container
+		$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
+	});
+}

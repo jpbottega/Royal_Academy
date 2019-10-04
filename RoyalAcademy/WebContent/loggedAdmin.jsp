@@ -95,6 +95,7 @@
 	<script type="text/javascript" charset="UTF-8" src='scripts/bootstrap.min.js'></script>
 	<script type="text/javascript" charset="UTF-8" src='scripts/bootstrap.min.js'></script>
 	<script type="text/javascript" charset="UTF-8" src='scripts/examenesABM.js'></script>
+	<script type="text/javascript" charset="UTF-8" src='scripts/gestionCalendario.js'></script>
 	
 </body>
 </html>

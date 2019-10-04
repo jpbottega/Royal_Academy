@@ -95,6 +95,10 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 				case "examenes":
 					examenes(request, response);
 					break;
+					
+				case "calendario":
+					calendario(request, response);
+					break;
 				}
 
 			}
@@ -102,6 +106,28 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void calendario(HttpServletRequest request, HttpServletResponse response) {
+		CarreraDao carreraDao = new CarreraDao();
+		CursoDao cursoDao = new CursoDao();
+		try {
+			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de datos.
+			if(!carreras.isEmpty()) {
+				List<Curso> cursos = cursoDao.traerCursoCarrera(carreras.get(0).getId()); //Traigo todos los cursos de la primer carrera
+				request.setAttribute("cursos", cursos);
+				request.setAttribute("carreras", carreras);
+	
+			}else {
+				request.setAttribute("cursos", new ArrayList<Curso>());
+				request.setAttribute("carreras", new ArrayList<Carrera>());	
+			}
+			
+			includePage("/gestionCalendario.jsp", request, response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void examenes(HttpServletRequest request, HttpServletResponse response) {

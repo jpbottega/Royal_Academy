@@ -41,7 +41,11 @@ System.out.println(permisoFunciones.size());
 		</div>
 	</div>
 	<%} %>	
-
+	<!-- agregar un permiso funcion -->
+	<div class="dropdown menu-option">
+			<span onclick="gotoCalendario();">Calendario</span>
+	</div>
+		
 <div class="dropdown menu-option">
 	<span><a href="index.jsp">Salir</a></span>
 </div>
