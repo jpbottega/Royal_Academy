@@ -19,6 +19,9 @@ function selectCursoFechaExamen(){
 }
 function creacionFechaExamen(){
 	$("#container-info-fecha-examen").show();
+	$("#id_fecha_examen").val("0");
+	$("#descripcion_fecha_examen").val("");
+	$("#fecha_examen").val("");
 	$.post("GestionCalendario?accion=crearFechaExamen", "id_curso=" + $("#select_cursos").val(), function(data){
 		$("#select_examen").html(data.data);
 		lanzarMensaje(data.error);
@@ -29,6 +32,7 @@ function guardarFechaExamen(){
 			function(data){
 				lanzarMensaje(data.error);
 				$("#id_fecha_examen").val(data.data);
+				selectCursoFechaExamen();
 	});
 }
 function eliminarFechaExamen(){
@@ -36,8 +40,10 @@ function eliminarFechaExamen(){
 			function(data){
 				lanzarMensaje(data.error);
 				$("#id_fecha_examen").val("0");
+				selectCursoFechaExamen();
 	});
 }
+
 function selectFechaExamen(id_fecha){
 	$("#container-info-fecha-examen").show();
 	$.post("GestionCalendario?accion=selectFechaExamen", "id_fecha_examen=" + id_fecha, // por alguna razon no esta haciendo el post
