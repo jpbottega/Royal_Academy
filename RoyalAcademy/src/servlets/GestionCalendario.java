@@ -52,7 +52,6 @@ public class GestionCalendario extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		try {
 			if (request.getParameter("accion") != null) {
-
 				switch (request.getParameter("accion")) {
 				case "crearFechaExamen":
 					crearFechaExamen(request, response);
@@ -81,7 +80,6 @@ public class GestionCalendario extends HttpServlet {
 	}
 	
 	private void selectFechaExamen(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("hola");
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
 		ContenedorResponse.Error error = new ContenedorResponse.Error();
