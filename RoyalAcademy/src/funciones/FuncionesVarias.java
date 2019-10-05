@@ -51,7 +51,7 @@ public class FuncionesVarias {
 
 		return sqlDate;
 	}
-	public Date getDateString(String utilDate, int formato) {
+	public static Date getDateString(String utilDate, int formato) {
 		String format = "";
 		switch (formato) {
 		case 0:
