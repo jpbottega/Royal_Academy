@@ -32,7 +32,12 @@
 <link rel="stylesheet" href="logged-admin/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="logged-admin/preguntas.css">
 <link rel="stylesheet" href="logged-admin/examenes.css">
+<%@ page import="modelo.*,java.util.List,java.util.ArrayList"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
 
+List<PermisoFunciones> permisoFunciones = (List<PermisoFunciones>) 	request.getSession().getAttribute("permisoFunciones");
+%>
 </head>
 <body>
 	<div class="hero-content">
@@ -44,8 +49,13 @@
 						<div class="col-3 col-lg-3">
 							<div class="site-branding">
 								<h1 class="site-title">
-									<a href="javascript:gotoHome();" style="color: #fff !important;">Royal<span>
-											Academy</span></a>
+									<%if(permisoFunciones.get(12).getHabilitada()==0){%>
+								
+									<a href="javascript:gotoHome();" style="color: #fff !important;">Royal<span>Academy</span></a>
+									<%}else{ %>	
+									<a href="javascript:gotoHomeAlumno();" style="color: #fff !important;">Royal<span>Academy</span></a>
+									
+									<%} %>	
 								</h1>
 							</div>
 							<!-- .site-branding -->
@@ -58,7 +68,7 @@
 								class="site-navigation flex justify-content-end align-items-center"
 								style="width: 100%">
 
-								<jsp:include page="menu-logged-admin.jsp" />
+								<jsp:include page="menu-logged.jsp" />
 
 
 

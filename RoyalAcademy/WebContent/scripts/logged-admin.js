@@ -109,3 +109,9 @@ function gotoCalendario(){
 		$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
 	});
 }
+function gotoHomeAlumno(){
+	$.post( "ServletLoggedAlumno?accion=homealumno", function( data ) {
+		$("body").html(data); //seteo el data, que es el jsp administradorAlumnos, en el div con ID functions-container
+		
+	});
+}
