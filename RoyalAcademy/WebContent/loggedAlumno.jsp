@@ -25,14 +25,15 @@
 
 <!-- Styles -->
 <link rel="stylesheet" href="logged-files/style.css">
+<link rel="stylesheet" href="logged-admin/css-logged-admin.css">
 </head>
 <body>
 <div id="contenido-alumno">
 	<div class="hero-content">
 		<header class="site-header">
 
-			<div class="nav-bar">
-				<div class="container">
+			<div class="nav-bar nav-bar-admin">
+				<div class="container container-modif">
 					<div class="row">
 						<div class="col-9 col-lg-3">
 							<div class="site-branding">
@@ -45,20 +46,15 @@
 						<!-- .col -->
 
 						<div
-							class="col-3 col-lg-9 flex justify-content-end align-content-center">
+							class="col-9 col-lg-9 flex justify-content-end align-content-center">
 							<nav
-								class="site-navigation flex justify-content-end align-items-center" style="width: 100%">
-								<ul
-									class="flex flex-column flex-lg-row justify-content-lg-end align-content-center">
-									<li><a onclick="gotoInscripcionCursos();">Cursos</a></li>
-									<li><a href="#">Sedes</a></li>
-									<li><a href="#">Evaluaciones</a></li>
-									<li><a onclick="editarMiPerfil();">Perfil</a></li>
-									<li><a href="index.jsp">Salir</a></li>
-								</ul>
+								class="site-navigation flex justify-content-end align-items-center"
+								style="width: 100%">
 
-								
-								
+								<jsp:include page="menu-logged.jsp" />
+
+
+
 								<!-- .header-bar-search -->
 							</nav>
 							<!-- .site-navigation -->
@@ -86,7 +82,7 @@
 								</h1>
 							</header>
 							<footer class="entry-footer read-more">
-								<a href="#section-cursos">Aprende más</a>
+								<a href="#section-cursos">Aprende mï¿½s</a>
 							</footer>
 							<!-- .entry-footer -->
 						</div>
@@ -288,8 +284,8 @@
 							<ul
 								class="flex flex-wrap justify-content-md-end align-items-center">
 								<li class="active"><a href="#">Todos</a></li>
-								<li><a href="#">Nuevas Tecnologías</a></li>
-								<li><a href="#">Páginas Web</a></li>
+								<li><a href="#">Nuevas Tecnologï¿½as</a></li>
+								<li><a href="#">Pï¿½ginas Web</a></li>
 								<li><a href="#">Aplicaciones Mobile</a></li>
 								<li><a href="#">Base de Datos</a></li>
 							</ul>
@@ -613,81 +609,7 @@
 	<!-- .courses-wrap -->
 
 
-	<section class="home-gallery">
-		<div class="gallery-wrap flex flex-wrap">
-			<div class="gallery-grid gallery-grid1x1">
-				<a href="#"><img src="logged-files/images/a.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid1x1">
-				<a href="#"><img src="logged-files/images/b.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid2x2">
-				<a href="#"><img src="logged-files/images/c.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid1x1">
-				<a href="#"><img src="logged-files/images/d.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid1x1">
-				<a href="#"><img src="logged-files/images/e.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid2x1">
-				<a href="#"><img src="logged-files/images/g.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid2x1">
-				<a href="#"><img src="logged-files/images/h.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid1x1">
-				<a href="#"><img src="logged-files/images/i.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid2x2 ">
-				<a href="#"><img src="logged-files/images/j.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid1x1">
-				<a href="#"><img src="logged-files/images/k.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid1x1">
-				<a href="#"><img src="logged-files/images/l.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid2x1">
-				<a href="#"><img src="logged-files/images/m.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid3x1">
-				<a href="#"><img src="logged-files/images/n.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-
-			<div class="gallery-grid gallery-grid1x1">
-				<a href="#"><img src="logged-files/images/o.jpg" alt=""></a>
-			</div>
-			<!-- .gallery-grid -->
-		</div>
-		<!-- .gallery-wrap -->
-	</section>
-	<!-- .home-gallery -->
+	
 
 
 
