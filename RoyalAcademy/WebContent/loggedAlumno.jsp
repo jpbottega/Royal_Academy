@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="logged-files/style.css">
 </head>
 <body>
+<div id="contenido-alumno">
 	<div class="hero-content">
 		<header class="site-header">
 
@@ -49,7 +50,7 @@
 								class="site-navigation flex justify-content-end align-items-center" style="width: 100%">
 								<ul
 									class="flex flex-column flex-lg-row justify-content-lg-end align-content-center">
-									<li><a onclick="#">Cursos</a></li>
+									<li><a onclick="gotoInscripcionCursos();">Cursos</a></li>
 									<li><a href="#">Sedes</a></li>
 									<li><a href="#">Evaluaciones</a></li>
 									<li><a onclick="editarMiPerfil();">Perfil</a></li>
@@ -805,7 +806,7 @@
 		<!-- .footer-bar -->
 	</footer>
 	<!-- .site-footer -->
-
+</div>
 	<script type='text/javascript' src='logged-files/js/jquery.js'></script>
 	<script type='text/javascript' src='logged-files/js/swiper.min.js'></script>
 	<script type='text/javascript'
@@ -813,6 +814,8 @@
 	<script type='text/javascript'
 		src='logged-files/js/jquery.collapsible.min.js'></script>
 	<script type='text/javascript' src='logged-files/js/custom.js'></script>
+	<script type='text/javascript' src='scripts/logged-alumno.js'></script>
+	<script type='text/javascript' src='scripts/inscripcionAlumnoCurso.js'></script>
 
 </body>
 </html>
