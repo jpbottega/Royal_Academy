@@ -50,6 +50,8 @@ public class HibernateUtil {
                 configuration.addAnnotatedClass(Curso_Usuario.class);  
                 configuration.addAnnotatedClass(Opciones_Pregunta.class);  
                 configuration.addAnnotatedClass(PreguntaxExamen.class);  
+                configuration.addAnnotatedClass(InscripcionExamen.class);
+                configuration.addAnnotatedClass(ExamenResolucion.class);
                 
                 // GUARDO CONFIGURACION
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

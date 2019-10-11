@@ -3,27 +3,18 @@ package servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import dao.CarreraDao;
-import dao.FuncionesDao;
-import dao.RolDao;
 import modelo.Carrera;
 import modelo.ContenedorResponse;
-import modelo.Funciones;
-import modelo.Funciones_Perfil;
-import modelo.Rol;
 import modelo.Sede;
 import modelo.Sede_Carrera;
-import modelo.Select_Funciones_Perfil;
 import modelo.Select_Sedes_Carrera;
 
 /**

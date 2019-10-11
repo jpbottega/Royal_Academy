@@ -18,22 +18,17 @@ public class ExamenResolucion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int id_alumno;
-	private float resultado; // uso un float porque se muestra el porcentaje de respuestas correctas sobre totales = XX.YY%
-	private boolean entregado;
-	private boolean aprobado;
 	private int id_curso_examen;
+	private int id_respuesta;
 	
 	public ExamenResolucion() {}
 		
-	public ExamenResolucion(int id, int id_alumno, float resultado, boolean entregado, boolean aprobado,
-			int id_curso_examen) {
+	public ExamenResolucion(int id, int id_alumno, int id_curso_examen, int id_respuesta) {
 		super();
 		this.id = id;
 		this.id_alumno = id_alumno;
-		this.resultado = resultado;
-		this.entregado = entregado;
-		this.aprobado = aprobado;
 		this.id_curso_examen = id_curso_examen;
+		this.id_respuesta = id_respuesta;
 	}
 
 	public int getId_alumno() {
@@ -52,36 +47,20 @@ public class ExamenResolucion {
 		this.id_alumno = alumno;
 	}
 
-	public float getResultado() {
-		return resultado;
-	}
-
-	public void setResultado(float resultado) {
-		this.resultado = resultado;
-	}
-
-	public boolean isEntregado() {
-		return entregado;
-	}
-
-	public void setEntregado(boolean entregado) {
-		this.entregado = entregado;
-	}
-
-	public boolean isAprobado() {
-		return aprobado;
-	}
-
-	public void setAprobado(boolean aprobado) {
-		this.aprobado = aprobado;
-	}
-
 	public int getId_curso_examen() {
 		return id_curso_examen;
 	}
 
 	public void setId_curso_examen(int id_curso_examen) {
 		this.id_curso_examen = id_curso_examen;
+	}
+
+	public int getId_respuesta() {
+		return id_respuesta;
+	}
+
+	public void setId_respuesta(int id_respuesta) {
+		this.id_respuesta = id_respuesta;
 	}
 	
 	/*
