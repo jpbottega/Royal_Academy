@@ -1,7 +1,94 @@
 /* line 51, /Users/jonasvonandrian/jquery-sortable/source/css/application.css.sass */
 ol.simple_with_animation {
-	border: 2px solid #999999; 
+	border: 2px solid #999999;
 	height: 85%;
 	overflow-y: scroll;
 	overflow-x: hidden;
+}
+
+.menu-examenes {
+	border-right: 1px solid #333;
+}
+
+@media ( max-width :767px) {
+	.menu-examenes {
+		border-right: 0px;
+		border-bottom: 1px solid #333;
+		padding-bottom: 1rem;
+	}
+	.container-menu-examenes {
+		width: 85% !important;
+		margin: auto;
+	}
+	.panel-examenes {
+		padding-top: 1rem;
+	}
+	.container-panel-examenes {
+		margin-top: 1rem;
+	}
+}
+
+.menu-examenes-lista {
+	height: calc(100vh - 28.5rem);
+	overflow: auto;
+	padding: 0 1.5rem;
+	border: 1px solid #ced4da;
+	background: #e5f1fc !important;
+}
+
+@media ( max-height : 800px) {
+	.menu-examenes-lista {
+		height: calc(100vh - 26.5rem);
+	}
+}
+
+.container-panel-examenes {
+	overflow: auto;
+	height: calc(100vh - 16rem);
+	border: 1px solid #ced4da;
+	padding: 1rem;
+	margin-bottom: 0.5rem;
+}
+
+.btn-examenes {
+	float: right !important;
+	border-radius: 50rem !important;
+	font-size: 1.2rem !important;
+	padding: 0.4rem !important;
+}
+
+.title-pregunta{
+	font-size: 1.1rem;
+}
+
+.header-examen{
+	border-top: 1px solid #ced4da;
+    padding-top: 1rem;
+}
+
+.container-pregunta-examen{
+	border: 1px solid;
+    margin: 0.1rem;
+    padding: 0.3rem;
+    border-radius: 1rem;
+}
+
+.pregunta-correcta{
+	padding-left: 1rem;
+	color: green;
+}
+
+
+.pregunta-incorrecta{
+	padding-left: 1rem;
+	color: red;
+}
+
+.icon-pregunta {
+	margin-right: 0.5rem;
+}
+
+.container-btn-pregunta {
+	padding-right: 5px !important;
+	margin: auto;
 }

@@ -118,7 +118,7 @@ public class Preguntas extends ServletIncludeGoto {
 		PreguntaDao preguntaDao = new PreguntaDao();
 		String option_cursos = "";
 		CursoPreguntas cursoPreguntas = new CursoPreguntas();
-		String html_preguntas = "<div class=\"alert alert-danger\" role=\"alert\">No hay Preguntas</div>";
+		String html_preguntas = "<div class=\"alert alert-danger mt-3\" role=\"alert\">No hay Preguntas</div>";
 		try {
 		
 			if(Integer.parseInt(request.getParameter("id_pregunta"))!=0) {
@@ -139,10 +139,9 @@ public class Preguntas extends ServletIncludeGoto {
 
 			for (Pregunta aux_pregunta : preguntas) {
 
-				html_preguntas += "<div class=\"row\" id=\"card_"+aux_pregunta.getId()+"\"> " + "<div class=\"col-md-12\"> "
-						+ "<div class=\"style-preguntas\" " + "onclick=\"selectPregunta(" + aux_pregunta.getId()
-						+ ");\" " + "id=\"pregunta_" + aux_pregunta.getId() + "\">" + aux_pregunta.getPregunta()
-						+ "</div>" + "</div>" + "</div>";
+				html_preguntas += "<div class=\"row card card-styles\" id=\"card_"+aux_pregunta.getId()+"\"> "		
+						+ "<div class=\"card-body\" onclick=\"selectPregunta(" + aux_pregunta.getId()+ ");\">" + "<div " + "id=\"pregunta_" + aux_pregunta.getId() + "\">" + aux_pregunta.getPregunta()
+						+ "</div>" +  "</div>"  + "</div>";
 
 			}
 
@@ -179,7 +178,7 @@ public class Preguntas extends ServletIncludeGoto {
 		PreguntaDao preguntaDao = new PreguntaDao();
 		String option_cursos = "";
 		CursoPreguntas cursoPreguntas = new CursoPreguntas();
-		String html_preguntas = "<div class=\"alert alert-danger\" role=\"alert\">No hay Preguntas</div>";
+		String html_preguntas = "<div class=\"alert alert-danger mt-3\" role=\"alert\">No hay Preguntas</div>";
 		try {
 			Boolean pregunta_nueva = true;
 			int cantidad_opciones = Integer.parseInt(request.getParameter("cantidad_opciones"));
@@ -226,10 +225,9 @@ public class Preguntas extends ServletIncludeGoto {
 
 			for (Pregunta aux_pregunta : preguntas) {
 
-				html_preguntas += "<div class=\"row\" id=\"card_"+aux_pregunta.getId()+"\"> " + "<div class=\"col-md-12\"> "
-						+ "<div class=\"style-preguntas\" " + "onclick=\"selectPregunta(" + aux_pregunta.getId()
-						+ ");\" " + "id=\"pregunta_" + aux_pregunta.getId() + "\">" + aux_pregunta.getPregunta()
-						+ "</div>" + "</div>" + "</div>";
+				html_preguntas += "<div class=\"row card card-styles\" id=\"card_"+aux_pregunta.getId()+"\"> " 
+						+ "<div class=\"card-body\"  onclick=\"selectPregunta(" + aux_pregunta.getId()+ ");\" ><div id=\"pregunta_" + aux_pregunta.getId() + "\">" + aux_pregunta.getPregunta()
+						+ "</div>" +  "</div>" +  "</div>";
 
 			}
 
@@ -298,7 +296,7 @@ public class Preguntas extends ServletIncludeGoto {
 		PreguntaDao preguntaDao = new PreguntaDao();
 		String option_cursos = "";
 		CursoPreguntas cursoPreguntas = new CursoPreguntas();
-		String html_preguntas = "<div class=\"alert alert-danger\" role=\"alert\">No hay Preguntas</div>";
+		String html_preguntas = "<div class=\"alert alert-danger mt-3\" role=\"alert\">No hay Preguntas</div>";
 		try {
 
 			List<Curso> cursos = cursoDao.traerCursoCarrera(Integer.parseInt(request.getParameter("id_carrera")));
@@ -319,9 +317,8 @@ public class Preguntas extends ServletIncludeGoto {
 
 				for (Pregunta pregunta : preguntas) {
 
-					html_preguntas += "<div class=\"row\" id=\"card_"+pregunta.getId()+"\"> " + "<div class=\"col-md-12\"> "
-							+ "<div class=\"style-preguntas\" " + "onclick=\"selectPregunta(" + pregunta.getId()
-							+ ");\" " + "id=\"pregunta_" + pregunta.getId() + "\">" + pregunta.getPregunta() + "</div>"
+					html_preguntas += "<div class=\"row card card-styles\" id=\"card_"+pregunta.getId()+"\"> "
+							+ "<div class=\"card-body\" onclick=\"selectPregunta(" + pregunta.getId()+ ");\"><div id=\"pregunta_" + pregunta.getId() + "\">" + pregunta.getPregunta() + "</div>"
 							+ "</div>" + "</div>";
 
 				}
@@ -358,7 +355,7 @@ public class Preguntas extends ServletIncludeGoto {
 		PreguntaDao preguntaDao = new PreguntaDao();
 		String option_cursos = "";
 		CursoPreguntas cursoPreguntas = new CursoPreguntas();
-		String html_preguntas = "<div class=\"alert alert-danger\" role=\"alert\">No hay Preguntas</div>";
+		String html_preguntas = "<div class=\"alert alert-danger mt-3\" role=\"alert\">No hay Preguntas</div>";
 		try {
 
 			List<Pregunta> preguntas = preguntaDao.traerPreguntaPorCarreraCurso(
@@ -371,9 +368,8 @@ public class Preguntas extends ServletIncludeGoto {
 
 			for (Pregunta pregunta : preguntas) {
 
-				html_preguntas += "<div class=\"row\" id=\"card_"+pregunta.getId()+"\"> " + "<div class=\"col-md-12\"> "
-						+ "<div class=\"style-preguntas\" " + "onclick=\"selectPregunta(" + pregunta.getId() + ");\" "
-						+ "id=\"pregunta_" + pregunta.getId() + "\">" + pregunta.getPregunta() + "</div>" + "</div>"
+				html_preguntas += "<div class=\"row card card-styles\" id=\"card_"+pregunta.getId()+"\"> "
+						+ "<div class=\"card-body\" onclick=\"selectPregunta(" + pregunta.getId()+");\"><div id=\"pregunta_" + pregunta.getId() + "\">" + pregunta.getPregunta() + "</div>" + "</div>"
 						+ "</div>";
 
 			}

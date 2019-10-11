@@ -30,24 +30,29 @@ function nuevaPregunta(){
 }
 function htmlOpcion(numero_opcion){
 	
-	var opcion = "<div class= \"row\" id=\"row_"+numero_opcion+"\">"+
-				"<div class=\"col-md-9\">"+
+	var opcion = "<div class= \"row mr-0\" id=\"row_"+numero_opcion+"\">"+
+				"<div class=\"col-6 col-xl-8\">"+
 					"<div class=\"form-group\">"+
 						"<label for=\"exampleInputEmail1\">Opción "+numero_opcion+"</label> <input "+
 							"type=\"text\" class=\"form-control opcion-pregunta\" id=\"opcion_pregunta_"+numero_opcion+"\" "+
 							"name=\"opcion_pregunta_"+numero_opcion+"\" placeholder=\"Ingrese la Opción\" value=\"\"> "+
 					"</div> "+
 				"</div> "+
-				"<div class=\"col-md-2\"> "+
-					"<div class=\"form-check opcion-correcta\"> "+
+				"<div class=\"col-6 col-xl-4 container-opcion-correcta\"> "+
+
 
 						"<input type=\"radio\" class=\"form-check-input checkbox-opcion\" "+
 							"id=\"opcion_correcta_"+numero_opcion+"\" name=\"opcion_correcta\" value=\""+numero_opcion+"\"> <label "+
 							"class=\"form-check-label\" for=\"exampleCheck1\">Correcta</label> "+
-					"</div>"+
-				"</div>"+
-				"<div class=\"col-md-1\"><img src=\"./images/trash-2-24.png\"  style=\"margin-top: 40px;cursor:pointer\" onclick=\"eliminarRow("+numero_opcion+");\"></div>";
-			"</div>";
+						
+			
+					
+					"<button type=\"button\" class=\"btn btn-dark btn-trash fas fa-trash-alt\" onclick=\"eliminarRow("+numero_opcion+");\"></button>" +
+					
+
+				"</div></div>";
+				
+
 	
 	return opcion;
 }

@@ -2,19 +2,35 @@
 	padding: 10px;
 	height: 100%;
 }
-.column-3-perfiles{
-	
-	    height: 100%;
-    border-right: 1px solid #333;
-	
-}
-.col-funciones-perfil{
-    padding-top: 35px;
-    margin-left: 15px;
-}
-.button-funciones-perfil{
-	
+
+
+.button-funciones-perfil {
 	margin: 5px;
-	cursor:pointer
-	
+	cursor: pointer
 }
+/*************************************/
+.menu-perfiles {
+	border-right: 1px solid #333;
+}
+
+@media ( max-width : 767px) {
+	.menu-perfiles {
+		border-right: 0px;
+		border-bottom: 1px solid #333;
+		padding-bottom: 1rem;
+	}
+	.container-menu-perfiles {
+		width: 85% !important;
+		margin: auto;
+	}
+	.panel-perfiles{
+		padding-top: 1rem;
+	}
+}
+
+.btn-funciones-perfiles {
+	text-align: center;
+	display: flex;
+	align-items: center;
+}
+
