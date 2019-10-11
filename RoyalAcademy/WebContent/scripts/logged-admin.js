@@ -112,6 +112,11 @@ function gotoCalendario(){
 function gotoHomeAlumno(){
 	$.post( "ServletLoggedAlumno?accion=homealumno", function( data ) {
 		$("body").html(data); //seteo el data, que es el jsp administradorAlumnos, en el div con ID functions-container
-		
+	});
+}
+function gotoCorreccionExamen(){
+	$.post( "ServletLoggedAdmin?accion=correccionExamen", function( data ) {
+		$("#functions-container").html(data); //seteo el data, que es el jsp administradorAlumnos, en el div con ID functions-container
+		$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
 	});
 }

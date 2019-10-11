@@ -24,7 +24,7 @@ import modelo.Pais;
 import modelo.Pregunta;
 import modelo.Rol;
 import modelo.Sede;
-import modelo.Sede_Carrera;
+import modelo.Usuario;
 
 /**
  * Servlet implementation class ServletLoggedAdmin
@@ -99,6 +99,10 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 				case "calendario":
 					calendario(request, response);
 					break;
+					
+				case "correccionExamen":
+					correccionExamen(request, response);
+					break;
 				}
 
 			}
@@ -106,6 +110,22 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void correccionExamen(HttpServletRequest request, HttpServletResponse response) {
+		CursoDao cursoDao = new CursoDao();
+		Usuario u = null;
+		try {
+			u = (Usuario) request.getSession().getAttribute("usuario");
+			List<Curso> cursos = cursoDao.traerCursoPorUsuario(u.getId()); //Traigo todos los cursos del usuario
+			cursos = (cursos==null) ? new ArrayList<Curso>() : cursos;
+			request.setAttribute("cursos", cursos);
+			
+			includePage("/correccionExamen.jsp", request, response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void calendario(HttpServletRequest request, HttpServletResponse response) {
@@ -275,7 +295,6 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 	private void sedes(HttpServletRequest request, HttpServletResponse response) {
 		SedeDao sedeDao = new SedeDao();
 		PaisDao paisDao = new PaisDao();
-		FuncionesDao funcionesDao = new FuncionesDao();
 		try {
 
 			List<Sede> sedes = sedeDao.traerTodos(); // Traigo todos los roles que esten en la base de datos.

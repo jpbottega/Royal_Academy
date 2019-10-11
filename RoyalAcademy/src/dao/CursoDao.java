@@ -81,11 +81,24 @@ public class CursoDao extends DBManager {
 		return curso;
 	}
 
+	
 	public List<Curso> traerCursoCarrera(int id_carrera) {
 		List<Curso> curso = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
 			curso = (List<Curso>) sesion.createSQLQuery("select * from cursos where id_carrera =" + id_carrera)
 					.addEntity(Curso.class).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return curso;
+		}
+		return curso;
+	}
+	
+	public List<Curso> traerCursoPorUsuario(int id_usuario) {
+		List<Curso> curso = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			curso = (List<Curso>) sesion.createSQLQuery("select * from cursos where id in (select id_curso from curso_usuario where id_usuario = :id)")
+					.addEntity(Curso.class).setParameter("id", id_usuario).list();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return curso;

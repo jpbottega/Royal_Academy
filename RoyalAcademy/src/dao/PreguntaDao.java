@@ -103,6 +103,17 @@ public class PreguntaDao extends DBManager{
 		return opciones;
 	}
 	
+	public Opciones_Pregunta traerOpcionPreguntaPorId(int id_pregunta) {
+		Opciones_Pregunta opciones = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			opciones = (Opciones_Pregunta) sesion.createSQLQuery("select * from opciones_pregunta where id_opcion ="+id_pregunta)
+					.addEntity(Opciones_Pregunta.class).getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return opciones;
+	}
+	
 	public List<Pregunta> traerTodos(){
 		List<Pregunta> pregunta = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {

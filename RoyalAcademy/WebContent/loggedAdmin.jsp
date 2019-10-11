@@ -36,13 +36,13 @@
 	href="logged-admin/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="logged-admin/preguntas.css">
 <link rel="stylesheet" href="logged-admin/examenes.css">
- <link  rel="stylesheet" href="fontawesome-free-5.11.2-web/css/all.css">
- 
+<link rel="stylesheet" href="fontawesome-free-5.11.2-web/css/all.css">
+
 <%@ page import="modelo.*,java.util.List,java.util.ArrayList"
 	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-
-List<PermisoFunciones> permisoFunciones = (List<PermisoFunciones>) 	request.getSession().getAttribute("permisoFunciones");
+	List<PermisoFunciones> permisoFunciones = (List<PermisoFunciones>) request.getSession()
+			.getAttribute("permisoFunciones");
 %>
 </head>
 <body class="hero-content">
@@ -51,8 +51,17 @@ List<PermisoFunciones> permisoFunciones = (List<PermisoFunciones>) 	request.getS
 		<header class="site-header container-navbar">
 			<nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
 				<h1 class="site-title">
-					<a href="javascript:gotoHome();"> Royal <span>Academy</span>
-					</a>
+					<%
+						if (permisoFunciones.get(12).getHabilitada() == 0) {
+					%>
+					<a href="javascript:gotoHome();">Royal<span>Academy</span></a>
+					<%
+						} else {
+					%>
+					<a href="javascript:gotoHomeAlumno();">Royal<span>Academy</span></a>
+					<%
+						}
+					%>
 				</h1>
 				<button class="navbar-toggler btn-menu" type="button"
 					data-toggle="collapse" data-target="#navbarNav"
@@ -62,7 +71,7 @@ List<PermisoFunciones> permisoFunciones = (List<PermisoFunciones>) 	request.getS
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav navbar-menu">
-						<jsp:include page="menu-logged-admin.jsp" />
+						<jsp:include page="menu-logged.jsp" />
 					</ul>
 				</div>
 			</nav>
@@ -96,9 +105,15 @@ List<PermisoFunciones> permisoFunciones = (List<PermisoFunciones>) 	request.getS
 	<script type='text/javascript' charset="UTF-8"
 		src='scripts/usuarios.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/cursos.js'></script>
-	<script type='text/javascript' charset="UTF-8" src='scripts/preguntas.js'></script>
-	<script type="text/javascript" charset="UTF-8" src='scripts/bootstrap.min.js'></script>
-	<script type="text/javascript" charset="UTF-8" src='scripts/examenesABM.js'></script>
-	<script type="text/javascript" charset="UTF-8" src='scripts/gestionCalendario.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='scripts/preguntas.js'></script>
+	<script type="text/javascript" charset="UTF-8"
+		src='scripts/bootstrap.min.js'></script>
+	<script type="text/javascript" charset="UTF-8"
+		src='scripts/examenesABM.js'></script>
+	<script type="text/javascript" charset="UTF-8"
+		src='scripts/gestionCalendario.js'></script>
+	<script type="text/javascript" charset="UTF-8"
+		src='scripts/correccionExamen.js'></script>
 </body>
 </html>
