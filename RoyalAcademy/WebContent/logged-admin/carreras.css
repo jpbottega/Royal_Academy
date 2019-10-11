@@ -1,0 +1,24 @@
+.menu-carreras {
+	border-right: 1px solid #333;
+}
+
+@media ( max-width : 767px) {
+	.menu-carreras {
+		border-right: 0px;
+		border-bottom: 1px solid #333;
+		padding-bottom: 1rem;
+	}
+	.container-menu-carreras {
+		width: 85% !important;
+		margin: auto;
+	}
+	.panel-carreras{
+		padding-top: 1rem;
+	}
+}
+
+.btn-funciones-carreras {
+	text-align: center;
+	display: flex;
+	align-items: center;
+}

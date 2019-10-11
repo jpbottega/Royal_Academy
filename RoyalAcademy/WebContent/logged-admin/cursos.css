@@ -1,0 +1,19 @@
+.menu-cursos {
+	border-right: 1px solid #333;
+}
+
+@media ( max-width : 767px) {
+	.menu-cursos {
+		border-right: 0px;
+		border-bottom: 1px solid #333;
+		padding-bottom: 1rem;
+	}
+	.container-menu-cursos {
+		width: 85% !important;
+		margin: auto;
+	}
+	.panel-cursos{
+		padding-top: 1rem;
+	}
+}
+
