@@ -108,6 +108,7 @@ public class InscripcionExamen extends HttpServlet {
 	}
 	
 	private void traerExamenes(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//falta validacion de no traer examenes de cursos que esten aprobados
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
 		ContenedorResponse.Error error = new ContenedorResponse.Error();
@@ -154,14 +155,17 @@ public class InscripcionExamen extends HttpServlet {
 			modelo.InscripcionExamen insc = new modelo.InscripcionExamen();
 			insc.setId_cursoexamen(Integer.parseInt(request.getParameter("id_examen")));
 			insc.setId_usuario(Integer.parseInt(request.getParameter("id_usuario")));
+			insc.setAprobado(false);
+			insc.setEntregado(false);
+			insc.setResultado(0);
 			if (cursoDao.save_tabla(insc)) {
 				error.setCd_error(1);
-				error.setDs_error("Se ha registrado la inscripcion al final.");
+				error.setDs_error("Se ha registrado la inscripcion al examen.");
 				error.setTipo("success");
 			}
 			else {
 				error.setCd_error(1);
-				error.setDs_error("No se pudo registrar la inscripcion al final.");
+				error.setDs_error("No se pudo registrar la inscripcion al examen.");
 				error.setTipo("error");
 			}
 			

@@ -731,13 +731,11 @@
 </div>
 	<script type='text/javascript' src='logged-files/js/jquery.js'></script>
 	<script type='text/javascript' src='logged-files/js/swiper.min.js'></script>
-	<script type='text/javascript'
-		src='logged-files/js/masonry.pkgd.min.js'></script>
-	<script type='text/javascript'
-		src='logged-files/js/jquery.collapsible.min.js'></script>
+	<script type='text/javascript' src='logged-files/js/masonry.pkgd.min.js'></script>
+	<script type='text/javascript' src='logged-files/js/jquery.collapsible.min.js'></script>
 	<script type='text/javascript' src='logged-files/js/custom.js'></script>
 	<script type='text/javascript' src='scripts/logged-alumno.js'></script>
 	<script type='text/javascript' src='scripts/inscripcionAlumnoCurso.js'></script>
-
+	<script type='text/javascript' src='scripts/resolucionExamen.js'></script>
 </body>
 </html>

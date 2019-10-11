@@ -91,6 +91,7 @@ public class PreguntaDao extends DBManager{
 		}
 		return pregunta;
 	}
+	
 	public List<Opciones_Pregunta> traerOpciones(int id_pregunta) {
 		List<Opciones_Pregunta> opciones = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {

@@ -1,28 +1,34 @@
 package modelo;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="inscripcion_examen")
 public class InscripcionExamen implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id 
 	private int id_cursoexamen;
 	@Id 
 	private int id_usuario;
+	private boolean entregado;
+	private boolean aprobado;
+	private float resultado;
 	
 	public InscripcionExamen() {}
 	
-	public InscripcionExamen(int id_cursoexamen, int id_usuario) {
+	public InscripcionExamen(int id_cursoexamen, int id_usuario, boolean entregado, boolean aprobado, float resultado) {
 		super();
 		this.id_cursoexamen = id_cursoexamen;
 		this.id_usuario = id_usuario;
+		this.entregado = entregado;
+		this.aprobado = aprobado;
+		this.resultado = resultado;
 	}
 
 	public int getId_cursoexamen() {
@@ -40,4 +46,29 @@ public class InscripcionExamen implements Serializable{
 	public void setId_usuario(int id_usuario) {
 		this.id_usuario = id_usuario;
 	}
+
+	public boolean isEntregado() {
+		return entregado;
+	}
+
+	public void setEntregado(boolean entregado) {
+		this.entregado = entregado;
+	}
+
+	public boolean isAprobado() {
+		return aprobado;
+	}
+
+	public void setAprobado(boolean aprobado) {
+		this.aprobado = aprobado;
+	}
+
+	public float getResultado() {
+		return resultado;
+	}
+
+	public void setResultado(float resultado) {
+		this.resultado = resultado;
+	}
+	
 }

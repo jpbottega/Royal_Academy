@@ -51,7 +51,16 @@ System.out.println(permisoFunciones.size());
 		<div class="dropdown menu-option">
 				<span onclick="gotoCalendario();">Calendario</span>
 		</div>
-	<%} %>		
+	<%} %>	
+	<%if(permisoFunciones.get(12).getHabilitada()==1){ %>
+	<div class="dropdown menu-option">
+		<span>Examenes</span>
+		<div class="dropdown-content">
+			<div class="option" onclick="gotoInscripcionExamenAlumno();">Inscripcion</div>
+			<div class="option" onclick="gotoResolucionExamenAlumno();">Rendir Examen</div>
+		</div>
+	</div>
+	<%} %>	
 <div class="dropdown menu-option">
 	<span><a href="index.jsp">Salir</a></span>
 </div>

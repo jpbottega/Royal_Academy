@@ -9,22 +9,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.CursoDao;
-import dao.ExamenDao;
+import dao.CursoExamenDao;
 import dao.CarreraDao;
-import dao.FuncionesDao;
-import dao.PaisDao;
-import dao.RolDao;
-import dao.PreguntaDao;
-import dao.SedeDao;
 import modelo.Carrera;
-import modelo.Examen;
 import modelo.Curso;
-import modelo.Funciones;
-import modelo.Pais;
-import modelo.Pregunta;
-import modelo.Rol;
-import modelo.Sede;
-import modelo.Sede_Carrera;
+import modelo.CursoExamen;
+import modelo.Usuario;
+
 /**
  * Servlet implementation class ServletLoggedAdmin
  */
@@ -35,16 +26,15 @@ public class ServletLoggedAlumno extends ServletIncludeGoto {
 
 	/**
 	 * @see HttpServlet#HttpServlet()
-	public ServletLoggedAlumno() {
 	 */
+	public ServletLoggedAlumno() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 */
 	 *      response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -53,8 +43,8 @@ public class ServletLoggedAlumno extends ServletIncludeGoto {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 	}
+	
 	/**
-
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -73,13 +63,15 @@ public class ServletLoggedAlumno extends ServletIncludeGoto {
 					perfil(request, response);
 					break;
 				case "homealumno":
-					break;
 					homealumno(request, response);
-				
+					break;
 				case "inscripcionCursos":
 					inscripcionCursoAlumno(request, response);
 					break;
-	
+				case "resolucionExamen":
+					resolucionExamen(request, response);
+					break;
+			
 				}
 			}
 		} catch (Exception e) {
@@ -87,31 +79,40 @@ public class ServletLoggedAlumno extends ServletIncludeGoto {
 		}
 
 	}
+
+	private void resolucionExamen(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			int id_usuario = ((Usuario)request.getSession().getAttribute("usuario")).getId();
+			CursoExamenDao ceDao = new CursoExamenDao();
+			List<CursoExamen> lista = ceDao.traerExamenesPorAlumno(id_usuario);
+			request.setAttribute("examenes_inscripto", lista);
+			includePage("/resolucionExamen.jsp", request, response); // voy a panel inicio de administrativo
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private void homealumno(HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-		
 			
 			includePage("/loggedAlumno.jsp", request, response); // voy a panel inicio de administrativo
 
-
 		} catch (Exception e) {
 			e.printStackTrace();
-	}
 		}
+	}
 	
 	private void perfil(HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-		
 			
 			includePage("/loggedAdmin.jsp", request, response); // voy a panel inicio de administrativo
 
-
-		}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
 	}
 	
 	private void inscripcionCursoAlumno(HttpServletRequest request, HttpServletResponse response) {

@@ -2,19 +2,14 @@ package servlets;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import dao.FuncionesDao;
-import dao.RolDao;
 import dao.UsuarioDao;
-import modelo.Funciones;
 import modelo.PermisoFunciones;
-//import endec.StringEncrypter;
 import modelo.Usuario;
 
 /**
@@ -75,7 +70,6 @@ public class Login extends ServletIncludeGoto {
 		try {
 			// StringEncrypter crypto = new StringEncrypter("nosequevaaca");
 			UsuarioDao userDao = new UsuarioDao();
-			RolDao rolDao = new RolDao();
 			FuncionesDao funcionesDao = new FuncionesDao();
 			if (request.getParameter("email") != null && request.getParameter("pass") != null) {
 				Usuario usuario = userDao.traerUsuarioPorMail(request.getParameter("email"));

@@ -58,9 +58,12 @@
 				<button type="button" class="btn btn-success pull-right" 
 					onclick="inscribirAlumnoCurso(<%=((Usuario)request.getSession().getAttribute("usuario")).getId() %>);" 
 						id="botonInscribirAlumno">Inscribirse</button>
-				<button type="button" class="btn btn-danger pull-right" 
+				<button type="button" class="btn btn-warning pull-right" 
 					onclick="desinscribirAlumnoCurso(<%=((Usuario)request.getSession().getAttribute("usuario")).getId() %>);" 
 						id="botonInscribirAlumno">Eliminar Inscripcion</button>
+				<button type="button" class="btn btn-danger pull-right" 
+					onclick="gotoHomeAlumno();" 
+						id="botonVolver">Volver</button>
 		</div>
 	</div>
 </div>

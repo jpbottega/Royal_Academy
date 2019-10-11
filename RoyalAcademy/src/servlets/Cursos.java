@@ -10,18 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import dao.CursoDao;
 import dao.FuncionesDao;
-import dao.RolDao;
-import dao.SedeDao;
 import modelo.ContenedorResponse;
 import modelo.Curso;
-import modelo.Funciones;
-import modelo.Funciones_Perfil;
-import modelo.Rol;
-import modelo.Sede;
-import modelo.Select_Funciones_Perfil;
 
 /**
  * Servlet implementation class ServletLoggedAdmin
