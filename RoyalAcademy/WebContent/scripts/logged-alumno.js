@@ -24,7 +24,3 @@ function gotoResolucionExamenAlumno(){
 		
 	});
 }
-
-function gotoHomeAlumno(){
-	window.location.replace("/RoyalAcademy/loggedAlumno.jsp"); // esto es provisional
-}

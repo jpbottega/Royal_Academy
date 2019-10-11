@@ -737,5 +737,6 @@
 	<script type='text/javascript' src='scripts/logged-alumno.js'></script>
 	<script type='text/javascript' src='scripts/inscripcionAlumnoCurso.js'></script>
 	<script type='text/javascript' src='scripts/resolucionExamen.js'></script>
+	<script type='text/javascript' src='scripts/logged-admin.js'></script>
 </body>
 </html>
