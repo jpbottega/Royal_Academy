@@ -36,27 +36,31 @@ import modelo.Usuario;
 @WebServlet("/ExamenesABM")
 public class ExamenesABM extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ExamenesABM() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ExamenesABM() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html");
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
@@ -67,11 +71,11 @@ public class ExamenesABM extends HttpServlet {
 				case "crearExamenManual":
 					crearExamenManual(request, response);
 					break;
-					
+
 				case "crearExamenAutomatico":
 					crearExamenAutomatico(request, response);
 					break;
-					
+
 				case "guardarExamen":
 					guardarExamen(request, response);
 					break;
@@ -79,19 +83,19 @@ public class ExamenesABM extends HttpServlet {
 				case "agregarPregunta":
 					agregarPregunta(request, response);
 					break;
-					
+
 				case "eliminarPregunta":
 					eliminarPregunta(request, response);
 					break;
-					
+
 				case "selectExamen":
 					selectExamen(request, response); // este para cuando selecciona la tarjeta
 					break;
-					
+
 				case "selectCursoExamen":
 					selectCursoExamen(request, response); // este para generar las tarjetas
 					break;
-					
+
 				case "eliminarExamen":
 					eliminarExamen(request, response);
 					break;
@@ -101,7 +105,7 @@ public class ExamenesABM extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void crearExamenAutomatico(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -112,42 +116,56 @@ public class ExamenesABM extends HttpServlet {
 		PreguntaDao pregDao = new PreguntaDao();
 		ExamenDao examenDao = new ExamenDao();
 		Select_Examen select_examen = new Select_Examen();
-		//int cant_preguntas = Integer.parseInt(request.getParameter("cant_preguntas"));
+		// int cant_preguntas =
+		// Integer.parseInt(request.getParameter("cant_preguntas"));
 		Random random = new Random();
 		try {
 			int cant_preguntas = Integer.parseInt(request.getParameter("cant_preguntas"));
-			int id_curso = Integer.parseInt(request.getParameter("id_curso")), id_creador = Integer.parseInt(request.getParameter("id_creador"));
+			int id_curso = Integer.parseInt(request.getParameter("id_curso")),
+					id_creador = Integer.parseInt(request.getParameter("id_creador"));
 			// agrego la pregunta al examen
 			Examen e = new Examen();
 			e.setId_curso(id_curso);
 			e.setFechaCreacion(new Date());
 			e.setId_usuario_creador(id_creador);
 			e.setDescripcion("Examen Autogenerado: " + e.getFechaCreacion().getTime()); // tengo q hacer esto unico
-			
+
 			examenDao.save_tabla(e); // guardo el examen en la bd
-			e.setId(examenDao.aux_select_int("select id from examenes where descripcion = '" + e.getDescripcion() + "';"));// uso la descripcion para traerlo, seria mejor usar un stored procedure
+			e.setId(examenDao
+					.aux_select_int("select id from examenes where descripcion = '" + e.getDescripcion() + "';"));// uso
+																													// la
+																													// descripcion
+																													// para
+																													// traerlo,
+																													// seria
+																													// mejor
+																													// usar
+																													// un
+																													// stored
+																													// procedure
 			select_examen.setId_examen(e.getId());
-			select_examen.setDescripcion(e.getDescripcion()); 
-			
+			select_examen.setDescripcion(e.getDescripcion());
+
 			List<Pregunta> curso_disponible = examenDao.traerPreguntasDisponibles(e.getId());
 			List<Pregunta> curso_habilitado = new ArrayList<Pregunta>();
-			
+
 			for (int i = 0; i < cant_preguntas; i++) {
 				if (!curso_disponible.isEmpty()) {
-					Pregunta p = curso_disponible.remove((curso_disponible.size() > 1) ? random.nextInt(curso_disponible.size() - 1) : 0);
+					Pregunta p = curso_disponible
+							.remove((curso_disponible.size() > 1) ? random.nextInt(curso_disponible.size() - 1) : 0);
 					curso_habilitado.add(p); // saco una pregunta al azar de las disponibles
 					// y la pongo en el habilitado
 					examenDao.save_tabla(new PreguntaxExamen(p.getId(), e.getId()));
 				}
 			}
-			
+
 			curso_disponible = examenDao.traerPreguntasDisponibles(e.getId());
-			
+
 			String options_habilitadas = this.traerHtmlPreguntasHabilitadas(curso_habilitado, pregDao);
 			String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 			select_examen.setPreguntas_disponibles(options_disponibles);
 			select_examen.setPreguntas_habilitadas(options_habilitadas);
-			
+
 			error.setCd_error(1);
 			error.setDs_error("Autogenerado nuevo examen.");
 			error.setTipo("success");
@@ -164,7 +182,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-	
+
 	private void eliminarExamen(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -182,14 +200,13 @@ public class ExamenesABM extends HttpServlet {
 					error.setDs_error("Se ha eliminado el examen.");
 					error.setTipo("success");
 					examenDao.eliminarPreguntasAsociadas(id_examen);
-				}	
-			}
-			else { // si no existe mando mensaje q no existe
+				}
+			} else { // si no existe mando mensaje q no existe
 				error.setCd_error(1);
 				error.setDs_error("El examen no existe en la base de datos.");
 				error.setTipo("error");
 			}
-					
+
 		} catch (Exception e) {
 			error.setCd_error(1);
 			error.setDs_error("Error interno en el servidor.");
@@ -202,7 +219,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-	
+
 	private void selectExamen(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -226,12 +243,11 @@ public class ExamenesABM extends HttpServlet {
 				String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 				select_examen.setPreguntas_disponibles(options_disponibles);
 				select_examen.setPreguntas_habilitadas(options_habilitadas);
-				
+
 				error.setCd_error(1);
 				error.setDs_error("Habilitada la edicion del examen.");
 				error.setTipo("success");
-			}
-			else {
+			} else {
 				error.setCd_error(1);
 				error.setDs_error("El examen no existe en la base de datos.");
 				error.setTipo("error");
@@ -266,15 +282,14 @@ public class ExamenesABM extends HttpServlet {
 			List<Examen> examenes = examenDao.traerExamenPorCurso(id_curso);
 			for (Examen e : examenes) {
 				Usuario u = userDao.traerUsuarioPorId(e.getId_usuario_creador());
-				tarjetas +="<div class=\"row\">";
-					tarjetas += "<div class=\"col-md-auto ml-3 card card-styles\" onclick=\"selectExamen("+e.getId()+");\" id=\""+e.getId()+"\">" +  
-								"<div class=\"card-body\">" +
-										"<div class=\"card-title\">" +e.getDescripcion() + "</div>" + 
-										"<div class=\"card-text text-muted\">Fecha Creacion: " + FuncionesVarias.getStringDate(e.getFechaCreacion(), 1) + "</div>" + 
-										"<div class=\"card-text text-muted\">Creador: " + u.getNombre() + " " + u.getApellido() + "</div>" + 
-								"</div>" +
-							"</div>";
-					tarjetas+="</div>";
+				tarjetas += "<div class=\"row card card-styles\" onclick=\"selectExamen(" + e.getId() + ");\" id=\"" + e.getId()
+						+ "\">";
+				tarjetas += "<div class=\"card-body\">" + "<div class=\"card-title\">" + e.getDescripcion() + "</div>"
+						+ "<div class=\"card-text text-muted\">Fecha Creacion: "
+						+ FuncionesVarias.getStringDate(e.getFechaCreacion(), 1) + "</div>"
+						+ "<div class=\"card-text text-muted\">Creador: " + u.getNombre() + " " + u.getApellido()
+						+ "</div>"  + "</div>";
+				tarjetas += "</div>";
 			}
 		} catch (Exception e) {
 			error.setCd_error(1);
@@ -289,7 +304,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-		
+
 	private void eliminarPregunta(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -301,7 +316,8 @@ public class ExamenesABM extends HttpServlet {
 		ExamenDao examenDao = new ExamenDao();
 		Select_Sedes_Carrera select_sedes_perfil = new Select_Sedes_Carrera();
 		try {
-			int id_examen = Integer.parseInt(request.getParameter("id_examen")), id_pregunta = Integer.parseInt(request.getParameter("id_pregunta"));
+			int id_examen = Integer.parseInt(request.getParameter("id_examen")),
+					id_pregunta = Integer.parseInt(request.getParameter("id_pregunta"));
 			// agrego la pregunta al examen
 			if (examenDao.delete_tabla(new PreguntaxExamen(id_pregunta, id_examen))) {
 				error.setCd_error(1);
@@ -314,7 +330,7 @@ public class ExamenesABM extends HttpServlet {
 				select_sedes_perfil.setSedes_disponibles(options_disponibles);
 				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
 			}
-				
+
 		} catch (Exception e) {
 			error.setCd_error(1);
 			error.setDs_error("Error interno en el servidor.");
@@ -328,7 +344,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-		
+
 	private void agregarPregunta(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -340,7 +356,8 @@ public class ExamenesABM extends HttpServlet {
 		ExamenDao examenDao = new ExamenDao();
 		Select_Sedes_Carrera select_sedes_perfil = new Select_Sedes_Carrera();
 		try {
-			int id_examen = Integer.parseInt(request.getParameter("id_examen")), id_pregunta = Integer.parseInt(request.getParameter("id_pregunta"));
+			int id_examen = Integer.parseInt(request.getParameter("id_examen")),
+					id_pregunta = Integer.parseInt(request.getParameter("id_pregunta"));
 			// agrego la pregunta al examen
 			if (examenDao.save_tabla(new PreguntaxExamen(id_pregunta, id_examen))) {
 				error.setCd_error(1);
@@ -353,7 +370,7 @@ public class ExamenesABM extends HttpServlet {
 				select_sedes_perfil.setSedes_disponibles(options_disponibles);
 				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
 			}
-				
+
 		} catch (Exception e) {
 			error.setCd_error(1);
 			error.setDs_error("Error interno en el servidor.");
@@ -367,7 +384,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-	
+
 	private void guardarExamen(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -377,7 +394,8 @@ public class ExamenesABM extends HttpServlet {
 		String json = "";
 		ExamenDao examenDao = new ExamenDao();
 		try {
-			if (request.getParameter("id_curso") != null && request.getParameter("id_carrera") != null && request.getParameter("id_examen") != null) {
+			if (request.getParameter("id_curso") != null && request.getParameter("id_carrera") != null
+					&& request.getParameter("id_examen") != null) {
 				Examen examen = new Examen();
 				examen.setId_curso(Integer.parseInt(request.getParameter("id_curso")));
 				examen.setCriterioAprobacion(0);
@@ -389,11 +407,11 @@ public class ExamenesABM extends HttpServlet {
 					if (examenDao.save_tabla(examen)) {
 						error.setCd_error(1);
 						error.setDs_error("Se ha guardado el examen.");
-						error.setTipo("success");	
-						contenedorResponse.setData(examenDao.aux_select_int("select id from examenes where descripcion = '" + examen.getDescripcion() + "';"));
+						error.setTipo("success");
+						contenedorResponse.setData(examenDao.aux_select_int(
+								"select id from examenes where descripcion = '" + examen.getDescripcion() + "';"));
 					}
-				}
-				else {
+				} else {
 					examen.setId(id_examen);
 					if (examenDao.save_tabla(examen)) {
 						error.setCd_error(1);
@@ -401,7 +419,7 @@ public class ExamenesABM extends HttpServlet {
 						error.setTipo("success");
 						contenedorResponse.setData(examen.getId());
 					}
-				}					
+				}
 			}
 		} catch (Exception e) {
 			error.setCd_error(1);
@@ -415,7 +433,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-		
+
 	private void crearExamenManual(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -427,7 +445,8 @@ public class ExamenesABM extends HttpServlet {
 		Select_Sedes_Carrera select_sedes_perfil = new Select_Sedes_Carrera();
 		try {
 			if (request.getParameter("id_curso") != null && request.getParameter("id_carrera") != null) {
-				List<Pregunta> curso_disponible = pregDao.traerPreguntaPorCarreraCurso(Integer.parseInt(request.getParameter("id_carrera")), 
+				List<Pregunta> curso_disponible = pregDao.traerPreguntaPorCarreraCurso(
+						Integer.parseInt(request.getParameter("id_carrera")),
 						Integer.parseInt(request.getParameter("id_curso")));
 				String options_habilitadas = "";
 				String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
@@ -437,7 +456,7 @@ public class ExamenesABM extends HttpServlet {
 
 				error.setCd_error(1);
 				error.setDs_error("Nuevo examen listo para editar.");
-				error.setTipo("success");		
+				error.setTipo("success");
 			}
 		} catch (Exception e) {
 			error.setCd_error(1);
@@ -452,7 +471,7 @@ public class ExamenesABM extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-	
+
 	private String traerHtmlPreguntasDisponibles(List<Pregunta> curso_disponible, PreguntaDao pregDao) {
 		String options_disponibles = "";
 		int contador = 1;
@@ -460,54 +479,46 @@ public class ExamenesABM extends HttpServlet {
 		for (Pregunta curso : curso_disponible) {
 			respuestas = pregDao.traerOpciones(curso.getId());
 			options_disponibles += // a cada boton le pongo el id de la pregunta
-					"<div class=\"row\">" +
-					"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#pd" + contador + "\">" + curso.getPregunta() +
-							
-							"<div class=\"row\">" +
-							"<div id=\"pd" + contador + "\" class=\"collapse\">";
-							for (Opciones_Pregunta op : respuestas) {
-								options_disponibles += 
-										(op.getRespuesta_correcta()) 
-										? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-										: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-							}
-								
-							options_disponibles += "</div></div>" +
-					"</li>"
-					+ "<div class=\"col-sm-2\">" +
-						"<button class=\"pull-right btn-xs btn-success\" id=\"botoncito\" onclick=\"agregarPreguntaExamen(" +
-						curso.getId() +");\" style=\"border-radius:50%;font-size: 0.7em;\" >+</button>" + 
-					"</div></div>";
+					"<div class=\"row mb-2 container-pregunta-examen\">" + "<div class=\"col-9\"data-toggle=\"collapse\" data-target=\"#pd"
+							+ contador + "\">" + "<span class=\"title-pregunta\">"+ curso.getPregunta() + "</span>" +
+
+							 "<div id=\"pd" + contador + "\" class=\"collapse\">";
+			for (Opciones_Pregunta op : respuestas) {
+				options_disponibles += (op.getRespuesta_correcta())
+						? "<div class=\"pregunta-correcta\"><span class=\"icon-pregunta fas fa-check\"/>" + op.getRespuesta()
+						+ "</div>"
+				: "<div class=\"pregunta-incorrecta\"><span class=\"icon-pregunta fas fa-times\"/> " + op.getRespuesta() + "</div>";
+			}
+
+			options_disponibles += "</div>" + "</div>" + "<div class=\"col-3 container-btn-pregunta\">"
+					+ "<button class=\"btn btn-success btn-examenes fas fa-plus\" id=\"botoncito\" onclick=\"agregarPreguntaExamen("
+					+ curso.getId() + ");\" ></button>" + "</div></div>";
 			contador++;
 		}
 		return options_disponibles;
 	}
-	
+
 	private String traerHtmlPreguntasHabilitadas(List<Pregunta> curso_habilitado, PreguntaDao pregDao) {
 		int contador = 1;
-		String options_habilitadas ="";
+		String options_habilitadas = "";
 		List<Opciones_Pregunta> respuestas = null;
 		for (Pregunta curso : curso_habilitado) {
 			respuestas = pregDao.traerOpciones(curso.getId());
 			options_habilitadas += // a cada boton le pongo el id de la pregunta
-					"<div class=\"row\">" +
-					"<li class=\"col-sm-10\"data-toggle=\"collapse\" data-target=\"#ph" + contador + "\">" + curso.getPregunta() +
-							
-							"<div class=\"row\">" +
-							"<div id=\"ph" + contador + "\" class=\"collapse\">";
-							for (Opciones_Pregunta op : respuestas) {
-								options_habilitadas += 
-										(op.getRespuesta_correcta()) 
-										? "<label class=\"row ml-4 font-weight-bold\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>"
-										: "<label class=\"row ml-4\" style=\"margin-bottom:0%\">- " + op.getRespuesta() + "</label>";
-							}
-								
-							options_habilitadas += "</div></div>" +
-					"</li>"
-					+ "<div class=\"col-sm-2\">" +
-					"<button class=\"pull-right btn-xs btn-danger\" style=\"border-radius:50%;font-size: 0.7em;\" onclick=\"eliminarPreguntaExamen(" +
-					curso.getId() +");\">-</button>" + 
-					"</div></div>";
+					"<div class=\"row mb-2 container-pregunta-examen\">" + "<div class=\"col-9\"data-toggle=\"collapse\" data-target=\"#ph"
+							+ contador + "\">" + "<span class=\"title-pregunta\">" + curso.getPregunta() + "</span>" +
+
+							 "<div id=\"ph" + contador + "\" class=\"collapse\">";
+			for (Opciones_Pregunta op : respuestas) {
+				options_habilitadas += (op.getRespuesta_correcta())
+						? "<div class=\"pregunta-correcta\"><span class=\"icon-pregunta fas fa-check\"/>" + op.getRespuesta()
+								+ "</div>"
+						: "<div class=\"pregunta-incorrecta\"><span class=\"icon-pregunta fas fa-times\"/>" + op.getRespuesta() + "</div>";
+			}
+
+			options_habilitadas += "</div>" + "</div>" + "<div class=\"col-3 container-btn-pregunta\">"
+					+ "<button class=\"btn btn-danger btn-examenes fas fa-minus\"  onclick=\"eliminarPreguntaExamen("
+					+ curso.getId() + ");\"></button>" + "</div></div>";
 			contador++;
 		}
 		return options_habilitadas;

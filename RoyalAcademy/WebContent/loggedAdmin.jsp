@@ -27,74 +27,78 @@
 <link rel="stylesheet" href="logged-files/style.css">
 <link rel="stylesheet" href="logged-admin/css-logged-admin.css">
 <link rel="stylesheet" href="logged-admin/perfiles.css">
+<link rel="stylesheet" href="logged-admin/sedes.css">
+<link rel="stylesheet" href="logged-admin/carreras.css">
+<link rel="stylesheet" href="logged-admin/cursos.css">
 <link rel="stylesheet" href="logged-admin/toastr.min.css">
 <link rel="stylesheet" href="logged-admin/usuarios.css">
-<link rel="stylesheet" href="logged-admin/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet"
+	href="logged-admin/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="logged-admin/preguntas.css">
 <link rel="stylesheet" href="logged-admin/examenes.css">
+ <link  rel="stylesheet" href="fontawesome-free-5.11.2-web/css/all.css">
+ 
 
 </head>
-<body>
-	<div class="hero-content">
-		<header class="site-header">
+<body class="hero-content">
 
-			<div class="nav-bar nav-bar-admin">
-				<div class="container container-modif">
-					<div class="row">
-						<div class="col-3 col-lg-3">
-							<div class="site-branding">
-								<h1 class="site-title">
-									<a href="javascript:gotoHome();" style="color: #fff !important;">Royal<span>
-											Academy</span></a>
-								</h1>
-							</div>
-							<!-- .site-branding -->
-						</div>
-						<!-- .col -->
-
-						<div
-							class="col-9 col-lg-9 flex justify-content-end align-content-center">
-							<nav
-								class="site-navigation flex justify-content-end align-items-center"
-								style="width: 100%">
-
-								<jsp:include page="menu-logged-admin.jsp" />
-
-
-
-								<!-- .header-bar-search -->
-							</nav>
-							<!-- .site-navigation -->
-						</div>
-						<!-- .col -->
-					</div>
-					<!-- .row -->
+	<div>
+		<header class="site-header container-navbar">
+			<nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
+				<h1 class="site-title">
+					<a href="javascript:gotoHome();"> Royal <span>Academy</span>
+					</a>
+				</h1>
+				<button class="navbar-toggler btn-menu" type="button"
+					data-toggle="collapse" data-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav navbar-menu">
+						<jsp:include page="menu-logged-admin.jsp" />
+					</ul>
 				</div>
-				<!-- .container -->
-			</div>			<!-- .nav-bar -->
+			</nav>
 		</header>
-		<div class="container container-modif container-data"><div class="div-data"><div class="functions-container" id="functions-container"></div></div></div>
-		<!-- .site-header -->
+
+		<div class="container-fluid panel-admin">
+			<div class="functions-container" id="functions-container"></div>
+		</div>
 	</div>
 
-	<script type='text/javascript' charset="UTF-8" src='logged-files/js/jquery.js'></script>
-	<script type='text/javascript' charset="UTF-8" src='logged-files/js/swiper.min.js'></script>
-	<script type='text/javascript' charset="UTF-8" src='logged-files/js/masonry.pkgd.min.js'></script>
-	<script type='text/javascript' charset="UTF-8" src='logged-files/js/jquery.collapsible.min.js'></script>
-	<script type='text/javascript' charset="UTF-8" src='logged-files/js/custom.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='logged-files/js/jquery.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='logged-files/js/swiper.min.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='logged-files/js/masonry.pkgd.min.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='logged-files/js/jquery.collapsible.min.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='logged-files/js/custom.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/toastr.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/moment.js'></script>
-	<script type='text/javascript' charset="UTF-8" src='scripts/bootstrap-datetimepicker.min.js'></script>
-	<script type='text/javascript' charset="UTF-8" src='scripts/logged-admin.js'></script>
-	<script type='text/javascript' charset="UTF-8" src='scripts/perfiles.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='scripts/bootstrap-datetimepicker.min.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='scripts/logged-admin.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='scripts/perfiles.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/sede.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/carrera.js'></script>
-	<script type='text/javascript' charset="UTF-8" src='scripts/usuarios.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='scripts/usuarios.js'></script>
 	<script type='text/javascript' charset="UTF-8" src='scripts/cursos.js'></script>
-	<script type='text/javascript' charset="UTF-8" src='scripts/preguntas.js'></script>
-	<script type="text/javascript" charset="UTF-8" src='scripts/bootstrap.min.js'></script>
-	<script type="text/javascript" charset="UTF-8" src='scripts/bootstrap.min.js'></script>
-	<script type="text/javascript" charset="UTF-8" src='scripts/examenesABM.js'></script>
-	
+	<script type='text/javascript' charset="UTF-8"
+		src='scripts/preguntas.js'></script>
+	<script type="text/javascript" charset="UTF-8"
+		src='scripts/bootstrap.min.js'></script>
+	<script type="text/javascript" charset="UTF-8"
+		src='scripts/bootstrap.min.js'></script>
+	<script type="text/javascript" charset="UTF-8"
+		src='scripts/examenesABM.js'></script>
+
 </body>
 </html>

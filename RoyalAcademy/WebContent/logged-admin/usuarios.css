@@ -5,13 +5,67 @@
 
 .card-styles:hover {
 	background: #f5f5f5;
-	border: 2px solid #51a1e8;	
+	border: 2px solid #51a1e8;
 }
-.card-title{
-	    font-weight: 500;
+
+.card-title {
+	font-weight: 500;
 }
 
 .card-selected {
 	background: #f5f5f5;
-	border: 2px solid #51a1e8;	
+	border: 2px solid #51a1e8;
+}
+
+.menu-usuarios {
+	border-right: 1px solid #333;
+}
+
+@media(max-width:767px) {
+	.menu-usuarios {
+		border-right: 0px;
+		border-bottom: 1px solid #333;
+		padding-bottom: 1rem;
+	}
+	
+	.container-menu-usuarios {
+		width: 85% !important;
+		margin: auto;
+	}
+	
+	.panel-usuarios {
+		padding-top: 1rem;
+	}
+}
+.menu-usuarios-lista {
+	height: calc(100vh - 23rem);
+	overflow: auto;
+	padding: 0 1.5rem;
+	border: 1px solid #ced4da;
+	background: #e5f1fc !important;
+}
+
+@media ( max-height : 800px) {
+	.menu-usuarios-lista {
+		height: calc(100vh - 21rem);
+	}
+}
+
+@media ( max-width : 992px) {
+	.panel-usuarios {
+		overflow: auto;
+		height: 87vh;
+	}
+}
+
+@media ( max-width : 992px) {
+.btn-funciones-usuarios {
+	padding-left: 0 !important;
+}
+}
+
+.btn-funciones-usuarios {
+	text-align: center;
+	display: flex;
+	align-items: center;
 }

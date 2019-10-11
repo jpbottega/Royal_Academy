@@ -6,16 +6,21 @@ List<PermisoFunciones> permisoFunciones = (List<PermisoFunciones>) 	request.getS
 System.out.println(permisoFunciones.size());
 %>
 	<%if(permisoFunciones.get(2).getHabilitada()==1){ %>
-		<div class="dropdown menu-option">
-			<span onclick="gotoPerfiles();">Perfiles</span>
-		</div>
+		<li class="nav-item">
+			<div class="dropdown menu-option">
+				<span onclick="gotoPerfiles();">Perfiles</span>
+			</div>
+		</li>
 	<%} %>
 	<%if(permisoFunciones.get(3).getHabilitada()==1){ %>
+	<li class="nav-item">
 		<div class="dropdown menu-option">
 			<span onclick="gotoUsuarios();">Usuarios</span>
 		</div>
+		</li>
 	<%} %>
 	<%if(permisoFunciones.get(4).getHabilitada()==1 || permisoFunciones.get(5).getHabilitada()==1 || permisoFunciones.get(6).getHabilitada()==1){ %>
+	<li class="nav-item">
 	<div class="dropdown menu-option">
 		<span>Organización</span>
 		<div class="dropdown-content">
@@ -28,8 +33,10 @@ System.out.println(permisoFunciones.size());
 		<%} %>	
 		</div>
 	</div>
+	</li>
 	<%} %>	
 	<%if(permisoFunciones.get(7).getHabilitada()==1 || permisoFunciones.get(8).getHabilitada()==1){ %>
+	<li class="nav-item">
 	<div class="dropdown menu-option">
 		<span>Examenes</span>
 		<div class="dropdown-content">
@@ -40,8 +47,10 @@ System.out.println(permisoFunciones.size());
 		<%} %>	
 		</div>
 	</div>
+	</li>
 	<%} %>	
-
+<li class="nav-item">
 <div class="dropdown menu-option">
 	<span><a href="index.jsp">Salir</a></span>
 </div>
+</li>

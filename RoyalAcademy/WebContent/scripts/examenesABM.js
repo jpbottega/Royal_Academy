@@ -22,7 +22,7 @@ function selectCursoExamen(){
 	$.post("ExamenesABM?accion=selectCursoExamen","id_carrera="+$("#select_carreras").val()+"&id_curso="+$("#select_cursos").val(),
 			function(data) {
 			if (data.data == ""){
-				$("#container_examenes").html("<div class=\"alert alert-danger\" role=\"alert\">Asegúrese de que existan carreras y cursos</div>");
+				$("#container_examenes").html("<div class=\"alert alert-danger mt-3\" role=\"alert\">Asegúrese de que existan carreras y cursos</div>");
 			}else {
 				$("#container_examenes").html(data.data);
 			}
@@ -48,7 +48,7 @@ function guardarExamen(){
 			$.post("ExamenesABM?accion=selectCursoExamen","id_carrera="+$("#select_carreras").val()+"&id_curso="+$("#select_cursos").val(),
 			function(data) {
 				if (data.data == ""){
-					$("#container_examenes").html("<div class=\"alert alert-danger\" role=\"alert\">Asegúrese de que existan carreras y cursos</div>");
+					$("#container_examenes").html("<div class=\"alert alert-danger mt-3\" role=\"alert\">Asegúrese de que existan carreras y cursos</div>");
 				}else {
 					$("#container_examenes").html(data.data);
 				}
@@ -109,7 +109,7 @@ function eliminarExamen(){
 					$.post("ExamenesABM?accion=selectCursoExamen","id_carrera="+$("#select_carreras").val()+"&id_curso="+$("#select_cursos").val(),
 							function(data) {
 							if (data.data == ""){
-								$("#container_examenes").html("<div class=\"alert alert-danger\" role=\"alert\">Asegúrese de que existan carreras y cursos</div>");
+								$("#container_examenes").html("<div class=\"alert alert-danger mt-3\" role=\"alert\">Asegúrese de que existan carreras y cursos</div>");
 							}else {
 								$("#container_examenes").html(data.data);
 							}
@@ -140,7 +140,7 @@ function creacionExamenAutomatica(){
 					$.post("ExamenesABM?accion=selectCursoExamen","id_carrera="+$("#select_carreras").val()+"&id_curso="+$("#select_cursos").val(),
 							function(data) {
 								if (data.data == ""){
-									$("#container_examenes").html("<div class=\"alert alert-danger\" role=\"alert\">Asegúrese de que existan carreras y cursos</div>");
+									$("#container_examenes").html("<div class=\"alert alert-danger mt-3\" role=\"alert\">Asegúrese de que existan carreras y cursos</div>");
 								}else {
 									$("#container_examenes").html(data.data);
 								}

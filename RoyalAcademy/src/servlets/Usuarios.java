@@ -632,9 +632,8 @@ public class Usuarios extends HttpServlet {
 				error.setDs_error("Se han encontrado " + usuarios.size() + " resultados.");
 				error.setTipo("success");
 				String datos = "";
-				datos="<div class=\"row\">";
 				for (Usuario usuario : usuarios) {
-					datos += "<div class=\"col-12 card card-styles\" onclick=\"selectTarjeta("+usuario.getId()+")\" id=\""+usuario.getId()+"\">" +  
+					datos += "<div class=\"row card card-styles\" onclick=\"selectTarjeta("+usuario.getId()+")\" id=\""+usuario.getId()+"\">" +  
 								"<div class=\"card-body\">" +
 										"<div class=\"card-title\">" +usuario.getNombre() + " " + usuario.getApellido() + "</div>" + 
 										"<div class=\"card-subtitle mb-2 text-muted\">" + usuario.getEmail() + "</div>" + 
@@ -644,7 +643,6 @@ public class Usuarios extends HttpServlet {
 								"</div>" +
 							"</div>";
 				}
-				datos+="</div>";
 				contenedorResponse.setData(datos);
 			}
 
@@ -772,51 +770,76 @@ public class Usuarios extends HttpServlet {
 			List<Curso> cursosHabilitados = userDao.traerCursosHabilitadas(u.getId());
 			if (u != null) {
 				String datos = "";
-				datos = "<input id=\"id_usuario\" name=\"id_usuario\" type=\"hidden\" value=\"" + u.getId() + "\">"+
+				datos += "<div class=\"row panel-usuarios\">";
+				datos += "<input id=\"id_usuario\" name=\"id_usuario\" type=\"hidden\" value=\"" + u.getId() + "\">"+
 						"<input id=\"id_rol\" name=\"id_rol\" type=\"hidden\" value=\"" + u.getId_rol() + "\">"+
 						"<input type=\"hidden\" id=\"verificado\" name=\"verificado\" value=\"" + u.isVerificado() + "\">"+
 						"<input type=\"hidden\" id=\"passUsuario\" name=\"passUsuario\" value=\"" + u.getPass() + "\">"+
-							"<div class=\"form-group row\">"+
-								"<div class=\"col\">" +
-									"<label for=\"exampleInputEmail1\">Nombre</label>" +
+						
+								"<div class=\"col-md-12 col-lg-6\">" +
+									"<div class=\"form-group\">"+
+									"	<label for=\"exampleInputEmail1\">Nombre</label>" +
 										"<input type=\"text\" class=\"form-control\" id=\"nombreUsuario\" name=\"nombreUsuario\" " +
 										"placeholder=\"Nombre del usuario\" value=\"" + u.getNombre()+ "\">" +
+									"</div>"+
 								"</div>"+
-								"<div class=\"col\">" +
-									"<label for=\"exampleInputEmail1\">Apellido</label>" +
+										
+								
+								"<div class=\"col-md-12 col-lg-6\">" +
+									"<div class=\"form-group\">"+
+										"<label for=\"exampleInputEmail1\">Apellido</label>" +
 										"<input type=\"text\" class=\"form-control\" id=\"apellidoUsuario\" name=\"apellidoUsuario\" " +
 										"placeholder=\"Apellido del usuario\" value=\"" + u.getApellido() + "\">"+
-								"</div>"	+
-							"</div>"+
-							"<div class=\"form-group row\">"+
-								"<div class=\"col\">" +
-									"<label for=\"exampleInputEmail1\">E-Mail</label>" +
+									"</div>"+
+								"</div>"+
+			
+					
+								"<div class=\"col-md-12 col-lg-6\">" +
+									"<div class=\"form-group\"> "+
+										"<label for=\"exampleInputEmail1\">E-Mail</label>" +
 										"<input type=\"email\" class=\"form-control\" id=\"mailUsuario\" name=\"mailUsuario\" " +
 										"placeholder=\"Correo del usuario\" value=\"" + u.getEmail() + "\">" +
+									"</div>"+
 								"</div>"+
-								"<div class=\"col\">" +
-								"<div class=\"form-group\"> "+
-								"<label for=\"nacimientoUsuario\">Fecha de Nacimiento</label> <input "+
-									"type='text'  id=\"nacimientoUsuario\" "+
-								"name=\"nacimientoUsuario\" placeholder=\"dd/mm/aaaa\" class=\"form-control\" value=\"" + FuncionesVarias.getStringDate(u.getFechaNacimiento(), 1) + "\"/> "+
-
-							"</div>"+
+									
+								"<div class=\"col-md-12 col-lg-6\">" +
+									"<div class=\"form-group\"> "+
+										"<label for=\"nacimientoUsuario\">Fecha de Nacimiento</label> <input "+
+										"type='text'  id=\"nacimientoUsuario\" "+
+										"name=\"nacimientoUsuario\" placeholder=\"dd/mm/aaaa\" class=\"form-control\" value=\"" + FuncionesVarias.getStringDate(u.getFechaNacimiento(), 1) + "\"/> "+
+									"</div>"+
 								"</div>"	+
-							"</div>"+
-							"<div class=\"form-group row\">"+
-								"<div class=\"col\">" +
-									"<label for=\"exampleInputEmail1\">Telefono</label>" +
+							
+								
+							
+							
+							
+							
+							
+							
+								"<div class=\"col-md-12 col-lg-6\">" +
+									"<div class=\"form-group\"> "+
+										"<label for=\"exampleInputEmail1\">Telefono</label>" +
 										"<input type=\"text\" class=\"form-control\" id=\"telefonoUsuario\" name=\"telefonoUsuario\" " +
 										"placeholder=\"Telefono del usuario\" value=\"" + u.getTelefono() + "\">" +
+									"</div>"	+
 								"</div>"	+
-								"<div class=\"col\">" +
-									"<label for=\"exampleInputEmail1\">DNI</label>" +
+										
+								
+								"<div class=\"col-md-12 col-lg-6\">" +
+									"<div class=\"form-group\"> "+
+										"<label for=\"exampleInputEmail1\">DNI</label>" +
 										"<input type=\"text\" class=\"form-control\" id=\"dniUsuario\" name=\"dniUsuario\" " +
 										"placeholder=\"Dni del usuario\" value=\"" + u.getDni() + "\">" +
+									"</div>"	+
 								"</div>" +
-							"</div>" +
-							"<div class=\"form-group row\">"+
-								"<div class=\"col-md-6\">"+
+						
+								
+							
+							
+
+								"<div class=\"col-md-12 col-lg-6\">"+
+								"<div class=\"form-group\">"+
 									"<label for=\"exampleFormControlSelect1\">Roles</label> <select "+
 										"class=\"form-control\" id=\"rol_usuario\" name=\"rol_usuario\" onchange=\"cambioRolAdminOrganizacion();\"> ";
 										
@@ -829,8 +852,10 @@ public class Usuarios extends HttpServlet {
 											}
 										
 										datos +="</select>"+
-								"</div>"+
-								"<div class=\"col-md-6\" id=\"seleccion_carreras\">"+
+												"</div>"+
+									"</div>"+
+								"<div class=\"col-md-12 col-lg-6\" id=\"seleccion_carreras\">"+
+									"<div class=\"form-group\">"+
 								"<label for=\"exampleFormControlSelect1\">Carreras</label> <select "+
 									"class=\"form-control\" id=\"id_carrera\" name=\"id_carrera\" onchange=\"actualizarCursos();\"> ";
 										datos +="<option value=\"0\" selected>"+ "Todas" +"</option> ";
@@ -843,11 +868,14 @@ public class Usuarios extends HttpServlet {
 										}
 									
 									datos +="</select>"+
+									"</div>"+
 							"</div>"+
-							"</div>"+
+									
+							"<div class=\"col-12\">"+
+
 								// para administrar sedes en q se inscribe al alumno:
 								"<div class=\"row\" id=\"adminSedesUsuario\">" +
-									"<div class=\"col-md-5\">" +
+									"<div class=\"col-10 col-xl-5\">" +
 										"<div class=\"form-group\">" +
 											"<label for=\"exampleFormControlSelect1\">Sedes Disponibles</label> <select " +
 												"class=\"form-control\" id=\"sedes_disponibles_usuario\" multiple>";
@@ -859,15 +887,17 @@ public class Usuarios extends HttpServlet {
 											datos += "</select>" + 
 										"</div>" +
 									"</div>" +
-									"<div class=\"col-md-1 col-funciones-perfil\">" +
+									"<div class=\"col-2 col-xl-1 btn-funciones-usuarios\">" +
+									"<div>"+
 										"<button type=\"button\"" +
 											"class=\"btn btn-default button-funciones-perfil\"" +
 											"title=\"Agregar Sede\" onclick=\"agregarSedeUsuario();\">>></button>" +
 										"<button type=\"button\"" +
 											"class=\"btn btn-default button-funciones-perfil\"" +
 											"title=\"Eliminar Sede\" onclick=\"eliminarSedeUsuario();\"><<</button>" +
-									"</div>" +
-									"<div class=\"col-md-5\">" +
+											"</div>" +
+											"</div>" +
+									"<div class=\"col-10 col-xl-5\">" +
 										"<div class=\"form-group\">" +
 											"<label for=\"exampleFormControlSelect1\">Sedes Habilitadas</label> <select " +
 												"class=\"form-control\" id=\"sedes_habilitadas_usuario\" multiple>";
@@ -879,12 +909,18 @@ public class Usuarios extends HttpServlet {
 											datos += "</select>" +
 												"</div>" +
 									"</div>" +
+									"</div>" +
 								"</div>";
+											
+											
 											
 						
 						// para administrar cursos de los docentes:
-								datos += "<div class=\"row\" id=\"adminCursosUsuario\">" +
-								"<div class=\"col-md-5\">" +
+											
+						datos +=		"<div class=\"col-12\">"+
+											
+								 "<div class=\"row\" id=\"adminCursosUsuario\">" +
+								"<div class=\"col-10 col-xl-5\">" +
 									"<div class=\"form-group\">" +
 										"<label for=\"exampleFormControlSelect1\">Cursos Disponibles</label> <select " +
 											"class=\"form-control\" id=\"cursos_disponibles_usuario\" multiple>";
@@ -896,15 +932,17 @@ public class Usuarios extends HttpServlet {
 										datos += "</select>" + 
 									"</div>" +
 								"</div>" +
-								"<div class=\"col-md-1 col-funciones-perfil\">" +
+								"<div class=\"col-2 col-xl-1 btn-funciones-usuarios\">" +
+								"<div>"+
 									"<button type=\"button\"" +
 										"class=\"btn btn-default button-funciones-perfil\"" +
 										"title=\"Agregar Curso\" onclick=\"agregarCursoUsuario();\">>></button>" +
 									"<button type=\"button\"" +
 										"class=\"btn btn-default button-funciones-perfil\"" +
 										"title=\"Eliminar Curso\" onclick=\"eliminarCursoUsuario();\"><<</button>" +
-								"</div>" +
-								"<div class=\"col-md-5\">" +
+										"</div>" +
+										"</div>" +
+								"<div class=\"col-10 col-xl-5\">" +
 									"<div class=\"form-group\">" +
 										"<label for=\"exampleFormControlSelect1\">Cursos Habilitados</label> <select " +
 											"class=\"form-control\" id=\"cursos_habilitadas_usuario\" multiple>";
@@ -916,11 +954,13 @@ public class Usuarios extends HttpServlet {
 										datos += "</select>" +
 											"</div>" +
 								"</div>" +
+								"</div>" +
 							"</div>";
-						datos += "<button type=\"button\" class=\"btn btn-success pull-right\"" +
+						datos += "<div class=\"col-12 float-right\"><button type=\"button\" class=\"btn btn-success pull-right\"" +
 							"onclick=\"guardarUsuario();\" id=\"botonGuardarUsuario\">Guardar</button>" +
 						"<button type=\"button\" class=\"btn btn-danger pull-right\"" +
 							"onclick=\"eliminarUsuario();\" id=\"botonEliminarUsuario\">Eliminar</button>";
+						datos +="</div></div>";
 				error.setCd_error(1);
 				error.setDs_error("Habilitada modificacion para usuario " + u.getNombre() + " " + u.getApellido() + ".");
 				error.setTipo("success");
