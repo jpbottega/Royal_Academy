@@ -6,19 +6,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import dao.ExamenDao;
 import dao.PreguntaDao;
-import dao.RespuestaDao;
 import dao.UsuarioDao;
 import funciones.FuncionesVarias;
 import modelo.ContenedorResponse;
@@ -131,18 +128,8 @@ public class ExamenesABM extends HttpServlet {
 			e.setDescripcion("Examen Autogenerado: " + e.getFechaCreacion().getTime()); // tengo q hacer esto unico
 
 			examenDao.save_tabla(e); // guardo el examen en la bd
-			e.setId(examenDao
-					.aux_select_int("select id from examenes where descripcion = '" + e.getDescripcion() + "';"));// uso
-																													// la
-																													// descripcion
-																													// para
-																													// traerlo,
-																													// seria
-																													// mejor
-																													// usar
-																													// un
-																													// stored
-																													// procedure
+			e.setId(examenDao.aux_select_int("select id from examenes where descripcion = '" + e.getDescripcion() + "';"));
+			// uso la descripcion para traerlo, seria mejor usar un stored procedure
 			select_examen.setId_examen(e.getId());
 			select_examen.setDescripcion(e.getDescripcion());
 
@@ -476,8 +463,11 @@ public class ExamenesABM extends HttpServlet {
 		String options_disponibles = "";
 		int contador = 1;
 		List<Opciones_Pregunta> respuestas = null;
+		List<Opciones_Pregunta> respuestasSinFiltro = pregDao.bulkSelectOpciones(curso_disponible);
 		for (Pregunta curso : curso_disponible) {
-			respuestas = pregDao.traerOpciones(curso.getId());
+			//respuestas = pregDao.traerOpciones(curso.getId());
+			respuestas = respuestasSinFiltro.stream().filter(p -> p.getId_pregunta() == curso.getId()).collect(Collectors.toList()); // filtro la lista
+
 			options_disponibles += // a cada boton le pongo el id de la pregunta
 					"<div class=\"row mb-2 container-pregunta-examen\">" + "<div class=\"col-9\"data-toggle=\"collapse\" data-target=\"#pd"
 							+ contador + "\">" + "<span class=\"title-pregunta\">"+ curso.getPregunta() + "</span>" +
@@ -502,8 +492,10 @@ public class ExamenesABM extends HttpServlet {
 		int contador = 1;
 		String options_habilitadas = "";
 		List<Opciones_Pregunta> respuestas = null;
+		List<Opciones_Pregunta> respuestasSinFiltro = pregDao.bulkSelectOpciones(curso_habilitado);
 		for (Pregunta curso : curso_habilitado) {
-			respuestas = pregDao.traerOpciones(curso.getId());
+			//respuestas = pregDao.traerOpciones(curso.getId());
+			respuestas = respuestasSinFiltro.stream().filter(p -> p.getId_pregunta() == curso.getId()).collect(Collectors.toList()); // filtro la lista
 			options_habilitadas += // a cada boton le pongo el id de la pregunta
 					"<div class=\"row mb-2 container-pregunta-examen\">" + "<div class=\"col-9\"data-toggle=\"collapse\" data-target=\"#ph"
 							+ contador + "\">" + "<span class=\"title-pregunta\">" + curso.getPregunta() + "</span>" +
