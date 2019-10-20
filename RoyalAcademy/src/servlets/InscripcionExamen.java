@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.CursoDao;
 import dao.CursoExamenDao;
+import modelo.AlumnoNotas;
 import modelo.ContenedorResponse;
 import modelo.Curso;
 import modelo.CursoExamen;
@@ -158,6 +159,13 @@ public class InscripcionExamen extends HttpServlet {
 			insc.setAprobado(false);
 			insc.setEntregado(false);
 			insc.setResultado(0);
+			
+			// esto deberia ir en la inscripcion a un curso
+			CursoExamenDao ceDao = new CursoExamenDao();
+			int id_curso = ceDao.traerCursoExamenPorId(insc.getId_cursoexamen()).getId_curso();
+			ceDao.save_tabla(new AlumnoNotas(insc.getId_usuario(), id_curso));
+			//
+			
 			if (cursoDao.save_tabla(insc)) {
 				error.setCd_error(1);
 				error.setDs_error("Se ha registrado la inscripcion al examen.");

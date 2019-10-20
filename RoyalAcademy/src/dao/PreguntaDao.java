@@ -92,6 +92,27 @@ public class PreguntaDao extends DBManager{
 		return pregunta;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Opciones_Pregunta> bulkSelectOpciones(List<Pregunta> preguntas) {
+		List<Opciones_Pregunta> opciones = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			opciones = (List<Opciones_Pregunta>) sesion.createSQLQuery("select * from opciones_pregunta where id_pregunta in "+this.traerStringIdPreguntas(preguntas))
+					.addEntity(Opciones_Pregunta.class).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return opciones;
+	}
+	
+	private String traerStringIdPreguntas(List<Pregunta> preguntas) {
+		String cadena = "(" + preguntas.remove(0).getId();
+		for (Pregunta p : preguntas) {
+			cadena += ", " + p.getId();
+		}
+		cadena += ")";
+		return cadena;
+	}
+	
 	public List<Opciones_Pregunta> traerOpciones(int id_pregunta) {
 		List<Opciones_Pregunta> opciones = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {

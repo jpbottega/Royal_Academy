@@ -19,6 +19,7 @@ public class InscripcionExamen implements Serializable{
 	private boolean entregado;
 	private boolean aprobado;
 	private float resultado;
+	private boolean corregido;
 	
 	public InscripcionExamen() {}
 	
@@ -70,5 +71,12 @@ public class InscripcionExamen implements Serializable{
 	public void setResultado(float resultado) {
 		this.resultado = resultado;
 	}
-	
+
+	public boolean isCorregido() {
+		return corregido;
+	}
+
+	public void setCorregido(boolean corregido) {
+		this.corregido = corregido;
+	}
 }

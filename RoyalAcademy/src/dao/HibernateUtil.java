@@ -19,7 +19,7 @@ public class HibernateUtil {
                 // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/royal_academy?allowPublicKeyRetrieval=true&useSSL=false");
+                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/royal_academy?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8");
                 settings.put(Environment.USER, "root");
                 settings.put(Environment.PASS, "root");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
@@ -36,22 +36,21 @@ public class HibernateUtil {
                 configuration.addAnnotatedClass(Curso.class);
                 configuration.addAnnotatedClass(Examen.class);
                 configuration.addAnnotatedClass(Pregunta.class);
-                configuration.addAnnotatedClass(Respuesta.class);
                 configuration.addAnnotatedClass(Pais.class);
                 configuration.addAnnotatedClass(ExamenResolucion.class);
                 configuration.addAnnotatedClass(Funciones.class);
-                //configuration.addAnnotatedClass(PreguntaResuelta.class);
                 configuration.addAnnotatedClass(CursoExamen.class);
                 configuration.addAnnotatedClass(Funciones_Perfil.class);
                 configuration.addAnnotatedClass(Sede_Carrera.class);
                 configuration.addAnnotatedClass(PermisoFunciones.class);
-                //configuration.addAnnotatedClass(AlumnoNotas.class);
+                configuration.addAnnotatedClass(AlumnoNotas.class);
                 configuration.addAnnotatedClass(Sede_Usuario.class);
                 configuration.addAnnotatedClass(Curso_Usuario.class);  
                 configuration.addAnnotatedClass(Opciones_Pregunta.class);  
                 configuration.addAnnotatedClass(PreguntaxExamen.class);  
                 configuration.addAnnotatedClass(InscripcionExamen.class);
                 configuration.addAnnotatedClass(ExamenResolucion.class);
+                configuration.addAnnotatedClass(Notas.class);
                 
                 // GUARDO CONFIGURACION
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
