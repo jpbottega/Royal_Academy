@@ -53,6 +53,7 @@ System.out.println(permisoFunciones.size());
 			<div class="option" onclick="gotoExamenes();">Examenes</div>
 		<%}if(permisoFunciones.get(14).getHabilitada()==1){ %>
 			<div class="option" onclick="gotoCorreccionExamen();">Correccion</div>
+			<div class="option" onclick="gotoNotasCursos();">Notas</div>
 		<%} %>	
 		</div>
 	</div>

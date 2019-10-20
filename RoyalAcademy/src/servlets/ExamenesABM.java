@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -118,8 +119,14 @@ public class ExamenesABM extends HttpServlet {
 		Random random = new Random();
 		try {
 			int cant_preguntas = Integer.parseInt(request.getParameter("cant_preguntas"));
+			if (cant_preguntas > 50) {
+				cant_preguntas = 50;
+				error.setCd_error(1);
+				error.setDs_error("Autogenerado nuevo examen, solo se pueden agregar 50 preguntas.");
+				error.setTipo("warning");
+			}
 			int id_curso = Integer.parseInt(request.getParameter("id_curso")),
-					id_creador = Integer.parseInt(request.getParameter("id_creador"));
+			id_creador = Integer.parseInt(request.getParameter("id_creador"));
 			// agrego la pregunta al examen
 			Examen e = new Examen();
 			e.setId_curso(id_curso);
@@ -152,10 +159,11 @@ public class ExamenesABM extends HttpServlet {
 			String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 			select_examen.setPreguntas_disponibles(options_disponibles);
 			select_examen.setPreguntas_habilitadas(options_habilitadas);
-
-			error.setCd_error(1);
-			error.setDs_error("Autogenerado nuevo examen.");
-			error.setTipo("success");
+			if (error.getCd_error() != 1) {
+				error.setCd_error(1);
+				error.setDs_error("Autogenerado nuevo examen.");
+				error.setTipo("success");
+			}
 		} catch (Exception e) {
 			error.setCd_error(1);
 			error.setDs_error("Error interno en el servidor.");
@@ -307,9 +315,6 @@ public class ExamenesABM extends HttpServlet {
 					id_pregunta = Integer.parseInt(request.getParameter("id_pregunta"));
 			// agrego la pregunta al examen
 			if (examenDao.delete_tabla(new PreguntaxExamen(id_pregunta, id_examen))) {
-				error.setCd_error(1);
-				error.setDs_error("Se elimino la pregunta del examen.");
-				error.setTipo("success");
 				List<Pregunta> curso_disponible = examenDao.traerPreguntasDisponibles(id_examen);
 				List<Pregunta> curso_habilitado = examenDao.traerPreguntasHabilidatas(id_examen);
 				String options_habilitadas = this.traerHtmlPreguntasHabilitadas(curso_habilitado, pregDao);
@@ -346,18 +351,24 @@ public class ExamenesABM extends HttpServlet {
 			int id_examen = Integer.parseInt(request.getParameter("id_examen")),
 					id_pregunta = Integer.parseInt(request.getParameter("id_pregunta"));
 			// agrego la pregunta al examen
-			if (examenDao.save_tabla(new PreguntaxExamen(id_pregunta, id_examen))) {
-				error.setCd_error(1);
-				error.setDs_error("Se agrego la pregunta al examen.");
-				error.setTipo("success");
-				List<Pregunta> curso_disponible = examenDao.traerPreguntasDisponibles(id_examen);
-				List<Pregunta> curso_habilitado = examenDao.traerPreguntasHabilidatas(id_examen);
-				String options_habilitadas = this.traerHtmlPreguntasHabilitadas(curso_habilitado, pregDao);
-				String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
-				select_sedes_perfil.setSedes_disponibles(options_disponibles);
-				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
+			int cant_preguntas = examenDao.traerCantidadPreguntasHabilidatas(id_examen);
+					//examenDao.aux_select_int("select count(id_examen) from (preguntaxexamen) where id_examen = " + id_examen);
+			System.out.println(cant_preguntas);
+			if (cant_preguntas < 50) {
+				examenDao.save_tabla(new PreguntaxExamen(id_pregunta, id_examen));
 			}
-
+			else {
+				error.setCd_error(1);
+				error.setDs_error("Solo pueden agregarse hasta 50 preguntas.");
+				error.setTipo("error");
+			}
+			List<Pregunta> curso_disponible = examenDao.traerPreguntasDisponibles(id_examen);
+			List<Pregunta> curso_habilitado = examenDao.traerPreguntasHabilidatas(id_examen);
+			String options_habilitadas = this.traerHtmlPreguntasHabilitadas(curso_habilitado, pregDao);
+			String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
+			select_sedes_perfil.setSedes_disponibles(options_disponibles);
+			select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
+			
 		} catch (Exception e) {
 			error.setCd_error(1);
 			error.setDs_error("Error interno en el servidor.");
@@ -422,6 +433,7 @@ public class ExamenesABM extends HttpServlet {
 	}
 
 	private void crearExamenManual(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// prueba
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
 		ContenedorResponse.Error error = new ContenedorResponse.Error();

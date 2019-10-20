@@ -1,16 +1,23 @@
 package modelo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table (name = "alumnonotas")
 public class AlumnoNotas {
+	@Id
 	private int id_alumno;
+	@Id
 	private int id_curso;
 	//private List<Float> lstNotas;
 	private float nota_final;
 	private boolean aprobado;
+	private boolean notificado;
 	
 	public AlumnoNotas() {}
 	
@@ -21,7 +28,9 @@ public class AlumnoNotas {
 		//this.lstNotas = new ArrayList<Float>();
 		this.aprobado = false;
 		this.nota_final = 0;
-	}	
+		this.notificado = false;
+	}
+	
 	/*
 	public List<Float> getLstNotas() {
 		return lstNotas;
@@ -63,6 +72,15 @@ public class AlumnoNotas {
 	public void setAprobado(boolean aprobado) {
 		this.aprobado = aprobado;
 	}
+
+	public boolean isNotificado() {
+		return notificado;
+	}
+
+	public void setNotificado(boolean notificado) {
+		this.notificado = notificado;
+	}
+	
 	/*
 	public boolean agregarNota(float nota) {
 		return this.lstNotas.add(nota);

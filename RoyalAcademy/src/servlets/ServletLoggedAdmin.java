@@ -82,26 +82,22 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 					carreras(request,response);
 					break;
 				case "cursos":
-					
 					cursos(request,response);
-					
 					break;
 				case "preguntas":
-					
 					preguntas(request,response);
-					
 					break;
-					
 				case "examenes":
 					examenes(request, response);
 					break;
-					
 				case "calendario":
 					calendario(request, response);
 					break;
-					
 				case "correccionExamen":
 					correccionExamen(request, response);
+					break;
+				case "notas":
+					verNotas(request, response);
 					break;
 				}
 
@@ -110,6 +106,22 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void verNotas(HttpServletRequest request, HttpServletResponse response) {
+		CursoDao cursoDao = new CursoDao();
+		Usuario u = null;
+		try {
+			u = (Usuario) request.getSession().getAttribute("usuario");
+			List<Curso> cursos = cursoDao.traerCursoPorUsuario(u.getId()); //Traigo todos los cursos del usuario
+			cursos = (cursos==null) ? new ArrayList<Curso>() : cursos;
+			request.setAttribute("cursos", cursos);
+			
+			includePage("/notasAlumnos.jsp", request, response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void correccionExamen(HttpServletRequest request, HttpServletResponse response) {

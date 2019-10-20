@@ -19,6 +19,7 @@ import modelo.ContenedorResponse;
 import modelo.CursoExamen;
 import modelo.Examen;
 import modelo.ExamenResolucion;
+import modelo.Notas;
 import modelo.Opciones_Pregunta;
 import modelo.Usuario;
 
@@ -114,21 +115,49 @@ public class CorreccionExamen extends HttpServlet {
 	}
 
 	private void corregirExamen(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setContentType("application/json");
+		ContenedorResponse contenedorResponse = new ContenedorResponse();
+		ContenedorResponse.Error error = new ContenedorResponse.Error();
+		PrintWriter out = response.getWriter();
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
+		String json = "";
 		ExamenDao exDao = new ExamenDao();
 		CursoExamenDao ceDao = new CursoExamenDao();
+		CursoExamenDao examenDao = new CursoExamenDao();
+		PreguntaDao pregDao = new PreguntaDao();
+		UsuarioDao userDao = new UsuarioDao();
+		String tabla = "";
 		try {
-			int id_cursoExamen = Integer.parseInt(request.getParameter("id_examen"));
-			CursoExamen cursoExamen = ceDao.traerCursoExamenPorId(id_cursoExamen);
+			int idCursoExamen = Integer.parseInt(request.getParameter("id_examen"));
+			CursoExamen cursoExamen = ceDao.traerCursoExamenPorId(idCursoExamen);
 			Examen ex = exDao.traerExamenPorId(cursoExamen.getId_examen());
 			int criterioAprobacion = Integer.parseInt(request.getParameter("criterio_aprobacion"));
 			ex.setCriterioAprobacion(criterioAprobacion);
 			exDao.save_tabla(ex);
-			selectExamen(request, response);
-			
-			
+			// traigo los examenes del curso
+			List<modelo.InscripcionExamen> examenes = examenDao.traerInscripcionExamenPorCurso(idCursoExamen);
+			for (modelo.InscripcionExamen e : examenes) {
+				if (e.isEntregado() && !e.isCorregido()) { 
+					e.setAprobado(e.getResultado() >= criterioAprobacion);
+					e.setCorregido(true);
+					pregDao.save_tabla(e); // deberia guardar en masa
+					Usuario u = userDao.traerUsuarioPorId(e.getId_usuario());
+					tabla += this.traerHtmlTablaExamen(u, e, ex);
+					// agrego la nota del examen
+					pregDao.save_tabla(new Notas(u.getId(), cursoExamen.getId_curso(), Math.round(e.getResultado() / 10), true)); // deberia guardar en masa
+				}
+			}
 		} catch (Exception e) {
+			error.setCd_error(1);
+			error.setDs_error("Error interno en el servidor.");
+			error.setTipo("error");
 			e.printStackTrace();
 		}
+		contenedorResponse.setError(error);
+		contenedorResponse.setData(tabla);
+		json = gson.toJson(contenedorResponse);
+		out.print(json);
+		out.flush();
 	}
 
 	private void selectExamen(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -152,27 +181,16 @@ public class CorreccionExamen extends HttpServlet {
 			float cantidadPreguntas = exDao.traerPreguntasHabilidatas(ce.getId_examen()).size();
 			for (modelo.InscripcionExamen e : examenes) {
 				float acumulador = 0;
-				if (e.isEntregado() && e.getResultado() == 0) { // aca faltaria q no este corregido
+				if (e.isEntregado() && !e.isCorregido()) { // aca faltaria q no este corregido
 					List<ExamenResolucion> examenResolucion = examenDao.traerExamenesResueltos(e.getId_usuario(), idCursoExamen);
 					for (ExamenResolucion resuelto : examenResolucion) {
 						Opciones_Pregunta op = pregDao.traerOpcionPreguntaPorId(resuelto.getId_respuesta());
 						acumulador += (op.getRespuesta_correcta()) ? 1 : 0;
 					}
-					e.setResultado(Math.round(100*(acumulador/cantidadPreguntas)));
+					e.setResultado(Math.round(100*(acumulador/cantidadPreguntas))); // pongo 100 pq muestra resultado de 0 a 100. cambiar si se quiere usar otro
 					pregDao.save_tabla(e);
-				Usuario u = userDao.traerUsuarioPorId(e.getId_usuario());
-				// ponerle un header a la tabla
-				tarjetas += "<div class=\"row\">" +
-								"<div class=\"col-6\">" + u.getApellido() + ", " + u.getNombre() + "</div>" +
-								"<div class=\"col-3\">" + e.getResultado() + "</div>";
-								if (ex.getCriterioAprobacion() >= 50) {
-									tarjetas += "<div class=\"col-3\">" + ((e.getResultado() >= ex.getCriterioAprobacion()) ? "Aprobado" : "Desaprobado") + "</div>";
-								}
-								else {
-									tarjetas += "<div class=\"col-3\">" + "N/D" + "</div>";
-
-								}
-				tarjetas += "</div>";
+					Usuario u = userDao.traerUsuarioPorId(e.getId_usuario());
+					tarjetas += this.traerHtmlTablaExamen(u, e, ex);
 				}
 			}
 			tarjetas += "<div class=\"row mt-6\">" + 
@@ -195,5 +213,21 @@ public class CorreccionExamen extends HttpServlet {
 		json = gson.toJson(contenedorResponse);
 		out.print(json);
 		out.flush();
+	}
+	
+	private String traerHtmlTablaExamen(Usuario u, modelo.InscripcionExamen e, Examen ex) {
+		String cadena = "";
+		cadena += "<div class=\"row\">" +
+				"<div class=\"col-6\">" + u.getApellido() + ", " + u.getNombre() + "</div>" +
+				"<div class=\"col-3\">" + e.getResultado() + "</div>";
+				if (ex.getCriterioAprobacion() >= 50) {
+					cadena += "<div class=\"col-3\">" + (e.isAprobado() ? "Aprobado" : "Desaprobado") + "</div>";
+				}
+				else {
+					cadena += "<div class=\"col-3\">" + "N/D" + "</div>";
+
+				}
+		cadena += "</div>";		
+		return cadena;
 	}
 }

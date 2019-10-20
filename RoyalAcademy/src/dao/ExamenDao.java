@@ -1,11 +1,14 @@
 package dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
+
+import com.mysql.cj.xdevapi.Statement;
 
 import modelo.Examen;
 import modelo.Pregunta;
@@ -111,6 +114,22 @@ public class ExamenDao extends DBManager{
 		return Funciones;
 	}
 
+	public int traerCantidadPreguntasHabilidatas(int id_examen) {
+		BigInteger Funciones = BigInteger.ZERO;
+		int retorno = 0;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+				NativeQuery query = sesion.createSQLQuery("select count(id_examen) as total from (preguntaxexamen) where id_examen = :id");
+				query.setParameter("id", id_examen);
+				Funciones =  (BigInteger) query.getSingleResult();
+				retorno = Funciones.intValue();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return retorno;
+		}
+		return retorno;
+	}
+	
 	public List<Pregunta> traerPreguntasDisponibles(int id_examen) {
 		List<Pregunta> Funciones = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
@@ -124,6 +143,7 @@ public class ExamenDao extends DBManager{
 		}
 		return Funciones;
 	}
+	
 
 	public List<Examen> traerExamenPorCurso(int id_curso) {
 		List<Examen> examen = new ArrayList<Examen>();

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class Curso {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	 @Column(updatable = false, nullable = false)
+	@Column(updatable = false, nullable = false)
 	private int id;
 	private String denominacion;
 	private float criterioAprobacion; // este es el criterio para ver si se aprobo el curso completo

@@ -119,17 +119,20 @@ public class ResolucionExamen extends HttpServlet {
 			CursoExamen ce = cursoDao.traerCursoExamenPorId(Integer.parseInt(request.getParameter("id_fechaExamen")));
 			Examen e = examenDao.traerExamenPorId(ce.getId_examen());
 			List<Pregunta> listaPreguntas = examenDao.traerPreguntasHabilidatas(e.getId());
+			List<Opciones_Pregunta> respuestas = pregDao.bulkSelectOpciones(listaPreguntas);
 			for (Pregunta p : listaPreguntas) {
 				cadena += "<div class=\"form-group\"> <!-- Radio group !-->" +
 							"<label class=\"control-label\">" + p.getPregunta() + "</label>";
-				for (Opciones_Pregunta op : pregDao.traerOpciones(p.getId())) {
-					cadena += 
-						"<div class=\"radio\">" + // estas son las respuestas
-							"<label>" +
-								"<input type=\"radio\" name=\"" + p.getId() + "\" value=\"" + op.getId_opcion() + "\">" +
-								" " + op.getRespuesta() +
-							"</label>" +
-						"</div>";
+				for (Opciones_Pregunta op : respuestas) {
+					if (op.getId_pregunta() == p.getId()) {
+						cadena += 
+							"<div class=\"radio\">" + // estas son las respuestas
+								"<label>" +
+									"<input type=\"radio\" name=\"" + p.getId() + "\" value=\"" + op.getId_opcion() + "\">" +
+									" " + op.getRespuesta() +
+								"</label>" +
+							"</div>";
+					}
 				}
 				cadena +="</div>";		
 			}
