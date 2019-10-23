@@ -14,6 +14,8 @@ import dao.CarreraDao;
 import modelo.Carrera;
 import modelo.Curso;
 import modelo.CursoExamen;
+import modelo.Curso_Usuario;
+import modelo.InscripcionCursos;
 import modelo.Usuario;
 
 /**
@@ -71,7 +73,17 @@ public class ServletLoggedAlumno extends ServletIncludeGoto {
 				case "resolucionExamen":
 					resolucionExamen(request, response);
 					break;
-			
+				case "inscribirse":
+					
+					inscribirse(request,response);
+					
+					break;
+				case "borrarInscribirse":
+					
+					borrarInscribirse(request,response);
+
+					
+					break;
 				}
 			}
 		} catch (Exception e) {
@@ -110,6 +122,51 @@ public class ServletLoggedAlumno extends ServletIncludeGoto {
 			
 			includePage("/loggedAdmin.jsp", request, response); // voy a panel inicio de administrativo
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void inscribirse(HttpServletRequest request, HttpServletResponse response) {
+		CursoDao cursoDao = new CursoDao();
+		Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+		response.setContentType("text/html");
+
+		try {
+		
+			Curso_Usuario curso_usuario = new Curso_Usuario(Integer.parseInt(request.getParameter("curso")),usuario.getId(),Integer.parseInt(request.getParameter("sede")));
+			
+			cursoDao.save_tabla(curso_usuario);
+			
+			List<InscripcionCursos> cursos = cursoDao.traerCursoInscripcion(usuario.getId());
+			
+			request.setAttribute("cursos", cursos);
+			
+			includePage("/inscripcionCursos.jsp", request, response);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	private void borrarInscribirse(HttpServletRequest request, HttpServletResponse response) {
+		CursoDao cursoDao = new CursoDao();
+		Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+		response.setContentType("text/html");
+
+		try {
+		
+			Curso_Usuario curso_usuario = new Curso_Usuario(Integer.parseInt(request.getParameter("curso")),usuario.getId(),Integer.parseInt(request.getParameter("sede")));
+			
+			cursoDao.delete_tabla(curso_usuario);
+			
+			List<InscripcionCursos> cursos = cursoDao.traerCursoInscripcion(usuario.getId());
+			
+			request.setAttribute("cursos", cursos);
+			
+			includePage("/inscripcionCursos.jsp", request, response);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

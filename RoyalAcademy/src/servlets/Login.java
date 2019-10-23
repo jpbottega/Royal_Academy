@@ -7,8 +7,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import dao.CursoDao;
 import dao.FuncionesDao;
 import dao.UsuarioDao;
+import modelo.Curso;
+import modelo.InscripcionCursos;
 import modelo.PermisoFunciones;
 import modelo.Usuario;
 
@@ -88,6 +92,12 @@ public class Login extends ServletIncludeGoto {
 						gotoPage("/loggedAdmin.jsp", request, response); // voy a panel inicio de administrativo
 					}
 					else if (permiso_funciones.get(1).getHabilitada() == 1) {
+						CursoDao dbm = new CursoDao();
+						List<InscripcionCursos> cursos = dbm.traerCursoInscripcion(usuario.getId());
+						
+						request.setAttribute("cursos", cursos);
+						
+						
 						gotoPage("/loggedAlumno.jsp", request, response); // voy a panel inicio de alumno*/
 						
 					}else {

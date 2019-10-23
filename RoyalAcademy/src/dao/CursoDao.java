@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 
 import modelo.Curso;
+import modelo.InscripcionCursos;
 import modelo.Sede;
 
 public class CursoDao extends DBManager {
@@ -99,6 +100,18 @@ public class CursoDao extends DBManager {
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
 			curso = (List<Curso>) sesion.createSQLQuery("select * from cursos where id in (select id_curso from curso_usuario where id_usuario = :id)")
 					.addEntity(Curso.class).setParameter("id", id_usuario).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return curso;
+		}
+		return curso;
+	}
+	
+	public List<InscripcionCursos> traerCursoInscripcion(int id_usuario) {
+		List<InscripcionCursos> curso = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			curso = (List<InscripcionCursos>) sesion.createSQLQuery("call cursosUsuario("+id_usuario+")")
+					.addEntity(InscripcionCursos.class).list();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return curso;

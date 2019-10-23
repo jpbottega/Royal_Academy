@@ -19,6 +19,13 @@ System.out.println(permisoFunciones.size());
 			</div>
 		</li>
 	<%} %>
+	<%if(permisoFunciones.get(12).getHabilitada()==1){ %>
+	<li class="nav-item">	
+			<div class="dropdown menu-option">
+				<span><a href="#section-cursos">Cursos</a></span>
+			</div>
+		</li>
+	<%}%>
 	<%if(permisoFunciones.get(3).getHabilitada()==1){ %>
 	<li class="nav-item">
 		<div class="dropdown menu-option">
