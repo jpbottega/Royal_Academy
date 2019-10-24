@@ -4,6 +4,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 
 import modelo.Curso;
+import modelo.Notas;
 import modelo.Sede;
 import modelo.Usuario;
 import endec.StringEncrypter;
@@ -200,5 +201,39 @@ public class UsuarioDao extends DBManager {
 			return Funciones;
 		}
 		return Funciones;
+	}
+	
+	public List<Usuario> traerUsuariosPorCurso(int id_curso) {
+		List<Usuario> user = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			NativeQuery query = sesion.createSQLQuery("select * from usuarios where id in (select id_usuario from curso_usuario where id_curso = :curso)")
+					.addEntity(Usuario.class).setParameter("curso", id_curso);
+			user = (List<Usuario>) query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return user;
+	}
+	
+	public List<Notas> bulkSelectNotas(List<Usuario> usuarios) {
+		List<Notas> user = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			NativeQuery query = sesion.createSQLQuery("select * from notas where id_usuario in (" + this.traerStringUsuariosIn(usuarios) + ")")
+					.addEntity(Notas.class);
+			user = (List<Notas>) query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return user;
+	}
+	
+	private String traerStringUsuariosIn(List<Usuario> usuarios) {
+		String retorno = String.valueOf(usuarios.get(0).getId());
+		for (Usuario u : usuarios.subList(1, usuarios.size())) {
+			retorno += ", " + u.getId();
+		}
+		return retorno;
 	}
 }

@@ -118,10 +118,10 @@ public class ExamenDao extends DBManager{
 		BigInteger Funciones = BigInteger.ZERO;
 		int retorno = 0;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
-				NativeQuery query = sesion.createSQLQuery("select count(id_examen) as total from (preguntaxexamen) where id_examen = :id");
+				NativeQuery query = sesion.createSQLQuery("select count(*) as total from (preguntaxexamen) where id_examen = :id");
 				query.setParameter("id", id_examen);
 				Funciones =  (BigInteger) query.getSingleResult();
-				retorno = Funciones.intValue();
+				retorno = Funciones.intValue() + 1;
 			
 		} catch (Exception e) {
 			e.printStackTrace();

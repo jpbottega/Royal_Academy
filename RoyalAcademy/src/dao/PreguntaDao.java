@@ -105,8 +105,8 @@ public class PreguntaDao extends DBManager{
 	}
 	
 	private String traerStringIdPreguntas(List<Pregunta> preguntas) {
-		String cadena = "(" + preguntas.remove(0).getId();
-		for (Pregunta p : preguntas) {
+		String cadena = "(" + preguntas.get(0).getId();
+		for (Pregunta p : preguntas.subList(1, preguntas.size())) {
 			cadena += ", " + p.getId();
 		}
 		cadena += ")";

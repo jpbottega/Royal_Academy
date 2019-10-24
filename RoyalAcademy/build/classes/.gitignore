@@ -1,3 +1,5 @@
-/servlets/
-/modelo/
 /dao/
+/funciones/
+/modelo/
+/servlets/
+/tests/

@@ -70,7 +70,9 @@ function agregarPreguntaExamen(id_pregunta){
 				function (data){
 					$("#preguntas_disponibles").html(data.data.sedes_disponibles);
 					$("#preguntas_agregadas").html(data.data.sedes_habilitadas);
-					//lanzarMensaje(data.error);
+					if (data.error.tipo == "error"){
+						lanzarMensaje(data.error);
+					}
 		});
 	}
 	else {

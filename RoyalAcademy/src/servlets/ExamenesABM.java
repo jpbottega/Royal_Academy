@@ -352,8 +352,6 @@ public class ExamenesABM extends HttpServlet {
 					id_pregunta = Integer.parseInt(request.getParameter("id_pregunta"));
 			// agrego la pregunta al examen
 			int cant_preguntas = examenDao.traerCantidadPreguntasHabilidatas(id_examen);
-					//examenDao.aux_select_int("select count(id_examen) from (preguntaxexamen) where id_examen = " + id_examen);
-			System.out.println(cant_preguntas);
 			if (cant_preguntas < 50) {
 				examenDao.save_tabla(new PreguntaxExamen(id_pregunta, id_examen));
 			}
