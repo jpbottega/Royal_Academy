@@ -7,12 +7,17 @@ import javax.persistence.Id;
 
 @Entity
 public class Curso_Usuario implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private int id_curso;
 	@Id
 	private int id_usuario;
 	@Id
 	private int id_sede;
+	private float notaFinal;
 	
 	public Curso_Usuario() {}
 	
@@ -21,6 +26,13 @@ public class Curso_Usuario implements Serializable {
 		this.id_curso = id_curso;
 		this.id_usuario = id_usuario;
 		this.id_sede=id_sede;
+	}
+	
+	public Curso_Usuario(int id_curso, int id_usuario, int id_sede, float notaFinal) {
+		this.id_curso = id_curso;
+		this.id_usuario = id_usuario;
+		this.id_sede = id_sede;
+		this.notaFinal = notaFinal;
 	}
 
 	public int getId_curso() {
@@ -45,6 +57,14 @@ public class Curso_Usuario implements Serializable {
 
 	public void setId_sede(int id_sede) {
 		this.id_sede = id_sede;
+	}
+
+	public float getNotaFinal() {
+		return notaFinal;
+	}
+
+	public void setNotaFinal(float notaFinal) {
+		this.notaFinal = notaFinal;
 	}
 	
 }

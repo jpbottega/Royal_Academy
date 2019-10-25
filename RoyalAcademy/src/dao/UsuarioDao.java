@@ -4,6 +4,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 
 import modelo.Curso;
+import modelo.Curso_Usuario;
 import modelo.Notas;
 import modelo.Sede;
 import modelo.Usuario;
@@ -219,7 +220,7 @@ public class UsuarioDao extends DBManager {
 	public List<Notas> bulkSelectNotas(List<Usuario> usuarios) {
 		List<Notas> user = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
-			NativeQuery query = sesion.createSQLQuery("select * from notas where id_usuario in (" + this.traerStringUsuariosIn(usuarios) + ")")
+			NativeQuery query = sesion.createSQLQuery("select * from notas where id_alumno in (" + this.traerStringUsuariosIn(usuarios) + ")")
 					.addEntity(Notas.class);
 			user = (List<Notas>) query.list();
 		} catch (Exception e) {
@@ -235,5 +236,18 @@ public class UsuarioDao extends DBManager {
 			retorno += ", " + u.getId();
 		}
 		return retorno;
+	}
+	
+	public Curso_Usuario traerCursoUsuarioPorUsuario(int id_usuario, int id_curso) {
+		Curso_Usuario user = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			NativeQuery query = sesion.createSQLQuery("select * from curso_usuario where id_usuario = :id_usuario and id_curso = :id_curso")
+					.addEntity(Curso_Usuario.class).setParameter("id_usuario", id_usuario).setParameter("id_curso", id_curso);
+			user = (Curso_Usuario) query.list().get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return user;
 	}
 }

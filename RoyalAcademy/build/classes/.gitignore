@@ -1,5 +1,3 @@
-/dao/
-/funciones/
-/modelo/
 /servlets/
-/tests/
+/modelo/
+/dao/

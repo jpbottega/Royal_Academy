@@ -2,7 +2,6 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.List;
 import funciones.FuncionesVarias;
 import javax.servlet.ServletException;
@@ -10,10 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import dao.CarreraDao;
 import dao.CursoDao;
 import dao.FuncionesDao;
@@ -26,14 +23,12 @@ import modelo.Curso_Usuario;
 import modelo.Funciones;
 import modelo.Rol;
 import modelo.Sede;
-import modelo.Sede_Carrera;
 import modelo.Sede_Usuario;
 import modelo.Select_Sedes_Carrera;
 import modelo.Usuario;
 import java.util.*;  
 import javax.mail.*;  
 import javax.mail.internet.*;  
-import javax.activation.*;  
 /**
  * Servlet implementation class Usuarios
  */
@@ -46,7 +41,6 @@ public class Usuarios extends HttpServlet {
 	 */
 	public Usuarios() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -55,7 +49,6 @@ public class Usuarios extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -63,9 +56,7 @@ public class Usuarios extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		response.setContentType("text/html");
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
@@ -130,9 +121,9 @@ public class Usuarios extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
 		String json = "";
-		UsuarioDao userDao = new UsuarioDao();
+		new UsuarioDao();
 		FuncionesDao funcDao = new FuncionesDao();
-		Select_Sedes_Carrera select_sedes_perfil = new Select_Sedes_Carrera();
+		new Select_Sedes_Carrera();
 		int funcionHabilitada = 0;
 		try {
 			if (request.getParameter("rol_usuario") != null) {
@@ -283,7 +274,7 @@ public class Usuarios extends HttpServlet {
 
 					if (!curso.isEmpty()) {
 						Curso_Usuario sede_carrera = new Curso_Usuario(Integer.parseInt(curso),
-								Integer.parseInt(request.getParameter("id_usuario")));
+								Integer.parseInt(request.getParameter("id_usuario")), 0);
 
 						userDao.delete_tabla(sede_carrera);
 					}
@@ -360,7 +351,7 @@ public class Usuarios extends HttpServlet {
 
 					if (!curso.isEmpty()) {
 						Curso_Usuario sede_carrera = new Curso_Usuario(Integer.parseInt(curso),
-								Integer.parseInt(request.getParameter("id_usuario")));
+								Integer.parseInt(request.getParameter("id_usuario")), 0);
 
 						userDao.save_tabla(sede_carrera);
 					}
@@ -669,7 +660,6 @@ public class Usuarios extends HttpServlet {
 		String json = "";
 		UsuarioDao userDao = new UsuarioDao();
 		Usuario user = new Usuario();
-		FuncionesVarias funciones = new FuncionesVarias();
 		try {
 			
 			if (request.getParameter("nombreUsuario") != "" && request.getParameter("nombreUsuario") != "" 
@@ -683,7 +673,7 @@ public class Usuarios extends HttpServlet {
 					user.setEmail(request.getParameter("mailUsuario"));
 					user.setTelefono(request.getParameter("telefonoUsuario"));
 					user.setPass(request.getParameter("passUsuario"));
-					user.setFechaNacimiento(funciones.getDateString(request.getParameter("nacimientoUsuario"),1));
+					user.setFechaNacimiento(FuncionesVarias.getDateString(request.getParameter("nacimientoUsuario"),1));
 					user.setId_rol(Integer.valueOf(request.getParameter("rol_usuario"))); // me esta llegando vacio
 					user.setVerificado(Boolean.valueOf(request.getParameter("verificado")));
 					user.setDni(request.getParameter("dniUsuario"));
@@ -694,7 +684,7 @@ public class Usuarios extends HttpServlet {
 					user.setEmail(request.getParameter("mailUsuario"));
 					user.setTelefono(request.getParameter("telefonoUsuario"));
 					user.setPass(request.getParameter("dniUsuario"));					
-					user.setFechaNacimiento(funciones.getDateString(request.getParameter("nacimientoUsuario"),1));
+					user.setFechaNacimiento(FuncionesVarias.getDateString(request.getParameter("nacimientoUsuario"),1));
 					user.setId_rol(Integer.valueOf(request.getParameter("rol_usuario"))); // me esta llegando vacio	
 					user.setDni(request.getParameter("dniUsuario"));
 					user.setVerificado(false);
@@ -749,6 +739,7 @@ public class Usuarios extends HttpServlet {
 		out.flush();
 	}
 
+	@SuppressWarnings("unused")
 	private void selectUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
@@ -758,7 +749,7 @@ public class Usuarios extends HttpServlet {
 		String json = "";
 		UsuarioDao userDao = new UsuarioDao();
 		RolDao rolDao = new RolDao();
-		CursoDao cursoDao = new CursoDao();
+		new CursoDao();
 		CarreraDao carreraDao = new CarreraDao();
 		try {
 			Usuario u = userDao.traerUsuarioPorId(Integer.valueOf(request.getParameter("id_usuario")));
@@ -775,7 +766,6 @@ public class Usuarios extends HttpServlet {
 						"<input id=\"id_rol\" name=\"id_rol\" type=\"hidden\" value=\"" + u.getId_rol() + "\">"+
 						"<input type=\"hidden\" id=\"verificado\" name=\"verificado\" value=\"" + u.isVerificado() + "\">"+
 						"<input type=\"hidden\" id=\"passUsuario\" name=\"passUsuario\" value=\"" + u.getPass() + "\">"+
-						
 								"<div class=\"col-md-12 col-lg-6\">" +
 									"<div class=\"form-group\">"+
 									"	<label for=\"exampleInputEmail1\">Nombre</label>" +
@@ -783,8 +773,6 @@ public class Usuarios extends HttpServlet {
 										"placeholder=\"Nombre del usuario\" value=\"" + u.getNombre()+ "\">" +
 									"</div>"+
 								"</div>"+
-										
-								
 								"<div class=\"col-md-12 col-lg-6\">" +
 									"<div class=\"form-group\">"+
 										"<label for=\"exampleInputEmail1\">Apellido</label>" +
@@ -792,8 +780,6 @@ public class Usuarios extends HttpServlet {
 										"placeholder=\"Apellido del usuario\" value=\"" + u.getApellido() + "\">"+
 									"</div>"+
 								"</div>"+
-			
-					
 								"<div class=\"col-md-12 col-lg-6\">" +
 									"<div class=\"form-group\"> "+
 										"<label for=\"exampleInputEmail1\">E-Mail</label>" +
@@ -801,7 +787,6 @@ public class Usuarios extends HttpServlet {
 										"placeholder=\"Correo del usuario\" value=\"" + u.getEmail() + "\">" +
 									"</div>"+
 								"</div>"+
-									
 								"<div class=\"col-md-12 col-lg-6\">" +
 									"<div class=\"form-group\"> "+
 										"<label for=\"nacimientoUsuario\">Fecha de Nacimiento</label> <input "+
@@ -809,14 +794,6 @@ public class Usuarios extends HttpServlet {
 										"name=\"nacimientoUsuario\" placeholder=\"dd/mm/aaaa\" class=\"form-control\" value=\"" + FuncionesVarias.getStringDate(u.getFechaNacimiento(), 1) + "\"/> "+
 									"</div>"+
 								"</div>"	+
-							
-								
-							
-							
-							
-							
-							
-							
 								"<div class=\"col-md-12 col-lg-6\">" +
 									"<div class=\"form-group\"> "+
 										"<label for=\"exampleInputEmail1\">Telefono</label>" +
@@ -824,8 +801,6 @@ public class Usuarios extends HttpServlet {
 										"placeholder=\"Telefono del usuario\" value=\"" + u.getTelefono() + "\">" +
 									"</div>"	+
 								"</div>"	+
-										
-								
 								"<div class=\"col-md-12 col-lg-6\">" +
 									"<div class=\"form-group\"> "+
 										"<label for=\"exampleInputEmail1\">DNI</label>" +
@@ -833,23 +808,15 @@ public class Usuarios extends HttpServlet {
 										"placeholder=\"Dni del usuario\" value=\"" + u.getDni() + "\">" +
 									"</div>"	+
 								"</div>" +
-						
-								
-							
-							
-
 								"<div class=\"col-md-12 col-lg-6\">"+
 								"<div class=\"form-group\">"+
 									"<label for=\"exampleFormControlSelect1\">Roles</label> <select "+
 										"class=\"form-control\" id=\"rol_usuario\" name=\"rol_usuario\" onchange=\"cambioRolAdminOrganizacion();\"> ";
-										
-											if (!roles.isEmpty()) {
-												for (Rol rol : roles) {
-									
+										if (!roles.isEmpty()) {
+											for (Rol rol : roles) {
 										datos +="<option value=\""+rol.getId()+"\""+(rol.getId()==u.getId_rol()?"selected":"")+">"+rol.getDenominacion()+"</option> ";
-										
 											}
-											}
+										}
 										
 										datos +="</select>"+
 												"</div>"+
@@ -861,18 +828,14 @@ public class Usuarios extends HttpServlet {
 										datos +="<option value=\"0\" selected>"+ "Todas" +"</option> ";
 										if (!listaCarreras.isEmpty()) {
 											for (Carrera carrera : listaCarreras) {
-								
-									datos +="<option value=\""+carrera.getId()+"\">"+carrera.getDenominacion()+"</option> ";
-									
-										}
+												datos +="<option value=\""+carrera.getId()+"\">"+carrera.getDenominacion()+"</option> ";
+											}
 										}
 									
 									datos +="</select>"+
 									"</div>"+
 							"</div>"+
-									
 							"<div class=\"col-12\">"+
-
 								// para administrar sedes en q se inscribe al alumno:
 								"<div class=\"row\" id=\"adminSedesUsuario\">" +
 									"<div class=\"col-10 col-xl-5\">" +
@@ -911,14 +874,8 @@ public class Usuarios extends HttpServlet {
 									"</div>" +
 									"</div>" +
 								"</div>";
-											
-											
-											
-						
 						// para administrar cursos de los docentes:
-											
-						datos +=		"<div class=\"col-12\">"+
-											
+						datos += "<div class=\"col-12\">"+
 								 "<div class=\"row\" id=\"adminCursosUsuario\">" +
 								"<div class=\"col-10 col-xl-5\">" +
 									"<div class=\"form-group\">" +
@@ -965,7 +922,8 @@ public class Usuarios extends HttpServlet {
 				error.setDs_error("Habilitada modificacion para usuario " + u.getNombre() + " " + u.getApellido() + ".");
 				error.setTipo("success");
 				contenedorResponse.setData(datos);
-			} else {
+			} 
+			else {
 				error.setCd_error(1);
 				error.setDs_error("El usuario ha sido eliminado de la base de datos.");
 				error.setTipo("error");

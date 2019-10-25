@@ -2,7 +2,6 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +39,6 @@ public class ExamenesABM extends HttpServlet {
 	 */
 	public ExamenesABM() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -49,7 +47,6 @@ public class ExamenesABM extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

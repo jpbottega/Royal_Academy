@@ -5,7 +5,7 @@
 	List<Curso> cursos = (List<Curso>) request.getAttribute("cursos");
 %>
 <script type="text/javascript">
-	selectCursoExamenDocente();
+	selectCursoNotas();
 </script>
 <div class="row h-100 p-3 m-0">
 	<div class="col-sm-12 col-md-5 col-lg-4 col-xl-3 menu-examenes">
@@ -28,21 +28,16 @@
 				</select>
 			</div>
 			<div>
-				<input class="button btn-success" type="button" onclick="verNotasCurso();">Ver Notas
+				<button class="button btn-success" type="button" onclick="verNotasCurso();">Ver Notas</button>
 			</div>
 		</div>
 	</div>
 
 
-	<div class="col-sm-12 col-md-7 col-lg-8 col-xl-9 h-100"	id="container-info-notas">
-	<!-- aca poneme la tabla como ejemplo con dos rows
-		Nombre	| Apellido	|	Nota Practico	|	Nota Examen	| Nota Final
-		String	| String	| 		input		|	texto		| texto
-		
-		(Boton Guardar Notas) (Boton Calcular Nota Final) (Boton Notificar)
-	
-	
-	-->
+	<div class="col-sm-12 col-md-7 col-lg-8 col-xl-9 h-100" id="container-info-notas">
+		<form id="form-notas"></form>
+		<button class="button btn-success" type="button" onclick="guardarNotas();">Guardar Notas</button>
+		<button class="button btn-warning" type="button" onclick="notificarNotasAlumnos();">Notificar Notas</button>
 	</div>
 
 </div>

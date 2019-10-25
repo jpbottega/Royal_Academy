@@ -25,6 +25,14 @@ public class Notas {
 		this.nota = nota;
 		this.esExamen = esExamen;
 	}
+	
+	public Notas(int id, int id_alumno, int id_curso, float nota, boolean esExamen) {
+		this.id = id;
+		this.id_alumno = id_alumno;
+		this.id_curso = id_curso;
+		this.nota = nota;
+		this.esExamen = esExamen;
+	}
 
 	public int getId() {
 		return id;
