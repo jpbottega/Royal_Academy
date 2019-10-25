@@ -79,7 +79,9 @@ function buscarCursos(mostrar){
 				if(coincide){
 					$(padre).parent().parent().show();
 				}else{
-					$(padre).parent().parent().hide();
+					$(padre).parent().parent().css("opacity", "0.1");
+					$(padre).parent().parent().css("pointer-events", "none");
+					//$(padre).parent().parent().hide();
 				}
 				
 		});
