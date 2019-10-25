@@ -30,13 +30,15 @@
 			</div>
 
 
-			<div class="menu-examenes-lista mt-3">
+			<div class="menu-correccion-lista mt-3">
 				<div id="container_examenes" class="contenedor-preguntas"></div>
 			</div>
 		</div>
 	</div>
 
 
-	<div class="col-sm-12 col-md-7 col-lg-8 col-xl-9 h-100"	id="container-info-examen"></div>
+	<div class="col-sm-12 col-md-7 col-lg-8 col-xl-9 h-100">
+		<div class="row h-100 p-3" id="container-info-examen"></div>
+	</div>
 
 </div>

@@ -36,6 +36,8 @@
 	href="logged-admin/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="logged-admin/preguntas.css">
 <link rel="stylesheet" href="logged-admin/examenes.css">
+<link rel="stylesheet" href="logged-admin/correccion.css">
+<link rel="stylesheet" href="logged-admin/calendario.css">
 <link rel="stylesheet" href="fontawesome-free-5.11.2-web/css/all.css">
 
 <%@ page import="modelo.*,java.util.List,java.util.ArrayList"

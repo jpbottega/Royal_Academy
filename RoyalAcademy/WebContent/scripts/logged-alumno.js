@@ -8,13 +8,14 @@ function miPerfil(){
 		});
 }
 
-function gotoInscripcionExamenAlumno(){
-		$.post("ServletLoggedAlumno?accion=inscripcionCursos", 
-				function( data ) {
-					//$("#contenido-alumno").hide();
-					$("body").html(data); //seteo el data, que es el jsp perfiles, en el div con ID functions-container
-					//$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
-		});
+function gotoInscripcionExamenAlumno() {
+	$.post("ServletLoggedAlumno?accion=inscripcionCursos", function(data) {
+		// $("#contenido-alumno").hide();
+		$("body").html(data); // seteo el data, que es el jsp perfiles, en el
+								// div con ID functions-container
+		// $("#functions-container").show(); //Lo muestro, asi se pone el fondo
+		// en blanco
+	});
 }
 function inscribirse(curso,sede){
 	
@@ -52,7 +53,7 @@ function gotoResolucionExamenAlumno(){
 		
 		
 		$("body").html(data);
-		
+
 	});
 }
 function buscarCursos(mostrar){

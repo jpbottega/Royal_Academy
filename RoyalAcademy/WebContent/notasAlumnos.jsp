@@ -28,7 +28,7 @@
 				</select>
 			</div>
 			<div>
-				<button class="button btn-success" type="button" onclick="verNotasCurso();">Ver Notas</button>
+				<button class="btn btn-primary w-100" type="button" onclick="verNotasCurso();">Ver Notas</button>
 			</div>
 		</div>
 	</div>

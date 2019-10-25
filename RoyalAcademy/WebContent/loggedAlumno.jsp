@@ -26,59 +26,33 @@
 <!-- Styles -->
 <link rel="stylesheet" href="logged-files/style.css">
 <link rel="stylesheet" href="logged-admin/css-logged-admin.css">
-
-<%@ page import="modelo.*,java.util.List,java.util.ArrayList"
-	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-	List<InscripcionCursos> cursos = (List<InscripcionCursos>) request.getAttribute("cursos");
-	System.out.println(cursos.size());
-%>
-
+<link rel="stylesheet" href="logged-admin/resolucionExamen.css">
+<link rel="stylesheet" href="logged-admin/toastr.min.css">
 </head>
 
-
-<body>
-	<div id="contenido-alumno">
-		<div class="hero-content">
-			<header class="site-header">
-
-				<div class="nav-bar nav-bar-admin">
-					<div class="container container-modif">
-						<div class="row">
-							<div class="col-9 col-lg-3">
-								<div class="site-branding">
-									<h1 class="site-title">
-										<a rel="home" style="color: #fff !important;">Royal<span>
-												Academy</span></a>
-									</h1>
-								</div>
-								<!-- .site-branding -->
-							</div>
-							<!-- .col -->
-
-							<div
-								class="col-9 col-lg-9 flex justify-content-end align-content-center">
-								<nav
-									class="site-navigation flex justify-content-end align-items-center"
-									style="width: 100%">
-
-									<jsp:include page="menu-logged.jsp" />
+<body id="contenido-alumno" class="hero-content">
+	<div>
+		<header class="site-header container-navbar">
+			<nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
+				<h1 class="site-title">
+					<a href="javascript:gotoHomeAlumno();">Royal<span>
+							Academy</span></a>
+				</h1>
 
 
-
-									<!-- .header-bar-search -->
-								</nav>
-								<!-- .site-navigation -->
-							</div>
-							<!-- .col -->
-						</div>
-						<!-- .row -->
-					</div>
-					<!-- .container -->
+				<button class="navbar-toggler btn-menu" type="button"
+					data-toggle="collapse" data-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav navbar-menu">
+						<jsp:include page="menu-logged.jsp" />
+					</ul>
 				</div>
-				<!-- .nav-bar -->
-			</header>
-			<!-- .site-header -->
+			</nav>
+		</header>
 
 			<div class="hero-content-overlay">
 				<div class="container">
@@ -107,127 +81,23 @@
 			</div>
 			<!-- .hero-content-hero-content-overlay -->
 		</div>
-		<!-- .hero-content -->
+		<!-- .hero-content-hero-content-overlay -->
 
-		<div class="icon-boxes">
-			<div class="container-fluid">
-				<div class="flex flex-wrap align-items-stretch">
-					<div class="icon-box">
-						<div class="icon">
-							<span class="ti-user"></span>
-						</div>
-						<!-- .icon -->
+	</div>
+	<!-- .hero-content -->
 
-						<header class="entry-header">
-							<h2 class="entry-title">Learn From The Experts</h2>
-						</header>
-						<!-- .entry-header -->
-
-						<div class="entry-content">
-							<p>Lorem Ipsum available, but the majority have suffered
-								alteration in some form, by injected humour.</p>
-						</div>
-						<!-- .entry-content -->
-
-						<footer class="entry-footer read-more">
-							<a href="#">read more<i class="fa fa-long-arrow-right"></i></a>
-						</footer>
-						<!-- .entry-footer -->
-					</div>
-					<!-- .icon-box -->
-
-					<div class="icon-box">
-						<div class="icon">
-							<span class="ti-folder"></span>
-						</div>
-						<!-- .icon -->
-
-						<header class="entry-header">
-							<h2 class="entry-title">Book Library & Store</h2>
-						</header>
-						<!-- .entry-header -->
-
-						<div class="entry-content">
-							<p>Lorem Ipsum available, but the majority have suffered
-								alteration in some form, by injected humour.</p>
-						</div>
-						<!-- .entry-content -->
-
-						<footer class="entry-footer read-more">
-							<a href="#">read more<i class="fa fa-long-arrow-right"></i></a>
-						</footer>
-						<!-- .entry-footer -->
-					</div>
-					<!-- .icon-box -->
-
-					<div class="icon-box">
-						<div class="icon">
-							<span class="ti-book"></span>
-						</div>
-						<!-- .icon -->
-
-						<header class="entry-header">
-							<h2 class="entry-title">Best Course Online</h2>
-						</header>
-						<!-- .entry-header -->
-
-						<div class="entry-content">
-							<p>Lorem Ipsum available, but the majority have suffered
-								alteration in some form, by injected humour.</p>
-						</div>
-						<!-- .entry-content -->
-
-						<footer class="entry-footer read-more">
-							<a href="#">read more<i class="fa fa-long-arrow-right"></i></a>
-						</footer>
-						<!-- .entry-footer -->
-					</div>
-					<!-- .icon-box -->
-
-					<div class="icon-box">
-						<div class="icon">
-							<span class="ti-world"></span>
-						</div>
-						<!-- .icon -->
-
-						<header class="entry-header">
-							<h2 class="entry-title">Best Industry Leaders</h2>
-						</header>
-						<!-- .entry-header -->
-
-						<div class="entry-content">
-							<p>Lorem Ipsum available, but the majority have suffered
-								alteration in some form, by injected humour.</p>
-						</div>
-						<!-- .entry-content -->
-
-						<footer class="entry-footer read-more">
-							<a href="#">read more<i class="fa fa-long-arrow-right"></i></a>
-						</footer>
-						<!-- .entry-footer -->
-					</div>
-					<!-- .icon-box -->
-				</div>
-				<!-- .row -->
-			</div>
-			<!-- .container-fluid -->
-		</div>
-		<!-- .icon-boxes -->
+	
 
 
-		<section class="about-section">
-			<div class="container">
-				<div class="row">
-					<div class="col-12 col-lg-6 align-content-lg-stretch">
-						<header class="heading">
-							<h2 class="entry-title">Sobre Royal Academy</h2>
 
-							<p>Excepteur sint occaecat cupidatat non proident, sunt in
-								culpa qui officia deserunt mollit anim id est laborum. Sed ut
-								perspiciatis unde omnis iste natus error sit voluptatem
-								accusantium.</p>
-						</header>
-						<!-- .heading -->
+	<section class="featured-courses vertical-column courses-wrap"
+		id="section-cursos">
+		<div class="container">
+			<div class="row mx-m-25">
+				<div class="col-12 px-25">
+					<header
+						class="heading flex flex-wrap justify-content-between align-items-center">
+						<h2 class="entry-title">Cursos Actuales</h2>
 
 						<div class="entry-content ezuca-stats">
 							<div class="stats-wrap flex flex-wrap justify-content-lg-between">
@@ -326,13 +196,24 @@
 							<div class="foot-contact">
 								<h2>Contact Us</h2>
 
-								<ul>
-									<li>Email: info.deertcreative@gmail.com</li>
-									<li>Phone: (+88) 111 555 666</li>
-									<li>Address: 40 Baria Sreet 133/2 NewYork City, US</li>
-								</ul>
-							</div>
-							<!-- .foot-contact -->
+
+
+
+
+
+	<footer class="site-footer footer-style">
+		<div class="footer-widgets">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 col-md-6 col-lg-3">
+						<div class="foot-about">
+							<h1 class="site-title">
+								<a rel="home" style="color: #fff">Royal<span> Academy</span></a>
+							</h1>
+
+
+							<p>Excepteur sint occaecat cupidatat non proident, sunt in
+								culpa qui officia dese mollit anim id est laborum.</p>
 						</div>
 						<!-- .col -->
 
@@ -415,10 +296,11 @@
 				</div>
 				<!-- .container -->
 			</div>
-			<!-- .footer-bar -->
-		</footer>
-		<!-- .site-footer -->
-	</div>
+			<!-- .container -->
+		</div>
+		<!-- .footer-bar -->
+	</footer>
+	<!-- .site-footer -->
 	<script type='text/javascript' src='logged-files/js/jquery.js'></script>
 	<script type='text/javascript' src='logged-files/js/swiper.min.js'></script>
 	<script type='text/javascript'
@@ -430,5 +312,10 @@
 	<script type='text/javascript' src='scripts/inscripcionAlumnoCurso.js'></script>
 	<script type='text/javascript' src='scripts/resolucionExamen.js'></script>
 	<script type='text/javascript' src='scripts/logged-admin.js'></script>
+	<script type='text/javascript' charset="UTF-8" src='scripts/toastr.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='scripts/logged-admin.js'></script>
+	<script type="text/javascript" charset="UTF-8"
+		src='scripts/bootstrap.min.js'></script>
 </body>
 </html>
