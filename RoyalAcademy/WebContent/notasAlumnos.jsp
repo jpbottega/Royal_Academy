@@ -36,8 +36,8 @@
 
 	<div class="col-sm-12 col-md-7 col-lg-8 col-xl-9 h-100" id="container-info-notas">
 		<form id="form-notas"></form>
-		<button class="button btn-success" type="button" onclick="guardarNotas();">Guardar Notas</button>
-		<button class="button btn-warning" type="button" onclick="notificarNotasAlumnos();">Notificar Notas</button>
+		<button class="button btn btn-success pull-right" type="button" onclick="guardarNotas();">Guardar Notas</button>
+		<button class="button btn btn-warning pull-right" type="button" onclick="notificarNotasAlumnos();">Notificar Notas</button>
 	</div>
 
 </div>
