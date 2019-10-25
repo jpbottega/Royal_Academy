@@ -260,6 +260,7 @@ public class GestionCalendario extends HttpServlet {
 		json = gson.toJson(contenedorResponse);
 		out.print(json);
 		out.flush();
+		
 	}
 	
 	private String traerHtmlExamenesDisponibles(List<Examen> examenes) {
@@ -272,14 +273,12 @@ public class GestionCalendario extends HttpServlet {
 
 	private String traerHtmlTarjetas(List<CursoExamen> examenes) {
 		String cadena = "";
-			
+		
 		for (CursoExamen e : examenes) {
-			cadena +="<div class=\"row\">";
-			cadena += "<div class=\"col-md-auto ml-3 card card-styles\" onclick=\"selectFechaExamen("+e.getId()+");\" id=\""+e.getId()+"\">" +  
-						"<div class=\"card-body\">" +
+			cadena +="<div class=\"row card card-styles\" onclick=\"selectFechaExamen("+e.getId()+");\" id=\""+e.getId()+"\">";
+			cadena += "<div class=\"card-body\">" +  
 								"<div class=\"card-title\">" + e.getDescripcion() + "</div>" + 
 								"<div class=\"card-text text-muted\">Fecha: " + FuncionesVarias.getStringDate(e.getFecha(), 1) + "</div>" + 
-						"</div>" +
 					"</div>";
 			cadena +="</div>";
 		}

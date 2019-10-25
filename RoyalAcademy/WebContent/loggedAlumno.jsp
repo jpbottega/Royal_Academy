@@ -26,48 +26,33 @@
 <!-- Styles -->
 <link rel="stylesheet" href="logged-files/style.css">
 <link rel="stylesheet" href="logged-admin/css-logged-admin.css">
+<link rel="stylesheet" href="logged-admin/resolucionExamen.css">
+<link rel="stylesheet" href="logged-admin/toastr.min.css">
 </head>
-<body>
-<div id="contenido-alumno">
-	<div class="hero-content">
-		<header class="site-header">
 
-			<div class="nav-bar nav-bar-admin">
-				<div class="container container-modif">
-					<div class="row">
-						<div class="col-9 col-lg-3">
-							<div class="site-branding">
-								<h1 class="site-title">
-									<a rel="home" style="color: #fff !important;">Royal<span> Academy</span></a>
-								</h1>
-							</div>
-							<!-- .site-branding -->
-						</div>
-						<!-- .col -->
-
-						<div
-							class="col-9 col-lg-9 flex justify-content-end align-content-center">
-							<nav
-								class="site-navigation flex justify-content-end align-items-center"
-								style="width: 100%">
-
-								<jsp:include page="menu-logged.jsp" />
+<body id="contenido-alumno" class="hero-content">
+	<div>
+		<header class="site-header container-navbar">
+			<nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
+				<h1 class="site-title">
+					<a href="javascript:gotoHomeAlumno();">Royal<span>
+							Academy</span></a>
+				</h1>
 
 
-
-								<!-- .header-bar-search -->
-							</nav>
-							<!-- .site-navigation -->
-						</div>
-						<!-- .col -->
-					</div>
-					<!-- .row -->
+				<button class="navbar-toggler btn-menu" type="button"
+					data-toggle="collapse" data-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav navbar-menu">
+						<jsp:include page="menu-logged.jsp" />
+					</ul>
 				</div>
-				<!-- .container -->
-			</div>
-			<!-- .nav-bar -->
+			</nav>
 		</header>
-		<!-- .site-header -->
 
 		<div class="hero-content-overlay">
 			<div class="container">
@@ -95,179 +80,11 @@
 			<!-- .container -->
 		</div>
 		<!-- .hero-content-hero-content-overlay -->
+
 	</div>
 	<!-- .hero-content -->
 
-	<div class="icon-boxes">
-		<div class="container-fluid">
-			<div class="flex flex-wrap align-items-stretch">
-				<div class="icon-box">
-					<div class="icon">
-						<span class="ti-user"></span>
-					</div>
-					<!-- .icon -->
-
-					<header class="entry-header">
-						<h2 class="entry-title">Learn From The Experts</h2>
-					</header>
-					<!-- .entry-header -->
-
-					<div class="entry-content">
-						<p>Lorem Ipsum available, but the majority have suffered
-							alteration in some form, by injected humour.</p>
-					</div>
-					<!-- .entry-content -->
-
-					<footer class="entry-footer read-more">
-						<a href="#">read more<i class="fa fa-long-arrow-right"></i></a>
-					</footer>
-					<!-- .entry-footer -->
-				</div>
-				<!-- .icon-box -->
-
-				<div class="icon-box">
-					<div class="icon">
-						<span class="ti-folder"></span>
-					</div>
-					<!-- .icon -->
-
-					<header class="entry-header">
-						<h2 class="entry-title">Book Library & Store</h2>
-					</header>
-					<!-- .entry-header -->
-
-					<div class="entry-content">
-						<p>Lorem Ipsum available, but the majority have suffered
-							alteration in some form, by injected humour.</p>
-					</div>
-					<!-- .entry-content -->
-
-					<footer class="entry-footer read-more">
-						<a href="#">read more<i class="fa fa-long-arrow-right"></i></a>
-					</footer>
-					<!-- .entry-footer -->
-				</div>
-				<!-- .icon-box -->
-
-				<div class="icon-box">
-					<div class="icon">
-						<span class="ti-book"></span>
-					</div>
-					<!-- .icon -->
-
-					<header class="entry-header">
-						<h2 class="entry-title">Best Course Online</h2>
-					</header>
-					<!-- .entry-header -->
-
-					<div class="entry-content">
-						<p>Lorem Ipsum available, but the majority have suffered
-							alteration in some form, by injected humour.</p>
-					</div>
-					<!-- .entry-content -->
-
-					<footer class="entry-footer read-more">
-						<a href="#">read more<i class="fa fa-long-arrow-right"></i></a>
-					</footer>
-					<!-- .entry-footer -->
-				</div>
-				<!-- .icon-box -->
-
-				<div class="icon-box">
-					<div class="icon">
-						<span class="ti-world"></span>
-					</div>
-					<!-- .icon -->
-
-					<header class="entry-header">
-						<h2 class="entry-title">Best Industry Leaders</h2>
-					</header>
-					<!-- .entry-header -->
-
-					<div class="entry-content">
-						<p>Lorem Ipsum available, but the majority have suffered
-							alteration in some form, by injected humour.</p>
-					</div>
-					<!-- .entry-content -->
-
-					<footer class="entry-footer read-more">
-						<a href="#">read more<i class="fa fa-long-arrow-right"></i></a>
-					</footer>
-					<!-- .entry-footer -->
-				</div>
-				<!-- .icon-box -->
-			</div>
-			<!-- .row -->
-		</div>
-		<!-- .container-fluid -->
-	</div>
-	<!-- .icon-boxes -->
-
-
-	<section class="about-section">
-		<div class="container">
-			<div class="row">
-				<div class="col-12 col-lg-6 align-content-lg-stretch">
-					<header class="heading">
-						<h2 class="entry-title">Sobre Royal Academy</h2>
-
-						<p>Excepteur sint occaecat cupidatat non proident, sunt in
-							culpa qui officia deserunt mollit anim id est laborum. Sed ut
-							perspiciatis unde omnis iste natus error sit voluptatem
-							accusantium.</p>
-					</header>
-					<!-- .heading -->
-
-					<div class="entry-content ezuca-stats">
-						<div class="stats-wrap flex flex-wrap justify-content-lg-between">
-							<div class="stats-count">
-								5<span>Mil</span>
-								<p>Estudiantes activos</p>
-							</div>
-							<!-- .stats-count -->
-
-							<div class="stats-count">
-								300
-								<p>Cursos Activos</p>
-							</div>
-							<!-- .stats-count -->
-
-							<div class="stats-count">
-								150
-								<p>Profesores ON-LINE</p>
-							</div>
-							<!-- .stats-count -->
-
-							<div class="stats-count">
-								5
-								<p>Sedes en Paises</p>
-							</div>
-							<!-- .stats-count -->
-						</div>
-						<!-- .stats-wrap -->
-					</div>
-					<!-- .ezuca-stats -->
-				</div>
-				<!-- .col -->
-
-				<div class="col-12 col-lg-6 flex align-content-center mt-5 mt-lg-0">
-					<div class="ezuca-video position-relative">
-						<div class="video-play-btn position-absolute">
-							<img src="logged-files/images/video-icon.png" alt="Video Play">
-						</div>
-						<!-- .video-play-btn -->
-
-						<img src="logged-files/images/video-screenshot.png" alt="">
-					</div>
-					<!-- .ezuca-video -->
-				</div>
-				<!-- .col -->
-			</div>
-			<!-- .row -->
-		</div>
-		<!-- .container -->
-	</section>
-	<!-- .about-section -->
+	
 
 
 
@@ -609,7 +426,7 @@
 	<!-- .courses-wrap -->
 
 
-	
+
 
 
 
@@ -620,8 +437,7 @@
 					<div class="col-12 col-md-6 col-lg-3">
 						<div class="foot-about">
 							<h1 class="site-title">
-								<a  rel="home" style="color: #fff">Royal<span>
-										Academy</span></a>
+								<a rel="home" style="color: #fff">Royal<span> Academy</span></a>
 							</h1>
 
 
@@ -728,15 +544,21 @@
 		<!-- .footer-bar -->
 	</footer>
 	<!-- .site-footer -->
-</div>
 	<script type='text/javascript' src='logged-files/js/jquery.js'></script>
 	<script type='text/javascript' src='logged-files/js/swiper.min.js'></script>
-	<script type='text/javascript' src='logged-files/js/masonry.pkgd.min.js'></script>
-	<script type='text/javascript' src='logged-files/js/jquery.collapsible.min.js'></script>
+	<script type='text/javascript'
+		src='logged-files/js/masonry.pkgd.min.js'></script>
+	<script type='text/javascript'
+		src='logged-files/js/jquery.collapsible.min.js'></script>
 	<script type='text/javascript' src='logged-files/js/custom.js'></script>
 	<script type='text/javascript' src='scripts/logged-alumno.js'></script>
 	<script type='text/javascript' src='scripts/inscripcionAlumnoCurso.js'></script>
 	<script type='text/javascript' src='scripts/resolucionExamen.js'></script>
 	<script type='text/javascript' src='scripts/logged-admin.js'></script>
+	<script type='text/javascript' charset="UTF-8" src='scripts/toastr.js'></script>
+	<script type='text/javascript' charset="UTF-8"
+		src='scripts/logged-admin.js'></script>
+	<script type="text/javascript" charset="UTF-8"
+		src='scripts/bootstrap.min.js'></script>
 </body>
 </html>

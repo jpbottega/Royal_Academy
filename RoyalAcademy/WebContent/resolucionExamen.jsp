@@ -4,34 +4,65 @@
 <%
 	List<CursoExamen> examenes = (List<CursoExamen>) request.getAttribute("examenes_inscripto");
 %>
-<div class="row row-perfiles" style="overflow-y: auto">
-	<div class="ml-5 column-3-perfiles">
-		<div class="form-group">
-			<div for="exampleFormControlSelect1">Fecha Examen</div> <select
-				class="form-control" id="select_examen">
-				<%
-					for (CursoExamen examen : examenes) {
-				%>
-				<option value="<%=examen.getId()%>"><%=examen.getDescripcion()%></option>
-				<%
-					}
-				%>
 
-			</select>
+<div>
+	<header class="site-header container-navbar">
+		<nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
+			<h1 class="site-title">
+				<a href="javascript:gotoHomeAlumno();">Royal<span>
+						Academy</span></a>
+			</h1>
+
+
+			<button class="navbar-toggler btn-menu" type="button"
+				data-toggle="collapse" data-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav navbar-menu">
+					<jsp:include page="menu-logged.jsp" />
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+
+
+	<div class="container-fluid panel-admin">
+		<div class="functions-alumno-container">
+			<div class="row h-100 p-3 m-0">
+				<div class="col-sm-12 col-md-5 col-lg-4 col-xl-3 menu-resolucion">
+					<div class="container-menu-resolucion">
+						<div class="form-group">
+							<label for="exampleFormControlSelect1">Fecha Examen</label> <select
+								class="form-control" id="select_examen">
+								<%
+									for (CursoExamen examen : examenes) {
+								%>
+								<option value="<%=examen.getId()%>"><%=examen.getDescripcion()%></option>
+								<%
+									}
+								%>
+
+							</select>
+						</div>
+
+
+
+						<button type="button" class="btn btn-success pull-right w-100"
+							onclick="rendirExamen();" id="botonRendirExamen">Rendir
+							Examen</button>
+
+
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-7 col-lg-8 col-xl-9 h-100"
+					id="resolucion_examen"></div>
+
+
+			</div>
 		</div>
-		<div class="form-group row">
-				<button type="button" class="btn btn-success pull-right" 
-					onclick="rendirExamen();" 
-						id="botonRendirExamen">Rendir Examen</button>
-		</div>
-		<div class="form-group row">
-			<button type="button" class="btn btn-danger pull-right" 
-						onclick="gotoHomeAlumno();" 
-							id="botonVolver">Volver</button>
-		</div>
-	</div>
-	<div class="col ml-5">
-		<form id="resolucion_examen">
-		</form>
 	</div>
 </div>

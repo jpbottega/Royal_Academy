@@ -120,13 +120,15 @@ public class ResolucionExamen extends HttpServlet {
 			Examen e = examenDao.traerExamenPorId(ce.getId_examen());
 			List<Pregunta> listaPreguntas = examenDao.traerPreguntasHabilidatas(e.getId());
 			List<Opciones_Pregunta> respuestas = pregDao.bulkSelectOpciones(listaPreguntas);
+			cadena += "<form class=\"container-panel-resolucion\">";
 			for (Pregunta p : listaPreguntas) {
-				cadena += "<div class=\"form-group\"> <!-- Radio group !-->" +
-							"<label class=\"control-label\">" + p.getPregunta() + "</label>";
+
+				cadena += "<div class=\"form-group container-examen-pregunta\"> <!-- Radio group !-->" +
+							"<label class=\"examen-pregunta\">" + p.getPregunta() + "</label>";
 				for (Opciones_Pregunta op : respuestas) {
 					if (op.getId_pregunta() == p.getId()) {
 						cadena += 
-							"<div class=\"radio\">" + // estas son las respuestas
+							"<div class=\"examen-respuesta\">" + // estas son las respuestas
 								"<label>" +
 									"<input type=\"radio\" name=\"" + p.getId() + "\" value=\"" + op.getId_opcion() + "\">" +
 									" " + op.getRespuesta() +
@@ -136,8 +138,9 @@ public class ResolucionExamen extends HttpServlet {
 				}
 				cadena +="</div>";		
 			}
-			cadena += "<div class=\"form-group row\"><button type=\"button\" class=\"btn btn-success pull-right\" "
-					+ "onclick=\"entregarExamen();\" id=\"botonEntregarExamen\">Entregar Examen</button></div>";
+			cadena += "</form>";
+			cadena += "<div class=\"row\"><div class=\"col-12\"><button type=\"button\" class=\"btn btn-success pull-right\" "
+					+ "onclick=\"entregarExamen();\" id=\"botonEntregarExamen\">Entregar Examen</button></div></div>";
 			// envio al js el id del examen para hacer mas facil la consulta a la bd
 			error.setCd_error(1);
 			error.setDs_error("Rindiendo el parcial.");

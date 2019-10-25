@@ -2,12 +2,12 @@ html, body {
 	height: 100%
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
 	width: 0.2rem;
 	height: 0.2rem;
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
 	background: #000000;
 }
 
@@ -22,7 +22,6 @@ html, body {
 .navbar-menu {
 	margin-left: auto !important;
 }
-
 
 .menu-option {
 	font-size: 1.25rem;
@@ -53,20 +52,23 @@ html, body {
 	padding-left: 5rem;
 }
 
-@media (max-width: 767px) {
-.panel-admin {
-	padding-right: 1.5rem;
-	padding-left: 1.5rem;
+@media ( max-width : 767px) {
+	.panel-admin {
+		padding-right: 1.5rem;
+		padding-left: 1.5rem;
 	}
-	
 	.functions-container {
-	     height: 100% !important;
+		height: 100% !important;
 	}
- 	
+	.functions-alumno-container {
+		height: 100% !important;
+	}
+}
+
+}
 }
 
 /**************************************************/
-
 .dropdown {
 	position: relative;
 	display: inline-block;
@@ -94,8 +96,14 @@ html, body {
 
 .functions-container {
 	background: #fff;
-	height: 90vh;
+	height: 91vh;
 	display: none;
+	color: #000
+}
+
+.functions-alumno-container {
+	background: #fff;
+	height: 91vh;
 	color: #000
 }
 

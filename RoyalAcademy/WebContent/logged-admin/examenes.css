@@ -71,6 +71,11 @@ ol.simple_with_animation {
     margin: 0.1rem;
     padding: 0.3rem;
     border-radius: 1rem;
+    cursor: pointer;
+}
+
+.container-pregunta-examen:hover{
+	background: #eaeaea;
 }
 
 .pregunta-correcta{
