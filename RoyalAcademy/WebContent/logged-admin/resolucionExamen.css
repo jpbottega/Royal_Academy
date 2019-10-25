@@ -1,0 +1,43 @@
+.menu-resolucion {
+	border-right: 1px solid #333;
+}
+
+@media ( max-width :767px) {
+	.menu-resolucion {
+		border-right: 0px;
+		border-bottom: 1px solid #333;
+		padding-bottom: 1rem;
+	}
+	.container-menu-resolucion {
+		width: 85% !important;
+		margin: auto;
+	}
+}
+
+.container-panel-resolucion {
+	overflow: auto;
+	height: calc(100vh - 11rem);
+	margin-top: 1rem;
+	border: 1px solid #ced4da;
+	padding: 1rem;
+	margin-bottom: 0.5rem;
+}
+
+
+.container-examen-pregunta {
+	border-bottom: 1px solid #ced4da;
+}
+
+.examen-pregunta {
+	font-weight: 500;
+	font-size: 1.2rem;
+}
+
+.examen-respuesta {
+	font-size: 1.05rem;
+	padding-left: 2rem;
+}
+
+.container-inscripcion {
+	border: 1px solid #333;
+}

@@ -1,0 +1,24 @@
+.menu-correccion-lista {
+	height: calc(100vh - 13.5rem);
+	overflow: auto;
+	padding: 0 1.5rem;
+	border: 1px solid #ced4da;
+	background: #e5f1fc !important;
+}
+
+@media ( max-height : 800px) {
+	.menu-correccion-lista {
+		height: calc(100vh - 11.5rem);
+	}
+}
+
+.busqueda-correccion {
+	border-right: 1px solid #ced4da;
+}
+
+@media ( max-width : 991px) {
+	.busqueda-correccion {
+		border-right: 0;
+		border-bottom: 1px solid #ced4da;
+	}
+}
