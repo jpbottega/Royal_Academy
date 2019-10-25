@@ -42,7 +42,12 @@ function borrarInscribirse(curso,sede){
 		$("#header_inscripcion_cursos").html(data);
 		
 		$("#buscarcurso").val(buscador);
-		buscarCursos(1);
+		
+		if($("#buscarcurso").val()==""){
+			$("#header_inscripcion_cursos").show();
+		}else{
+			buscarCursos(1);
+		}
 		
 		
 		
@@ -78,6 +83,8 @@ function buscarCursos(mostrar){
 				});
 				if(coincide){
 					$(padre).parent().parent().show();
+					$(padre).parent().parent().css("opacity", "1");
+					$(padre).parent().parent().css("pointer-events", "true");
 				}else{
 					$(padre).parent().parent().css("opacity", "0.1");
 					$(padre).parent().parent().css("pointer-events", "none");

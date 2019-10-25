@@ -35,7 +35,7 @@
 		<header class="site-header container-navbar">
 			<nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
 				<h1 class="site-title">
-					<a href="javascript:gotoHomeAlumno();">Royal<span>
+					<a href="http://localhost:9080/RoyalAcademy/Login?accion=login">Royal<span>
 							Academy</span></a>
 				</h1>
 

@@ -9,7 +9,7 @@
 	<header class="site-header container-navbar">
 		<nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
 			<h1 class="site-title">
-				<a href="javascript:gotoHomeAlumno();">Royal<span>
+				<a href="http://localhost:9080/RoyalAcademy/Login?accion=login">Royal<span>
 						Academy</span></a>
 			</h1>
 
@@ -20,11 +20,7 @@
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav navbar-menu">
-					<jsp:include page="menu-logged.jsp" />
-				</ul>
-			</div>
+			
 		</nav>
 	</header>
 

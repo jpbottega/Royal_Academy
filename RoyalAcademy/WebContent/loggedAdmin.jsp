@@ -53,17 +53,10 @@
 		<header class="site-header container-navbar">
 			<nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
 				<h1 class="site-title">
-					<%
-						if (permisoFunciones.get(12).getHabilitada() == 0) {
-					%>
-					<a href="javascript:gotoHome();">Royal<span>Academy</span></a>
-					<%
-						} else {
-					%>
-					<a href="javascript:gotoHomeAlumno();">Royal<span>Academy</span></a>
-					<%
-						}
-					%>
+					
+					<a href="http://localhost:9080/RoyalAcademy/Login?accion=login">Royal<span>Academy</span></a>
+					
+					
 				</h1>
 				<button class="navbar-toggler btn-menu" type="button"
 					data-toggle="collapse" data-target="#navbarNav"

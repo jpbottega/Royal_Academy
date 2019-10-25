@@ -40,6 +40,28 @@ public class Login extends ServletIncludeGoto {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		List<PermisoFunciones> permiso_funciones = (List<PermisoFunciones>) request.getSession().getAttribute("permisoFunciones");
+		
+		if(request.getSession().getAttribute("usuario")!=null) {
+		
+			if (permiso_funciones.get(0).getHabilitada() == 1) {
+				gotoPage("/loggedAdmin.jsp", request, response); // voy a panel inicio de administrativo
+			}
+			else if (permiso_funciones.get(1).getHabilitada() == 1) {
+				CursoDao dbm = new CursoDao();
+				List<InscripcionCursos> cursos = dbm.traerCursoInscripcion((( Usuario) request.getSession().getAttribute("usuario")).getId());
+				
+				request.setAttribute("cursos", cursos);
+				
+				
+				gotoPage("/loggedAlumno.jsp", request, response); // voy a panel inicio de alumno*/
+				
+			}else {
+				gotoPage("/index.jsp", request, response); // vuelvo al login por que no encontre ninguna funcion
+			}		
+			
+		}
+		
 	}
 
 	/**
