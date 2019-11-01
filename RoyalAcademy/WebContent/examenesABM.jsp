@@ -55,11 +55,11 @@
 
 			<div class="btn-group w-100" role="group" aria-label="Basic example">
 				<button type="button" class="btn btn-primary w-50"
-					onclick="creacionExamenManual();" id="button_nuevo">Creacion
+					onclick="creacionExamenManual();" id="button_nuevo">
 					Manual</button>
 
 				<button type="button" class="btn btn-secondary w-50"
-					onclick="creacionExamenAutomatica();" id="button_nuevo">Creacion
+					onclick="creacionExamenAutomatica();" id="button_nuevo">
 					Automatica</button>
 			</div>
 

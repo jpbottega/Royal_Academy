@@ -121,7 +121,7 @@ public class ExamenDao extends DBManager{
 				NativeQuery query = sesion.createSQLQuery("select count(*) as total from (preguntaxexamen) where id_examen = :id");
 				query.setParameter("id", id_examen);
 				Funciones =  (BigInteger) query.getSingleResult();
-				retorno = Funciones.intValue() + 1;
+				retorno = Funciones.intValue();
 			
 		} catch (Exception e) {
 			e.printStackTrace();

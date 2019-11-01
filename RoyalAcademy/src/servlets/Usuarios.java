@@ -976,7 +976,7 @@ public class Usuarios extends HttpServlet {
 		transport.sendMessage(msg, msg.getAllRecipients());
 		transport.close();
     }
-	private class SMTPAuthenticator extends Authenticator
+	public class SMTPAuthenticator extends Authenticator
 	{
 	    public PasswordAuthentication getPasswordAuthentication()
 	    {
