@@ -5,7 +5,7 @@ function rendirExamen(){
 }
 
 function entregarExamen(){
-	$.post("ResolucionExamen?accion=entregarExamen&id_fechaExamen=" + $("#select_examen").val(), $("#resolucion_examen").serialize(),
+	$.post("ResolucionExamen?accion=entregarExamen&id_fechaExamen=" + $("#select_examen").val(), $("#form_examen_resuelto").serialize(),
 			function(data){
 				$("#resolucion_examen").html("");
 				actualizarFinalesDisponibles();

@@ -120,7 +120,7 @@ public class ResolucionExamen extends HttpServlet {
 			Examen e = examenDao.traerExamenPorId(ce.getId_examen());
 			List<Pregunta> listaPreguntas = examenDao.traerPreguntasHabilidatas(e.getId());
 			List<Opciones_Pregunta> respuestas = pregDao.bulkSelectOpciones(listaPreguntas);
-			cadena += "<form class=\"container-panel-resolucion\">";
+			cadena += "<form class=\"container-panel-resolucion\" id=\"form_examen_resuelto\">";
 			for (Pregunta p : listaPreguntas) {
 
 				cadena += "<div class=\"form-group container-examen-pregunta\"> <!-- Radio group !-->" +
@@ -178,7 +178,8 @@ public class ResolucionExamen extends HttpServlet {
 			int id_usuario = ((Usuario)request.getSession().getAttribute("usuario")).getId();
 			for (Pregunta p : listaPreguntas) {
 				ExamenResolucion exRes = new ExamenResolucion();
-				if (request.getParameter(String.valueOf(p.getId())) != null && request.getParameter(String.valueOf(p.getId())) != "") {
+				String tmp = request.getParameter(String.valueOf(p.getId()));
+				if (request.getParameter(String.valueOf(p.getId())) != "" && request.getParameter(String.valueOf(p.getId())) != null && tmp != null) {
 					exRes.setId_alumno(id_usuario);
 					exRes.setId_curso_examen(ce.getId());
 					exRes.setId_respuesta(Integer.parseInt(request.getParameter(String.valueOf(p.getId()))));

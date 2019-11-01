@@ -6,6 +6,8 @@ function selectExamen(id_examen){
 				$("#descripcion_examen").val(data.data.descripcion);
 				$("#preguntas_disponibles").html(data.data.preguntas_disponibles);
 				$("#preguntas_agregadas").html(data.data.preguntas_habilitadas);
+				$("#cantidad_preguntas_agregadas").html("Preguntas Agregadas (" + data.data.numero + ")");
+
 				lanzarMensaje(data.error);
 	});
 }
@@ -37,6 +39,8 @@ function creacionExamenManual(){
 			function (data){
 				$("#preguntas_disponibles").html(data.data.sedes_disponibles);
 				$("#preguntas_agregadas").html(data.data.sedes_habilitadas);
+				$("#cantidad_preguntas_agregadas").html("Preguntas Agregadas (" + data.data.numero + ")");
+
 	});
 }
 function guardarExamen(){
@@ -70,6 +74,7 @@ function agregarPreguntaExamen(id_pregunta){
 				function (data){
 					$("#preguntas_disponibles").html(data.data.sedes_disponibles);
 					$("#preguntas_agregadas").html(data.data.sedes_habilitadas);
+					$("#cantidad_preguntas_agregadas").html("Preguntas Agregadas (" + data.data.numero + ")");
 					if (data.error.tipo == "error"){
 						lanzarMensaje(data.error);
 					}
@@ -90,6 +95,8 @@ function eliminarPreguntaExamen(id_pregunta){
 				function (data){
 					$("#preguntas_disponibles").html(data.data.sedes_disponibles);
 					$("#preguntas_agregadas").html(data.data.sedes_habilitadas);
+					$("#cantidad_preguntas_agregadas").html("Preguntas Agregadas (" + data.data.numero + ")");
+
 					//lanzarMensaje(data.error);
 		});
 	}
@@ -138,6 +145,8 @@ function creacionExamenAutomatica(){
 					$("#descripcion_examen").val(data.data.descripcion);
 					$("#preguntas_disponibles").html(data.data.preguntas_disponibles);
 					$("#preguntas_agregadas").html(data.data.preguntas_habilitadas);
+					$("#cantidad_preguntas_agregadas").html("Preguntas Agregadas (" + data.data.numero + ")");
+
 					lanzarMensaje(data.error);
 					$.post("ExamenesABM?accion=selectCursoExamen","id_carrera="+$("#select_carreras").val()+"&id_curso="+$("#select_cursos").val(),
 							function(data) {

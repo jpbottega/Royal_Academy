@@ -691,14 +691,13 @@ public class Usuarios extends HttpServlet {
 				}
 				
 				if (user.getId() == 0 && userDao.traerUsuarioPorMail(user.getEmail()) == null) { // si es un nuevo usuario y existe no lo deberia insertar
-					// mover el enviarVerificacion aca si no se quiere agregar si el correo no es valido
+					enviarVerficacionUsuario(user); // si es un usuario nuevo le envio un mail con la pass
 					if (userDao.save_tabla(user)) {
 						user.setId(userDao.aux_select_int("select id from usuarios where email = '" + user.getEmail() + "';"));
 						contenedorResponse.setData(user);
 						error.setCd_error(1);
 						error.setDs_error("Se guardo el usuario correctamente.");
 						error.setTipo("success");
-						//enviarVerficacionUsuario(user); // si es un usuario nuevo le envio un mail con la pass
 					} else { 
 						error.setCd_error(1);
 						error.setDs_error("No se ha podido guardar el usuario.");
@@ -726,7 +725,13 @@ public class Usuarios extends HttpServlet {
 				error.setDs_error("Faltan completar datos del usuario, no puede ser guardado.");
 				error.setTipo("error");
 			}
-		} catch (Exception e) {
+		} catch (MessagingException me) {
+			error.setCd_error(1);
+			error.setDs_error("El correo es invalido. Verifique la direccion ingresada.");
+			error.setTipo("error");
+			me.printStackTrace();
+		}
+		catch (Exception e) {
 			error.setCd_error(1);
 			error.setDs_error("Error interno en el servidor.");
 			error.setTipo("error");

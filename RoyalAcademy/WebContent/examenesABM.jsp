@@ -107,7 +107,7 @@
 			</div>
 			<div class="col-12 col-xl-6">
 				<div class="form-group container-panel-examenes">
-					<label for="exampleInputEmail1">Preguntas Agregadas</label>
+					<label id="cantidad_preguntas_agregadas" for="exampleInputEmail1">Preguntas Agregadas</label>
 					<div id="preguntas_agregadas" class="header-examen"></div>
 				</div>
 			</div>

@@ -9,7 +9,7 @@ function selectExamenCorreccion(id_examen){
 	});
 }
 function corregirExamen(id_examen){
-	if ($("#criterio_aprobacion").val() != ""){
+	if ($("#criterio_aprobacion").val() != "" && parseInt($("#criterio_aprobacion").val(), 10) >= 4){
 		var tmp = $("#criterio_aprobacion").val();
 		$.post("CorreccionExamen?accion=corregirExamen", "id_examen=" +id_examen + "&criterio_aprobacion=" + $("#criterio_aprobacion").val(),
 				function(data){
@@ -20,7 +20,7 @@ function corregirExamen(id_examen){
 	else {
 		var error = {
 				cd_error : 1,
-				ds_error : "Debe establecer el criterio de aprobacion.",
+				ds_error : "Debe establecer un criterio de aprobacion valido.",
 				tipo:"error"
 		}
 		lanzarMensaje(error);

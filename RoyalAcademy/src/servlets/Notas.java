@@ -238,8 +238,12 @@ public class Notas extends HttpServlet {
 				if (request.getParameter(String.valueOf(u.getId())) != null && request.getParameter(String.valueOf(u.getId())) != "" && !permisos.isEmpty()) {
 					int aux = userDao.aux_select_int("select id from notas where id_alumno = " + u.getId() + " and id_curso = " + id_curso + " and esexamen = 0");
 					float nota = Float.parseFloat(request.getParameter(String.valueOf(u.getId())));
-					userDao.save_tabla(new modelo.Notas(aux, u.getId(), id_curso, nota, false));
-					for (modelo.Notas n : notas) if (n.getId() == aux) n.setNota(nota);
+					modelo.Notas notaNueva = new modelo.Notas(aux, u.getId(), id_curso, nota, false);
+					userDao.save_tabla(notaNueva);
+					aux = userDao.aux_select_int("select id from notas where id_alumno = " + u.getId() + " and id_curso = " + id_curso + " and esexamen = 0");
+					notaNueva.setId(aux);
+					notas.add(notaNueva);
+					for (modelo.Notas n : notas) if (n.getId() == aux || n.getId() == 0) n.setNota(nota);
 				}
 				if (!permisos.isEmpty()) 
 					tabla += this.traerHtmlTabla(u, 
@@ -298,7 +302,7 @@ public class Notas extends HttpServlet {
 		UsuarioDao uDao = new UsuarioDao();
 		if (n1 != -1 && n2 != -1) {
 			nota = "<td>" + (n1+n2) / 2 + "</td>";
-			ce.setNotaFinal(Math.round((n1+n2)/2));
+			ce.setNotaFinal( (n1+n2) / 2 );
 			uDao.save_tabla(ce);
 		}
 		return nota;

@@ -126,14 +126,21 @@ public class CorreccionExamen extends HttpServlet {
 		CursoExamenDao examenDao = new CursoExamenDao();
 		PreguntaDao pregDao = new PreguntaDao();
 		UsuarioDao userDao = new UsuarioDao();
-		String tabla = "";
+		String tabla = "<table class=\"table table-striped table-hover table-bordered text-center\">"
+		         + "<thead>"  
+		         +"<tr>"  
+		         +"<th scope=\"col\">Alumno</th>" 
+		         +"<th scope=\"col\">Nota</th>"  
+		         +"<th scope=\"col\">Estado</th>"  
+		         +"</tr>"
+		         +"</thead><tbody>";
 		try {
 			int idCursoExamen = Integer.parseInt(request.getParameter("id_examen"));
 			CursoExamen cursoExamen = ceDao.traerCursoExamenPorId(idCursoExamen);
 			Examen ex = exDao.traerExamenPorId(cursoExamen.getId_examen());
 			int criterioAprobacion = Integer.parseInt(request.getParameter("criterio_aprobacion"));
 			ex.setCriterioAprobacion(criterioAprobacion);
-			exDao.save_tabla(ex);
+			//exDao.save_tabla(ex);
 			// traigo los examenes del curso
 			List<modelo.InscripcionExamen> examenes = examenDao.traerInscripcionExamenPorCurso(idCursoExamen);
 			for (modelo.InscripcionExamen e : examenes) {
@@ -151,6 +158,7 @@ public class CorreccionExamen extends HttpServlet {
 																														// masa
 				}
 			}
+			tabla += "</tbody></table>";
 		} catch (Exception e) {
 			error.setCd_error(1);
 			error.setDs_error("Error interno en el servidor.");
@@ -188,7 +196,7 @@ public class CorreccionExamen extends HttpServlet {
 					"<label class=\"w-100\">Criterio Aprobacion" + 
 					"<input type=\"text\"" + 
 						"class=\"form-control\" id=\"criterio_aprobacion\"" + 
-						"name=\"criterio_aprobacion\" placeholder=\"Min. 50\">" + 
+						"name=\"criterio_aprobacion\" placeholder=\"Min. 4\">" + 
 						"<button type=\"button\" class=\"btn btn-success w-100 mt-3\" onclick=\"corregirExamen(" + ce.getId() + ");\">Corregir</button>" +
 					"</label>" +
 					"</div></div>";
@@ -211,7 +219,7 @@ public class CorreccionExamen extends HttpServlet {
 						Opciones_Pregunta op = pregDao.traerOpcionPreguntaPorId(resuelto.getId_respuesta());
 						acumulador += (op.getRespuesta_correcta()) ? 1 : 0;
 					}
-					e.setResultado(Math.round(100 * (acumulador / cantidadPreguntas))); // pongo 100 pq muestra
+					e.setResultado(Math.round(10 * (acumulador / cantidadPreguntas))); // pongo 100 pq muestra
 																						// resultado de 0 a 100. cambiar
 																						// si se quiere usar otro
 					pregDao.save_tabla(e);
@@ -238,7 +246,7 @@ public class CorreccionExamen extends HttpServlet {
 		String cadena = "";
 		cadena += "<tr><th scope=\"row\">" + u.getApellido() + ", " + u.getNombre() + "</th>"
 				+ "<td>" + e.getResultado() + "</td>";
-		if (ex.getCriterioAprobacion() >= 50) {
+		if (ex.getCriterioAprobacion() >= 4) {
 			cadena += "<td>" + (e.isAprobado() ? "Aprobado" : "Desaprobado") + "</td>";
 		} else {
 			cadena += "<td>" + "N/D" + "</td>";

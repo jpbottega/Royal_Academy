@@ -4,6 +4,7 @@ public class Select_Sedes_Carrera {
 
 	private String sedes_disponibles;
 	private String sedes_habilitadas;
+	private String numero;
 	
 	public Select_Sedes_Carrera() {
 		
@@ -17,6 +18,12 @@ public class Select_Sedes_Carrera {
 		this.sedes_habilitadas = sedes_habilitadas;
 	}
 	
+	public Select_Sedes_Carrera(String sedes_disponibles, String sedes_habilitadas, String numero) {
+		this.sedes_disponibles = sedes_disponibles;
+		this.sedes_habilitadas = sedes_habilitadas;
+		this.numero = numero;
+	}
+
 	public String getSedes_disponibles() {
 		return sedes_disponibles;
 	}
@@ -28,6 +35,14 @@ public class Select_Sedes_Carrera {
 	}
 	public void setSedes_habilitadas(String sedes_habilitadas) {
 		this.sedes_habilitadas = sedes_habilitadas;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 	
 	

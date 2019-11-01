@@ -5,9 +5,18 @@ public class Select_Examen {
 	private String descripcion;
 	private String preguntas_disponibles;
 	private String preguntas_habilitadas;
+	private String numero;
 	
 	public Select_Examen() {}
 	
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
 	public int getId_examen() {
 		return id_examen;
 	}

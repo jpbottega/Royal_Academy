@@ -156,6 +156,7 @@ public class ExamenesABM extends HttpServlet {
 			String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 			select_examen.setPreguntas_disponibles(options_disponibles);
 			select_examen.setPreguntas_habilitadas(options_habilitadas);
+			select_examen.setNumero(String.valueOf((cant_preguntas <= 50) ? cant_preguntas : 50));
 			if (error.getCd_error() != 1) {
 				error.setCd_error(1);
 				error.setDs_error("Autogenerado nuevo examen.");
@@ -224,6 +225,8 @@ public class ExamenesABM extends HttpServlet {
 		Select_Examen select_examen = new Select_Examen();
 		try {
 			int id_examen = Integer.parseInt(request.getParameter("id_examen"));
+			int cant_preguntas = examenDao.traerCantidadPreguntasHabilidatas(id_examen);
+
 			// agrego la pregunta al examen
 			Examen e = examenDao.traerExamenPorId(id_examen);
 			if (e != null) {
@@ -235,6 +238,8 @@ public class ExamenesABM extends HttpServlet {
 				String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 				select_examen.setPreguntas_disponibles(options_disponibles);
 				select_examen.setPreguntas_habilitadas(options_habilitadas);
+				select_examen.setNumero(String.valueOf(cant_preguntas)); // 
+
 
 				error.setCd_error(1);
 				error.setDs_error("Habilitada la edicion del examen.");
@@ -318,6 +323,9 @@ public class ExamenesABM extends HttpServlet {
 				String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 				select_sedes_perfil.setSedes_disponibles(options_disponibles);
 				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
+				
+				int cant_preguntas = examenDao.traerCantidadPreguntasHabilidatas(id_examen);
+				select_sedes_perfil.setNumero(String.valueOf(cant_preguntas)); // 
 			}
 
 		} catch (Exception e) {
@@ -363,6 +371,7 @@ public class ExamenesABM extends HttpServlet {
 			String options_disponibles = this.traerHtmlPreguntasDisponibles(curso_disponible, pregDao);
 			select_sedes_perfil.setSedes_disponibles(options_disponibles);
 			select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
+			select_sedes_perfil.setNumero(String.valueOf((cant_preguntas < 50) ? cant_preguntas + 1 : cant_preguntas)); // 
 			
 		} catch (Exception e) {
 			error.setCd_error(1);
@@ -447,6 +456,7 @@ public class ExamenesABM extends HttpServlet {
 
 				select_sedes_perfil.setSedes_disponibles(options_disponibles);
 				select_sedes_perfil.setSedes_habilitadas(options_habilitadas);
+				select_sedes_perfil.setNumero("0"); //
 
 				error.setCd_error(1);
 				error.setDs_error("Nuevo examen listo para editar.");
