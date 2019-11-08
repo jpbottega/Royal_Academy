@@ -12,6 +12,13 @@ System.out.println(permisoFunciones.size());
 			</div>
 		</li>
 	<%} %>
+	<%if(permisoFunciones.get(15).getHabilitada()==1){ %>
+		<li class="nav-item">
+			<div class="dropdown menu-option">
+				<span onclick="gotoReportes();">Reportes</span>
+			</div>
+		</li>
+	<%} %>
 	<%if(permisoFunciones.get(12).getHabilitada()==1){ %>
 		<li class="nav-item">	
 			<div class="dropdown menu-option">

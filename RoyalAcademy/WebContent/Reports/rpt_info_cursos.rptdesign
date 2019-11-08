@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
+    <property name="units">in</property>
+    <method name="beforeFactory"><![CDATA[lista = reportContext.getAppContext().get("lista");
+
+session = reportContext.getAppContext().get("session");]]></method>
+    <method name="beforeRender"><![CDATA[session.setAttribute("rptprogress", "completo");
+reportContext.getAppContext().clear();]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <script-data-source name="Data Source" id="7"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set" id="1524">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">id_alumno</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">id_curso</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">nota_final</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">aprobado</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">notificado</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">apellido</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">email</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">sede</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">curso</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">id_alumno</property>
+                    <text-property name="displayName">ID Alumno</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">id_curso</property>
+                    <text-property name="displayName">ID Curso</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">nota_final</property>
+                    <text-property name="displayName">Nota Final</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">aprobado</property>
+                    <text-property name="displayName">Aprobado</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">notificado</property>
+                    <text-property name="displayName">Notificado</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre</property>
+                    <text-property name="displayName">Nombre</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">apellido</property>
+                    <text-property name="displayName">Apellido</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">email</property>
+                    <text-property name="displayName">Email</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">sede</property>
+                    <text-property name="displayName">Sede</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">curso</property>
+                    <text-property name="displayName">Curso</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">id_alumno</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">id_curso</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">nota_final</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">aprobado</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">notificado</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">apellido</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">email</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">sede</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">curso</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[cont=0;]]></method>
+            <method name="fetch"><![CDATA[if(lista.size()==0)
+{
+	return false; 
+}
+else{
+	if(cont < lista.size()){
+
+	      row["id_alumno"] = lista.get(cont).getId_alumno();
+	      row["id_curso"] = lista.get(cont).getId_curso();
+	      row["nota_final"] = lista.get(cont).getNota_final();
+	      row["aprobado"] = lista.get(cont).getAprobado() == 1 ? "A":"D";
+	      row["notificado"] = lista.get(cont).getNotificado() == 1 ? "Si":"No";
+	      row["nombre"] = lista.get(cont).getNombre();
+	      row["apellido"] = lista.get(cont).getApellido();
+	      row["email"] = lista.get(cont).getEmail();
+	      row["sede"] = lista.get(cont).getSede();
+	      row["curso"] = lista.get(cont).getCurso();
+		  
+       cont++;
+       return true;
+	}else
+		return false;
+}
+
+
+
+]]></method>
+        </script-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="leftMargin">0.03in</property>
+            <property name="bottomMargin">0.25in</property>
+            <property name="rightMargin">0in</property>
+            <property name="height">11in</property>
+            <property name="width">1600px</property>
+            <property name="headerHeight">1.5in</property>
+            <page-header>
+                <grid id="707">
+                    <property name="height">1.28125in</property>
+                    <property name="width">8.041666666666666in</property>
+                    <column id="709">
+                        <property name="width">6.572916666666667in</property>
+                    </column>
+                    <row id="711">
+                        <property name="height">1.28125in</property>
+                        <cell id="714">
+                            <label id="50">
+                                <property name="fontSize">14pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="marginTop">20pt</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Reporte Información de Cursos</text-property>
+                            </label>
+                            <label id="49">
+                                <property name="fontSize">12pt</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Royal Academy</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <text id="3">
+                    <property name="marginRight">20pt</property>
+                    <property name="textAlign">right</property>
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>Formatter.format(new Date(), "dd/MM/yyyy HH:mm:ss")</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="1616">
+            <property name="marginLeft">10pt</property>
+            <property name="marginRight">10pt</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">id_alumno</property>
+                    <text-property name="displayName">ID Alumno</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["id_alumno"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">id_curso</property>
+                    <text-property name="displayName">ID Curso</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["id_curso"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">nota_final</property>
+                    <text-property name="displayName">Nota Final</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["nota_final"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">aprobado</property>
+                    <text-property name="displayName">Aprobado</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["aprobado"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">notificado</property>
+                    <text-property name="displayName">Notificado</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["notificado"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre</property>
+                    <text-property name="displayName">Nombre</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["nombre"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">apellido</property>
+                    <text-property name="displayName">Apellido</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["apellido"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">email</property>
+                    <text-property name="displayName">Email</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["email"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">sede</property>
+                    <text-property name="displayName">Sede</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["sede"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">curso</property>
+                    <text-property name="displayName">Curso</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["curso"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="1682">
+                <property name="width">110px</property>
+            </column>
+            <column id="1671">
+                <property name="width">120px</property>
+            </column>
+            <column id="1673">
+                <property name="textAlign">center</property>
+                <property name="width">50px</property>
+            </column>
+            <column id="1674">
+                <property name="textAlign">center</property>
+                <property name="width">80px</property>
+            </column>
+            <column id="1675">
+                <property name="textAlign">center</property>
+                <property name="width">85px</property>
+            </column>
+            <column id="1677">
+                <property name="width">180px</property>
+            </column>
+            <column id="1678"/>
+            <group id="1683">
+                <property name="groupName">NewTableGroup1</property>
+                <expression name="keyExpr" type="javascript">row["id_curso"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["id_curso"]</expression>
+                </structure>
+                <property name="hideDetail">false</property>
+                <header>
+                    <row id="1684">
+                        <property name="height">0.3854166666666667in</property>
+                        <cell id="1685">
+                            <property name="backgroundColor">#004080</property>
+                            <property name="fontSize">11pt</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <property name="verticalAlign">middle</property>
+                            <label id="1637">
+                                <property name="fontSize">11pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#FFFFFF</property>
+                                <text-property name="text">Curso</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1686">
+                            <property name="colSpan">5</property>
+                            <property name="rowSpan">1</property>
+                            <property name="backgroundColor">#FFFFFF</property>
+                            <property name="fontSize">11pt</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="color">white</property>
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderTopStyle">none</property>
+                            <property name="verticalAlign">middle</property>
+                            <data id="1658">
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#000000</property>
+                                <property name="resultSetColumn">curso</property>
+                            </data>
+                        </cell>
+                        <cell id="1692">
+                            <data id="1704">
+                                <list-property name="visibility">
+                                    <structure>
+                                        <property name="format">all</property>
+                                        <expression name="valueExpr" type="javascript">true</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">id_curso</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="1736">
+                        <property name="backgroundColor">#004080</property>
+                        <property name="fontSize">11pt</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="color">#FFFFFF</property>
+                        <property name="textAlign">center</property>
+                        <property name="verticalAlign">middle</property>
+                        <property name="height">0.396in</property>
+                        <cell id="1737">
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <label id="1629">
+                                <text-property name="text">Nombre</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1738">
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <label id="1631">
+                                <text-property name="text">Apellido</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1740">
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <label id="1623">
+                                <text-property name="text">Nota</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1741">
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <label id="1625">
+                                <text-property name="text">Aprobado</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1742">
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <label id="1627">
+                                <text-property name="text">Notificado</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1743">
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <label id="1633">
+                                <text-property name="text">Email</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1744">
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <label id="1635">
+                                <text-property name="text">Sede</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <detail>
+                <row id="1638">
+                    <cell id="1681">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="1650">
+                            <property name="resultSetColumn">nombre</property>
+                        </data>
+                    </cell>
+                    <cell id="1641">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="1652">
+                            <property name="resultSetColumn">apellido</property>
+                        </data>
+                    </cell>
+                    <cell id="1645">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="1644">
+                            <property name="resultSetColumn">nota_final</property>
+                        </data>
+                    </cell>
+                    <cell id="1647">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="1646">
+                            <property name="fontWeight">bold</property>
+                            <property name="resultSetColumn">aprobado</property>
+                        </data>
+                    </cell>
+                    <cell id="1649">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="1648">
+                            <property name="resultSetColumn">notificado</property>
+                        </data>
+                    </cell>
+                    <cell id="1653">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="1654">
+                            <property name="resultSetColumn">email</property>
+                        </data>
+                    </cell>
+                    <cell id="1655">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="1656">
+                            <property name="resultSetColumn">sede</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

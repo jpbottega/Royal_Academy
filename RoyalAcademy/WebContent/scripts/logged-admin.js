@@ -127,3 +127,10 @@ function gotoNotasCursos(){
 		$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
 	});
 }
+function gotoReportes(){
+	$.post( "ServletLoggedAdmin?accion=reportes", function( data ) {
+		$("#functions-container").html(data); //seteo el data, que es el jsp administradorAlumnos, en el div con ID functions-container
+		$("#functions-container").show(); //Lo muestro, asi se pone el fondo en blanco
+	});
+	
+}
