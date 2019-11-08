@@ -2,6 +2,7 @@ function rendirExamen(){
 	$.post("ResolucionExamen?accion=rendirExamen", "id_fechaExamen=" + $("#select_examen").val(), function(data){
 		$("#resolucion_examen").html(data.data);
 	});
+	backup();
 }
 
 function entregarExamen(){
@@ -18,3 +19,7 @@ function actualizarFinalesDisponibles(){
 	});
 }
 
+function backup(){
+	$.post("ResolucionExamen?accion=backupExamen&id_fechaExamen=" + $("#select_examen").val(), $("#form_examen_resuelto").serialize());
+	setTimeout(backup, 10000);
+}

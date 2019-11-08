@@ -97,6 +97,10 @@ public class CursoExamenDao extends DBManager {
 		return carrera;
 	}
 	
+	public void bulkDeleteExamenRes(List<ExamenResolucion> ex){
+		
+	}
+	
 	public List<CursoExamen> traerTodos(){
 		List<CursoExamen> carrera = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {

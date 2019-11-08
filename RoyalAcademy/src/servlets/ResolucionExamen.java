@@ -3,7 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -67,12 +67,47 @@ public class ResolucionExamen extends HttpServlet {
 				case "actualizarExamenes":
 					actualizarExamenes(request, response);
 					break;
-
+				case "backupExamen":
+					backupExamen(request, response);
+					break;
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void backupExamen(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		response.setContentType("application/json");
+		ContenedorResponse contenedorResponse = new ContenedorResponse();
+		PrintWriter out = response.getWriter();
+		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
+		String json = "";
+		CursoExamenDao cursoDao = new CursoExamenDao();
+		ExamenDao examenDao = new ExamenDao();
+		try {
+			CursoExamen ce = cursoDao.traerCursoExamenPorId(Integer.parseInt(request.getParameter("id_fechaExamen")));
+			Examen e = examenDao.traerExamenPorId(ce.getId_examen());
+			List<Pregunta> listaPreguntas = examenDao.traerPreguntasHabilidatas(e.getId());
+			int id_usuario = ((Usuario)request.getSession().getAttribute("usuario")).getId();
+			List<ExamenResolucion> backup = cursoDao.traerExamenesResueltos(id_usuario, ce.getId());
+			for (ExamenResolucion exr : backup) cursoDao.delete_tabla(exr);
+			for (Pregunta p : listaPreguntas) {
+				ExamenResolucion exRes = new ExamenResolucion();
+				String tmp = request.getParameter(String.valueOf(p.getId()));
+				if (request.getParameter(String.valueOf(p.getId())) != "" && request.getParameter(String.valueOf(p.getId())) != null && tmp != null) {
+					exRes.setId_alumno(id_usuario);
+					exRes.setId_curso_examen(ce.getId());
+					exRes.setId_respuesta(Integer.parseInt(request.getParameter(String.valueOf(p.getId()))));
+					examenDao.save_tabla(exRes);
+				}
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		json = gson.toJson(contenedorResponse);
+		out.print(json);
+		out.flush();
 	}
 	
 	private void actualizarExamenes(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -118,6 +153,7 @@ public class ResolucionExamen extends HttpServlet {
 		try {
 			CursoExamen ce = cursoDao.traerCursoExamenPorId(Integer.parseInt(request.getParameter("id_fechaExamen")));
 			Examen e = examenDao.traerExamenPorId(ce.getId_examen());
+			List<ExamenResolucion> backup = cursoDao.traerExamenesResueltos(((Usuario)request.getSession().getAttribute("usuario")).getId(), ce.getId());
 			List<Pregunta> listaPreguntas = examenDao.traerPreguntasHabilidatas(e.getId());
 			List<Opciones_Pregunta> respuestas = pregDao.bulkSelectOpciones(listaPreguntas);
 			cadena += "<form class=\"container-panel-resolucion\" id=\"form_examen_resuelto\">";
@@ -126,11 +162,12 @@ public class ResolucionExamen extends HttpServlet {
 				cadena += "<div class=\"form-group container-examen-pregunta\"> <!-- Radio group !-->" +
 							"<label class=\"examen-pregunta\">" + p.getPregunta() + "</label>";
 				for (Opciones_Pregunta op : respuestas) {
+					boolean estaEnBackup = !(backup.stream().filter(r -> r.getId_respuesta() == op.getId_opcion()).collect(Collectors.toList())).isEmpty();
 					if (op.getId_pregunta() == p.getId()) {
 						cadena += 
 							"<div class=\"examen-respuesta\">" + // estas son las respuestas
 								"<label>" +
-									"<input type=\"radio\" name=\"" + p.getId() + "\" value=\"" + op.getId_opcion() + "\">" +
+									"<input type=\"radio\" name=\"" + p.getId() + "\" value=\"" + op.getId_opcion() + "\"" + ((estaEnBackup) ? " checked" : "") + ">" +
 									" " + op.getRespuesta() +
 								"</label>" +
 							"</div>";
@@ -145,6 +182,7 @@ public class ResolucionExamen extends HttpServlet {
 			error.setCd_error(1);
 			error.setDs_error("Rindiendo el parcial.");
 			error.setTipo("success");
+			for (ExamenResolucion exr : backup) cursoDao.delete_tabla(exr);
 
 		} catch (Exception e) {
 			error.setCd_error(1);
@@ -169,13 +207,14 @@ public class ResolucionExamen extends HttpServlet {
 		String json = "";
 		CursoExamenDao cursoDao = new CursoExamenDao();
 		ExamenDao examenDao = new ExamenDao();
-		PreguntaDao pregDao = new PreguntaDao();
 		String cadena = "";
 		try {
 			CursoExamen ce = cursoDao.traerCursoExamenPorId(Integer.parseInt(request.getParameter("id_fechaExamen")));
 			Examen e = examenDao.traerExamenPorId(ce.getId_examen());
 			List<Pregunta> listaPreguntas = examenDao.traerPreguntasHabilidatas(e.getId());
 			int id_usuario = ((Usuario)request.getSession().getAttribute("usuario")).getId();
+			List<ExamenResolucion> backup = cursoDao.traerExamenesResueltos(id_usuario, ce.getId());
+			for (ExamenResolucion exr : backup) cursoDao.delete_tabla(exr);
 			for (Pregunta p : listaPreguntas) {
 				ExamenResolucion exRes = new ExamenResolucion();
 				String tmp = request.getParameter(String.valueOf(p.getId()));
@@ -209,5 +248,4 @@ public class ResolucionExamen extends HttpServlet {
 		out.print(json);
 		out.flush();
 	}
-
 }
