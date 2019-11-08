@@ -20,6 +20,8 @@ function actualizarFinalesDisponibles(){
 }
 
 function backup(){
-	$.post("ResolucionExamen?accion=backupExamen&id_fechaExamen=" + $("#select_examen").val(), $("#form_examen_resuelto").serialize());
-	setTimeout(backup, 10000);
+	$.post("ResolucionExamen?accion=backupExamen&id_fechaExamen=" + $("#select_examen").val(), $("#form_examen_resuelto").serialize(), 
+			function (data){
+		if (data.error.tipo == "success") 	setTimeout(backup, 10000);
+	});
 }

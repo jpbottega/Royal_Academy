@@ -81,6 +81,7 @@ public class ResolucionExamen extends HttpServlet {
 		response.setContentType("application/json");
 		ContenedorResponse contenedorResponse = new ContenedorResponse();
 		PrintWriter out = response.getWriter();
+		ContenedorResponse.Error error = new ContenedorResponse.Error();
 		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").setPrettyPrinting().create();
 		String json = "";
 		CursoExamenDao cursoDao = new CursoExamenDao();
@@ -101,10 +102,17 @@ public class ResolucionExamen extends HttpServlet {
 					exRes.setId_respuesta(Integer.parseInt(request.getParameter(String.valueOf(p.getId()))));
 					examenDao.save_tabla(exRes);
 				}
-			}			
+			}
+			error.setCd_error(1);
+			error.setDs_error("Backupeado.");
+			error.setTipo("success");
 		} catch (Exception e) {
+			error.setCd_error(1);
+			error.setDs_error("Error interno en el servidor.");
+			error.setTipo("error");
 			e.printStackTrace();
 		}
+		contenedorResponse.setError(error);
 		json = gson.toJson(contenedorResponse);
 		out.print(json);
 		out.flush();
