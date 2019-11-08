@@ -39,6 +39,19 @@ public class CursoExamenDao extends DBManager {
 		return carrera;
 	}
 	
+	public List<CursoExamen> traerExamenesPorCursoAlumno(int id_curso, int id_alumno){
+		List<CursoExamen> carrera = null;
+		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {
+			SQLQuery query = sesion.createSQLQuery("select * from cursoexamen where id_curso = :id and id not in (select id_cursoexamen from inscripcion_examen where id_usuario = " + id_alumno + ")")
+					.addEntity(CursoExamen.class).setParameter("id", id_curso);
+			carrera = (List<CursoExamen>) query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return carrera;
+		}
+		return carrera;
+	}
+	
 	public List<CursoExamen> traerExamenesPorAlumno(int id_usuario){
 		List<CursoExamen> carrera = null;
 		try (Session sesion = HibernateUtil.getSessionFactory().openSession()) {

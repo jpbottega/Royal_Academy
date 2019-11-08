@@ -6,8 +6,6 @@
 	List<Curso> cursos = (List<Curso>) request.getAttribute("cursos");
 	List<CursoExamen> examenes = (List<CursoExamen>) request.getAttribute("examenes");
 %>
-<script type="text/javascript">selectCursoAlumno();</script>
-
 
 <div>
 	<header class="site-header container-navbar">

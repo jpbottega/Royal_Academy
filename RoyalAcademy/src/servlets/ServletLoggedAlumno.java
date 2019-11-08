@@ -180,7 +180,9 @@ public class ServletLoggedAlumno extends ServletIncludeGoto {
 			List<Carrera> carreras = carreraDao.traerTodos(); // deberia traer solo las carreras de las sedes en las q esta registrado el alumno
 			if(!carreras.isEmpty()) {
 				List<Curso> cursos = cursoDao.traerCursoCarrera(carreras.get(0).getId()); //Traigo todos los cursos de la primer carrera
-				List<CursoExamen> examenes = cedao.traerExamenesPorCurso(cursos.get(0).getId());
+				List<CursoExamen> examenes = cedao.traerExamenesPorCursoAlumno(cursos.get(0).getId(), 
+						((Usuario)request.getSession().getAttribute("usuario")).getId());
+				
 				request.setAttribute("cursos", cursos);
 				request.setAttribute("carreras", carreras);
 				request.setAttribute("examenes", examenes);

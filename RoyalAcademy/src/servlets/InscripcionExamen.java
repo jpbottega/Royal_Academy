@@ -16,6 +16,7 @@ import modelo.AlumnoNotas;
 import modelo.ContenedorResponse;
 import modelo.Curso;
 import modelo.CursoExamen;
+import modelo.Usuario;
 
 /**
  * Servlet implementation class InscripcionExamen
@@ -120,7 +121,8 @@ public class InscripcionExamen extends HttpServlet {
 		String option_cursos = "";
 		try {
 
-			List<CursoExamen> cursos = cursoDao.traerExamenesPorCurso(Integer.parseInt(request.getParameter("id_curso")));
+			List<CursoExamen> cursos = cursoDao.traerExamenesPorCursoAlumno(Integer.parseInt(request.getParameter("id_curso")), 
+					((Usuario) request.getSession().getAttribute("usuario")).getId());
 
 			for (CursoExamen curso : cursos) {
 
