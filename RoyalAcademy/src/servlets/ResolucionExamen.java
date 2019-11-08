@@ -87,6 +87,7 @@ public class ResolucionExamen extends HttpServlet {
 		CursoExamenDao cursoDao = new CursoExamenDao();
 		ExamenDao examenDao = new ExamenDao();
 		try {
+			if (request.getParameter("id_fechaExamen") != null) {
 			CursoExamen ce = cursoDao.traerCursoExamenPorId(Integer.parseInt(request.getParameter("id_fechaExamen")));
 			Examen e = examenDao.traerExamenPorId(ce.getId_examen());
 			List<Pregunta> listaPreguntas = examenDao.traerPreguntasHabilidatas(e.getId());
@@ -106,6 +107,12 @@ public class ResolucionExamen extends HttpServlet {
 			error.setCd_error(1);
 			error.setDs_error("Backupeado.");
 			error.setTipo("success");
+			}
+			else {
+				error.setCd_error(1);
+				error.setDs_error("Error interno en el servidor.");
+				error.setTipo("error");
+			}
 		} catch (Exception e) {
 			error.setCd_error(1);
 			error.setDs_error("Error interno en el servidor.");

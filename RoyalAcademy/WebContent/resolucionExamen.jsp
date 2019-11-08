@@ -4,6 +4,52 @@
 <%
 	List<CursoExamen> examenes = (List<CursoExamen>) request.getAttribute("examenes_inscripto");
 %>
+<audio controls id="cambio-pestania">
+  <source src="audio/alarma.mp3" type="audio/mpeg">
+</audio>
+<script>
+//Handle page visibility change events
+var counter = 0;
+var error;
+function handleVisibilityChange(recheck) {
+  if (document.visibilityState == "hidden") {
+	  if (counter > 0){
+		  entregarExamen();
+		  error = {
+					cd_error : 1,
+					ds_error : "Ha abandonado la pagina nuevamente, el examen ha sido entregado automaticamente.",
+					tipo:"warning"
+			}
+		  $('#cambio-pestania').trigger("play");
+		  setTimeout(() => {
+			  $('#cambio-pestania').trigger("play");
+		}, 2000);
+		 
+
+	  }
+	  else {
+	   setTimeout(() => {
+		   if (document.visibilityState == "hidden" && counter == 0) {
+			  	//console.log(false);
+			  	error = {
+						cd_error : 1,
+						ds_error : "No puede abandonar la pagina nuevamente.",
+						tipo:"warning"
+				}
+			  	$('#cambio-pestania').trigger("play");
+				  setTimeout(() => {
+					  $('#cambio-pestania').trigger("play");
+				}, 2000);
+				  counter++;
+		   }			
+		}, 5000);
+	  }
+  } else {
+	lanzarMensaje(error, "6000");
+  }
+}
+document.addEventListener('visibilitychange', handleVisibilityChange, false);
+</script>
 
 <div>
 	<header class="site-header container-navbar">

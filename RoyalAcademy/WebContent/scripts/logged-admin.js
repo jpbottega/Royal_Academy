@@ -1,6 +1,7 @@
 
-function lanzarMensaje(error) {
-
+function lanzarMensaje(error, timeout) {
+	
+	
 	if($("#toast-container").lenght){
 		
 		setTimeout(() => {
@@ -19,7 +20,7 @@ function lanzarMensaje(error) {
 				"onclick" : null,
 				"showDuration" : "11300",
 				"hideDuration" : "1000",
-				"timeOut" : "4000",
+				"timeOut" : (timeout != undefined) ? timeout : "4000",
 				// "extendedTimeOut": "1000",
 				"showEasing" : "swing",
 				"hideEasing" : "linear",
