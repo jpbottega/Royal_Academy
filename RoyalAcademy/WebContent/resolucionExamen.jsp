@@ -12,7 +12,7 @@
 var counter = 0;
 var error;
 function handleVisibilityChange(recheck) {
-  if (document.visibilityState == "hidden") {
+  if (document.visibilityState == "hidden" && counter <=1) {
 	  if (counter > 0){
 		  entregarExamen();
 		  error = {
@@ -21,11 +21,6 @@ function handleVisibilityChange(recheck) {
 					tipo:"warning"
 			}
 		  $('#cambio-pestania').trigger("play");
-		  setTimeout(() => {
-			  $('#cambio-pestania').trigger("play");
-		}, 2000);
-		 
-
 	  }
 	  else {
 	   setTimeout(() => {
@@ -37,14 +32,12 @@ function handleVisibilityChange(recheck) {
 						tipo:"warning"
 				}
 			  	$('#cambio-pestania').trigger("play");
-				  setTimeout(() => {
-					  $('#cambio-pestania').trigger("play");
-				}, 2000);
 				  counter++;
 		   }			
 		}, 5000);
 	  }
   } else {
+	$('#cambio-pestania').trigger("pause");
 	lanzarMensaje(error, "6000");
   }
 }
