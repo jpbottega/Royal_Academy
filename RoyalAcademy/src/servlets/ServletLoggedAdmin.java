@@ -79,13 +79,13 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 					administradorUsuarios(request, response);
 					break;
 				case "carreras":
-					carreras(request,response);
+					carreras(request, response);
 					break;
 				case "cursos":
-					cursos(request,response);
+					cursos(request, response);
 					break;
 				case "preguntas":
-					preguntas(request,response);
+					preguntas(request, response);
 					break;
 				case "examenes":
 					examenes(request, response);
@@ -99,6 +99,9 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 				case "notas":
 					verNotas(request, response);
 					break;
+				case "reportes":
+					gotoReportes(request, response);
+					break;
 				}
 
 			}
@@ -108,81 +111,110 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 
 	}
 	
+	private void gotoReportes(HttpServletRequest request, HttpServletResponse response) {
+		CursoDao cursoDao = new CursoDao();
+		CarreraDao carreraDao = new CarreraDao();
+		Usuario u = null;
+		try {
+			List<Curso> cursos = new ArrayList<Curso>();
+			
+			u = (Usuario) request.getSession().getAttribute("usuario");
+			
+			List<Carrera> carrera = carreraDao.traerTodos();
+			
+			if(!carrera.isEmpty()) {
+				cursos = cursoDao.traerCursoCarrera(carrera.get(0).getId()); // Traigo todos los cursos del usuario
+			}
+			
+			request.setAttribute("carreras", carrera);
+			request.setAttribute("cursos", cursos);
+			
+			includePage("/reportes.jsp", request, response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void verNotas(HttpServletRequest request, HttpServletResponse response) {
 		CursoDao cursoDao = new CursoDao();
 		Usuario u = null;
 		try {
 			u = (Usuario) request.getSession().getAttribute("usuario");
-			List<Curso> cursos = cursoDao.traerCursoPorUsuario(u.getId()); //Traigo todos los cursos del usuario
-			cursos = (cursos==null) ? new ArrayList<Curso>() : cursos;
+			List<Curso> cursos = cursoDao.traerCursoPorUsuario(u.getId()); // Traigo todos los cursos del usuario
+			cursos = (cursos == null) ? new ArrayList<Curso>() : cursos;
 			request.setAttribute("cursos", cursos);
-			
+
 			includePage("/notasAlumnos.jsp", request, response);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void correccionExamen(HttpServletRequest request, HttpServletResponse response) {
 		CursoDao cursoDao = new CursoDao();
 		Usuario u = null;
 		try {
 			u = (Usuario) request.getSession().getAttribute("usuario");
-			List<Curso> cursos = cursoDao.traerCursoPorUsuario(u.getId()); //Traigo todos los cursos del usuario
-			cursos = (cursos==null) ? new ArrayList<Curso>() : cursos;
+			List<Curso> cursos = cursoDao.traerCursoPorUsuario(u.getId()); // Traigo todos los cursos del usuario
+			cursos = (cursos == null) ? new ArrayList<Curso>() : cursos;
 			request.setAttribute("cursos", cursos);
-			
+
 			includePage("/correccionExamen.jsp", request, response);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void calendario(HttpServletRequest request, HttpServletResponse response) {
 		CarreraDao carreraDao = new CarreraDao();
 		CursoDao cursoDao = new CursoDao();
 		try {
-			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de datos.
-			if(!carreras.isEmpty()) {
-				List<Curso> cursos = cursoDao.traerCursoCarrera(carreras.get(0).getId()); //Traigo todos los cursos de la primer carrera
+			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de
+																// datos.
+			if (!carreras.isEmpty()) {
+				List<Curso> cursos = cursoDao.traerCursoCarrera(carreras.get(0).getId()); // Traigo todos los cursos de
+																							// la primer carrera
 				request.setAttribute("cursos", cursos);
 				request.setAttribute("carreras", carreras);
-	
-			}else {
+
+			} else {
 				request.setAttribute("cursos", new ArrayList<Curso>());
-				request.setAttribute("carreras", new ArrayList<Carrera>());	
+				request.setAttribute("carreras", new ArrayList<Carrera>());
 			}
-			
+
 			includePage("/gestionCalendario.jsp", request, response);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void examenes(HttpServletRequest request, HttpServletResponse response) {
 		CarreraDao carreraDao = new CarreraDao();
 		CursoDao cursoDao = new CursoDao();
 		ExamenDao examenDao = new ExamenDao();
 		try {
 
-			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de datos.
-			
-			if(!carreras.isEmpty()) {
-				List<Curso> cursos = cursoDao.traerCursoCarrera(carreras.get(0).getId()); //Traigo todos los cursos de la primer carrera
+			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de
+																// datos.
+
+			if (!carreras.isEmpty()) {
+				List<Curso> cursos = cursoDao.traerCursoCarrera(carreras.get(0).getId()); // Traigo todos los cursos de
+																							// la primer carrera
 				request.setAttribute("cursos", cursos);
 				request.setAttribute("carreras", carreras);
 				List<Examen> examenes = examenDao.traerTodos(); // cambiar esto por traer los de la carrera
 				request.setAttribute("examenes", examenes);
-	
-			}else {
+
+			} else {
 				request.setAttribute("cursos", new ArrayList<Curso>());
-				request.setAttribute("carreras", new ArrayList<Carrera>());	
+				request.setAttribute("carreras", new ArrayList<Carrera>());
 				request.setAttribute("examenes", new ArrayList<Examen>());
 			}
-			
+
 			includePage("/examenesABM.jsp", request, response);
 
 		} catch (Exception e) {
@@ -196,53 +228,54 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 		PreguntaDao preguntaDao = new PreguntaDao();
 		try {
 
-			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de datos.
-			
-			if(!carreras.isEmpty()) {
-				List<Curso> cursos = cursoDao.traerCursoCarrera(carreras.get(0).getId()); //Traigo todos los cursos
+			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de
+																// datos.
+
+			if (!carreras.isEmpty()) {
+				List<Curso> cursos = cursoDao.traerCursoCarrera(carreras.get(0).getId()); // Traigo todos los cursos
 				request.setAttribute("cursos", cursos);
 				request.setAttribute("carreras", carreras);
-				List<Pregunta> preguntas = preguntaDao.traerPreguntaPorCarreraCurso(carreras.get(0).getId(),cursos.get(0).getId());
-				
+				List<Pregunta> preguntas = preguntaDao.traerPreguntaPorCarreraCurso(carreras.get(0).getId(),
+						cursos.get(0).getId());
+
 				request.setAttribute("preguntas", preguntas);
-			}else {
+			} else {
 				request.setAttribute("cursos", new ArrayList<Curso>());
 				request.setAttribute("carreras", new ArrayList<Carrera>());
 				request.setAttribute("preguntas", new ArrayList<Pregunta>());
-				
-				
+
 			}
 			request.setAttribute("id_pregunta", "0");
 			request.setAttribute("pregunta", "");
 			request.setAttribute("cantidad_opciones", 1);
-			
+
 			includePage("/preguntas.jsp", request, response);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void carreras(HttpServletRequest request, HttpServletResponse response) {
 		CarreraDao carreraDao = new CarreraDao();
 		try {
 
-			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de datos.
+			List<Carrera> carreras = carreraDao.traerTodos(); // Traigo todos las carreras que esten en la base de
+																// datos.
 
 			request.setAttribute("carreras", carreras);
-			
+
 			List<Sede> disponibles = carreraDao.traerSedesDisponibles(carreras.get(0).getId());
 			request.setAttribute("sedes_disponibles", disponibles);
-			
+
 			if (carreras.isEmpty()) {
 				request.setAttribute("id_carrera", 0);
 				request.setAttribute("ds_carrera", "");
-				
+
 			} else {
-				
+
 				List<Sede> habilitadas = carreraDao.traerSedesHabilitadas(carreras.get(0).getId());
 
-				
 				request.setAttribute("sedes_habilitadas", habilitadas);
 
 				request.setAttribute("id_carrera", carreras.get(0).getId());
@@ -277,6 +310,7 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 			e.printStackTrace();
 		}
 	}
+
 	private void cursos(HttpServletRequest request, HttpServletResponse response) {
 		CursoDao cursoDao = new CursoDao();
 		CarreraDao carreraDao = new CarreraDao();
@@ -287,7 +321,7 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 
 			request.setAttribute("cursos", cursos);
 			request.setAttribute("carreras", carreras);
-			
+
 			if (cursos.isEmpty()) {
 				request.setAttribute("id_curso", 0);
 				request.setAttribute("ds_curso", "");
@@ -304,6 +338,7 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 			e.printStackTrace();
 		}
 	}
+
 	private void sedes(HttpServletRequest request, HttpServletResponse response) {
 		SedeDao sedeDao = new SedeDao();
 		PaisDao paisDao = new PaisDao();
@@ -345,7 +380,7 @@ public class ServletLoggedAdmin extends ServletIncludeGoto {
 			if (roles.isEmpty()) {
 				request.setAttribute("id_rol", 0);
 				request.setAttribute("ds_rol", "");
-				
+
 				request.setAttribute("funciones_disponibles", "");
 				request.setAttribute("funciones_habilitadas", "");
 			} else {

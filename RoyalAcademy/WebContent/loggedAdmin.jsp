@@ -97,5 +97,6 @@
 	<script type="text/javascript" charset="UTF-8" src='scripts/gestionCalendario.js'></script>
 	<script type="text/javascript" charset="UTF-8" src='scripts/correccionExamen.js'></script>
 	<script type="text/javascript" charset="UTF-8" src='scripts/notasAlumnos.js'></script>
+	<script type="text/javascript" charset="UTF-8" src='scripts/reportes.js'></script>
 </body>
 </html>
