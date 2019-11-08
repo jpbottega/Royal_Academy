@@ -120,10 +120,9 @@ public class InscripcionExamen extends HttpServlet {
 		CursoExamenDao cursoDao = new CursoExamenDao();
 		String option_cursos = "";
 		try {
-
 			List<CursoExamen> cursos = cursoDao.traerExamenesPorCursoAlumno(Integer.parseInt(request.getParameter("id_curso")), 
 					((Usuario) request.getSession().getAttribute("usuario")).getId());
-
+			
 			for (CursoExamen curso : cursos) {
 
 				option_cursos += "<option value=\"" + curso.getId() + "\">" + curso.getDescripcion() + "</option>";

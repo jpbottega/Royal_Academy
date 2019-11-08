@@ -2,6 +2,7 @@ function inscribirAlumnoCurso(id_usuario){
 	$.post("InscripcionExamen?accion=inscribir","id_examen="+$("#select_examen").val() + "&id_usuario=" + id_usuario,
 			function(data) {
 				lanzarMensaje(data.error);
+				selectCursoInscripcionExamen();
 	});
 }
 
@@ -9,6 +10,7 @@ function desinscribirAlumnoCurso(id_usuario){
 	$.post("InscripcionExamen?accion=desinscribir","id_examen="+$("#select_examen").val() + "&id_usuario=" + id_usuario,
 			function(data) {
 				lanzarMensaje(data.error);
+				selectCursoInscripcionExamen();
 	});	
 }
 
